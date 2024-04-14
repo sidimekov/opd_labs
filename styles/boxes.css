@@ -1,0 +1,28 @@
+/* для страниц что связаны со списком каких то панелек */
+
+.boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.box {
+    
+    width: 275px;
+    height: 400px;
+    background-color: #f2f2f2;
+    margin: 0 20px 20px 0;
+    padding: 0px;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+}
+
+.box p {
+    margin: 5px;
+}
+
+.box h2 {
+    margin-bottom: 0px;
+}

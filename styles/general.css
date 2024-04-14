@@ -1,0 +1,28 @@
+/* Общие стили для всех страниц */
+
+.main {
+    margin-top: 100px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.heading {
+    text-align: center;
+    padding: 10px;
+}
+
+.button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    height: 10%;
+    font-size: 20px;
+}
