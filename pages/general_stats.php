@@ -13,6 +13,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/tables.css">
+    <link rel="stylesheet" href="../styles/stats.css">
 </head>
 
 <body>
@@ -22,6 +23,16 @@ require_once dirname(__DIR__) . "/backend/config.php";
         <h1 class="heading">Общие результаты</h1>
         <h2 class="heading">Сенсомоторные тесты</h2>
         <table class="table">
+
+            <colgroup>
+                <col style="width: 10%;">
+                <col style="width: 18%;">
+                <col style="width: 18%;">
+                <col style="width: 18%;">
+                <col style="width: 18%;">
+                <col style="width: 18%;">
+            </colgroup>
+
             <thead>
                 <tr>
                     <th>Имя пользователя(логин)</th>
@@ -36,34 +47,154 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 <tr>
                     <td>Логин</td>
                     <td>
-                        <p>Среднее время реакции: 77%</p>
-                        <p>Точность: 23%</p>
-                        <p>Количество пропусков: 65%</p>
-                        <p>Количество ошибок: 3%</p>
+                        <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            77%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 77%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
+                            23%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 23%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
+                            65%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
+                            3%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 3%;"></div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <p>Среднее время реакции: 97%</p>
-                        <p>Точность: 76%</p>
-                        <p>Количество пропусков: 65%</p>
-                        <p>Количество ошибок: 40%</p>
+                        <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            77%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 77%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
+                            23%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 23%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
+                            65%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
+                            3%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 3%;"></div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <p>Среднее время реакции: 21%</p>
-                        <p>Точность: 30%</p>
-                        <p>Количество пропусков: 50%</p>
-                        <p>Количество ошибок: 40%</p>
+                        <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            77%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 77%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
+                            23%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 23%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
+                            65%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
+                            3%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 3%;"></div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <p>Среднее время реакции: 0%</p>
-                        <p>Точность: 40%</p>
-                        <p>Количество пропусков: 70%</p>
-                        <p>Количество ошибок: 10%</p>
+                    <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            77%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 77%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
+                            23%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 23%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
+                            65%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
+                            3%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 3%;"></div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        <p>Среднее время реакции: 32%</p>
-                        <p>Точность: 78%</p>
-                        <p>Количество пропусков: 34%</p>
-                        <p>Количество ошибок: 76%</p>
+                    <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            77%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 77%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
+                            23%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 23%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
+                            65%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
+                            3%
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 3%;"></div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>

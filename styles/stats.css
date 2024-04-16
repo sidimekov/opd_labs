@@ -1,5 +1,6 @@
 .progress-bar {
-    width: 100%;
+    margin: 0 auto;
+    width: 90%;
     height: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -9,4 +10,13 @@
     height: 100%;
     background-color: #4CAF50;
     border-radius: 5px;
+}
+
+.stat_container {
+    /* margin: 10px 0; */
+    border: solid;
+    border-radius: 1px;
+    border-color: #ccc;
+    padding: 5px;
+    text-align: center;
 }
