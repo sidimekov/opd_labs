@@ -23,7 +23,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
         <h1 class="heading">Личные результаты</h1>
         <div class="boxes">
             <div class="box">
-                <h3>Тест на простые визуальные сигналы</h3>
+                <div class="box_heading">
+                    <h3>Тест на простые визуальные сигналы</h3>
+                </div>
                 <div class="stat_container">
                     <p>Среднее время реакции</p>
                     77%
@@ -54,7 +56,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 </div>
             </div>
             <div class="box">
-                <h3>Тест на простые звуковые сигналы</h3>
+                <div class="box_heading">
+                    <h3>Тест на простые звуковые сигналы</h3>
+                </div>
                 <div class="stat_container">
                     <p>Среднее время реакции</p>
                     77%
@@ -85,7 +89,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 </div>
             </div>
             <div class="box">
-                <h3>Тест на разные цвета</h3>
+                <div class="box_heading">
+                    <h3>Тест на разные цвета</h3>
+                </div>
                 <div class="stat_container">
                     <p>Среднее время реакции</p>
                     77%
@@ -116,7 +122,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 </div>
             </div>
             <div class="box">
-                <h3>Тест на скорость сложения в уме - сложный звуковой сигнал</h3>
+                <div class="box_heading">
+                    <h3>Тест на скорость сложения в уме - сложный звуковой сигнал</h3>
+                </div>
                 <div class="stat_container">
                     <p>Среднее время реакции</p>
                     77%
@@ -147,7 +155,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 </div>
             </div>
             <div class="box">
-                <h3>Тест на скорость сложения в уме - сложный визуальный сигнал</h3>
+                <div class="box_heading">
+                    <h3>Тест на скорость сложения в уме - сложный визуальный сигнал</h3>
+                </div>
                 <div class="stat_container">
                     <p>Среднее время реакции</p>
                     77%
