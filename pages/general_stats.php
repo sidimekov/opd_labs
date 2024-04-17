@@ -14,6 +14,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/tables.css">
     <link rel="stylesheet" href="../styles/stats.css">
+    <link rel="stylesheet" href="../styles/boxes.css">
 </head>
 
 <body>
@@ -21,7 +22,177 @@ require_once dirname(__DIR__) . "/backend/config.php";
 
     <main class="main">
         <h1 class="heading">Общие результаты</h1>
-        <h2 class="heading">Сенсомоторные тесты</h2>
+
+        <h1 class="heading">Результаты тестов всех пользователей</h1>
+        <div class="boxes">
+            <div class="box">
+                <div class="box_heading">
+                    <h3>Тест на простые визуальные сигналы</h3>
+                </div>
+                <div class="stat_container">
+                    <p>Среднее время реакции</p>
+                    77%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 77%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Точность</p>
+                    23%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 23%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество пропусков</p>
+                    65%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество ошибок</p>
+                    3%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box_heading">
+                    <h3>Тест на простые звуковые сигналы</h3>
+                </div>
+                <div class="stat_container">
+                    <p>Среднее время реакции</p>
+                    77%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 77%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Точность</p>
+                    23%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 23%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество пропусков</p>
+                    65%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество ошибок</p>
+                    3%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box_heading">
+                    <h3>Тест на разные цвета</h3>
+                </div>
+                <div class="stat_container">
+                    <p>Среднее время реакции</p>
+                    77%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 77%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Точность</p>
+                    23%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 23%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество пропусков</p>
+                    65%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество ошибок</p>
+                    3%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box_heading">
+                    <h3>Тест на скорость сложения в уме - сложный звуковой сигнал</h3>
+                </div>
+                <div class="stat_container">
+                    <p>Среднее время реакции</p>
+                    77%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 77%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Точность</p>
+                    23%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 23%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество пропусков</p>
+                    65%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество ошибок</p>
+                    3%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box_heading">
+                    <h3>Тест на скорость сложения в уме - сложный визуальный сигнал</h3>
+                </div>
+                <div class="stat_container">
+                    <p>Среднее время реакции</p>
+                    77%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 77%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Точность</p>
+                    23%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 23%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество пропусков</p>
+                    65%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="stat_container">
+                    <p>Количество ошибок</p>
+                    3%
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 3%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="heading">Результаты тестов отдельных пользователей</h2>
         <table class="table">
 
             <colgroup>
@@ -137,7 +308,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         </div>
                     </td>
                     <td>
-                    <div class="stat_container">
+                        <div class="stat_container">
                             <p>Среднее время реакции</p>
                             77%
                             <div class="progress-bar">
@@ -167,7 +338,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         </div>
                     </td>
                     <td>
-                    <div class="stat_container">
+                        <div class="stat_container">
                             <p>Среднее время реакции</p>
                             77%
                             <div class="progress-bar">
