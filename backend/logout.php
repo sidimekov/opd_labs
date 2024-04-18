@@ -6,4 +6,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     logout();
 }
 
-redirect('pages/main.php');
+redirectToPrevious();
+// redirect('pages/main.php');
