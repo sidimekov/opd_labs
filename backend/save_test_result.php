@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . 'db_managers.php';
 
-$nextpage = '';
+$nextpage = 'pages/my_stats.php';
 
 
 $test_id = $_POST['test_id'];

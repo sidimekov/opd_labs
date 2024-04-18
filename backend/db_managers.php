@@ -42,15 +42,17 @@ function getTestById(int $test_id): array|bool
 }
 
 
-function setUserData(string $name, string $login, int $role_id, string $password)
+function setUserData(string $name, string $login, int $role_id, string $password, string $birth_date, int $gender_id)
 {
     $pdo = getPDO();
-    $query = 'INSERT INTO users (name,login, role_id, password) VALUES (:name, :login, :role_id, :password) ON DUPLICATE KEY UPDATE name=VALUES(name),login=VALUES(login),role_id=VALUES(role_id), password=VALUES(password);';
+    $query = 'INSERT INTO users (name,login, role_id, password, birth_date, gender_id) VALUES (:name, :login, :role_id, :password, :birth_date, :gender_id) ON DUPLICATE KEY UPDATE name=VALUES(name),login=VALUES(login),role_id=VALUES(role_id), password=VALUES(password), birth_date=VALUES(birth_date), gender_id=VALUES(gender_id);';
     $params = [
         'name' => $name,
         'login' => $login,
         'role_id' => $role_id,
-        'password' => $password
+        'password' => $password,
+        'birth_date' => $birth_date,
+        'gender_id' => $gender_id
     ];
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);

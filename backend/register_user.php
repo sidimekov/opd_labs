@@ -31,9 +31,9 @@ if (hasValidationErrors()) {
 }
 
 try{
-    setUserData($name, $login, 0, $password);
+    setUserData($name, $login, 0, $password, $birth_date, $gender_id);
 } catch (\Exception $e){
-    setMessage('error', 'Произошла ошибка, возможно, эта почта уже занята.');
+    setMessage('error', 'Произошла ошибка, возможно, этот логин уже занят.');
     setUserMenuDisplay(true);
     redirectToPrevious();
 }
@@ -41,5 +41,4 @@ try{
 $user = findUser($login);
 $_SESSION['user']['id'] = $user['id'];
 
-setUserMenuDisplay(false);
 redirectToPrevious();

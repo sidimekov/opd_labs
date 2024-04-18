@@ -26,7 +26,7 @@ $user = findUser($login);
 // проверка пароля
 if (!hasValidationErrors() && !password_verify($password, $user['password'])) {
     setMessage('error', 'Неверный пароль');
-    redirect('/main.php');
+    redirect('/pages/main.php');
 }
 
 // если в валидации какие-то ошибки, то обратно

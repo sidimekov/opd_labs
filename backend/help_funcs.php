@@ -1,12 +1,18 @@
 <?php
 
+require_once dirname(__DIR__) . "/backend/config.php";
+
 
 // обычные функции
 
 // перейти на конкретную страницу
 function redirect(string $path)
 {
-    header("Location: $path");
+    if (str_starts_with($path, "/")) {
+        header("Location: " . ROOT . $path);
+    } else {
+        header("Location: " . ROOT . "/" . $path);
+    }
     die();
 }
 
@@ -16,7 +22,7 @@ function redirectToPrevious()
     if (!empty($_SERVER['HTTP_REFERER'])) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     } else {
-        redirect('/main.php');
+        redirect('pages/main.php');
     }
     die();
 }
@@ -76,28 +82,22 @@ function getMessage(string $key): string
     return $message;
 }
 
-
-function setUserMenuDisplay($display)
-{
-    $_SESSION['userMenu'] = $display;
-}
-
 function logout(): void
 {
     unset($_SESSION['user']['id']);
-    redirect('/');
+    redirect('pages/main.php');
 }
 
 function checkAuth(): void
 {
     if (!isset($_SESSION['user']['id'])) {
-        redirect('/');
+        redirect('pages/main.php');
     }
 }
 
 function checkGuest(): void
 {
     if (isset($_SESSION['user']['id'])) {
-        redirect('/home.php');
+        redirect('pages/main.php');
     }
 }
