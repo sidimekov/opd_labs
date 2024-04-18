@@ -27,20 +27,25 @@ require_once dirname(__DIR__) . "/backend/config.php";
         <form>
             <label for="login">Логин:</label><br>
             <input type="text" id="login" name="login"><br>
+
             <label for="name">Имя:</label><br>
             <input type="text" id="name" name="name"><br>
+            
             <label for="gender">Пол:</label><br>
             <select id="gender" name="gender">
-                <option value="male">Мужской</option>
-                <option value="female">Женский</option>
-                <option value="IDIOT">Я ИДИОТ</option>
+                <option value="1">Мужской</option>
+                <option value="2">Женский</option>
             </select><br>
+
             <label for="birthdate">Дата рождения:</label><br>
-            <input type="date" id="birthdate" name="birthdate"><br>
+            <input type="date" id="birth_date" name="birth_date"><br>
+
             <label for="password">Пароль:</label><br>
             <input type="password" id="password" name="password"><br>
+
             <label for="confirm-password">Подтверждение пароля:</label><br>
             <input type="password" id="confirm-password" name="confirm-password"><br>
+
             <button type="submit">Зарегистрироваться</button>
         </form>
     </div>
@@ -49,8 +54,10 @@ require_once dirname(__DIR__) . "/backend/config.php";
         <form>
             <label for="login">Логин:</label><br>
             <input type="text" id="login" name="login"><br>
+
             <label for="password">Пароль:</label><br>
             <input type="password" id="password" name="password"><br>
+
             <button type="submit">Войти</button>
         </form>
     </div>
