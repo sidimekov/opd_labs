@@ -26,6 +26,8 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 <tr>
                     <th>ID</th>
                     <th>Имя</th>
+                    <th>Пол</th>
+                    <th>Дата рождения</th>
                     <th>Логин</th>
                     <th>Дата создания</th>
                     <th>Роль</th>
@@ -36,6 +38,13 @@ require_once dirname(__DIR__) . "/backend/config.php";
                 <tr>
                     <td>%ИД%</td>
                     <td>%Имя%</td>
+                    <td>
+                        <select list="gender_id" name="user_gender" id="%id%" value="">
+                            <option>Мужской</option>
+                            <option>Женский</option>
+                        </select>
+                    </td>
+                    <td>%Дата Рождения%</td>
                     <td>%Логин%</td>
                     <td>%ДатаСоздания%</td>
                     <td>
