@@ -16,7 +16,22 @@ function getPDO(): PDO
     }
 }
 
-function findUser(string $login): array|bool
+
+
+function getUsers(): array
+{
+    // user['id']
+    // user['name']
+    // user['email']
+    // user['password']
+    // user['role_id']
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM users");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function getUserByLogin(string $login): array|bool
 {
     $pdo = getPDO();
 
@@ -33,14 +48,20 @@ function getUserById(int $user_id): array|bool
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
-function getTestById(int $test_id): array|bool
+function currentUser(): array|false
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM tests WHERE id = :id");
-    $stmt->execute(['id' => $test_id]);
+
+    if (!isset($_SESSION['user'])) {
+        return false;
+    }
+
+    $userId = $_SESSION['user']['id'] ?? null;
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(['id' => $userId]);
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
-
 
 function setUserData(string $name, string $login, int $role_id, string $password, string $birth_date, int $gender_id)
 {
@@ -64,6 +85,46 @@ function setUserData(string $name, string $login, int $role_id, string $password
     // }
 }
 
+function getUserResults($userId, $testId): array
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM testings
+    WHERE test_id = :testId AND user_id = :userId");
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+
+
+
+
+function getTestById(int $test_id): array|bool
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM tests WHERE id = :id");
+    $stmt->execute(['id' => $test_id]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function getTests(): array
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM tests");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function getTestResults($testId): array
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM testings WHERE test_id = :testId");
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
 function addTestResults(int $user_id, int $test_id, int $reaction_time, int $accuracy, int $misses, int $mistakes)
 {
 
@@ -83,19 +144,4 @@ function addTestResults(int $user_id, int $test_id, int $reaction_time, int $acc
     } catch (\Exception $e) {
         die($e->getMessage());
     }
-}
-
-function currentUser(): array|false
-{
-    $pdo = getPDO();
-
-    if (!isset($_SESSION['user'])) {
-        return false;
-    }
-
-    $userId = $_SESSION['user']['id'] ?? null;
-
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-    $stmt->execute(['id' => $userId]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
