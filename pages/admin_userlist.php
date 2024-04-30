@@ -31,31 +31,38 @@ require_once dirname(__DIR__) . "/backend/config.php";
                     <th>Логин</th>
                     <th>Дата создания</th>
                     <th>Роль</th>
-                    <th>Обновить</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>%ИД%</td>
-                    <td>%Имя%</td>
-                    <td>
-                        <select list="gender_id" name="user_gender" id="%id%" value="">
-                            <option>Мужской</option>
-                            <option>Женский</option>
-                        </select>
-                    </td>
-                    <td>%Дата Рождения%</td>
-                    <td>%Логин%</td>
-                    <td>%ДатаСоздания%</td>
-                    <td>
-                        <select list="role_id" name="user_role" id="%id%" value="">
-                            <option>Пользователь</option>
-                            <option>Эксперт</option>
-                            <option>Админ</option>
-                        </select>
-                    </td>
-                    <td><button class="table_button">Обновить</button></td>
-                </tr>
+                <?php foreach (getUsers() as $user) : ?>
+                    <?php
+                    $genderId = $user['gender_id'];
+                    $roleId = $user['role_id'];
+                    ?>
+                    <tr>
+                        <td>
+                            <?php echo $user['id']; ?>
+                        </td>
+                        <td>
+                            <?php echo $user['name']; ?>
+                        </td>
+                        <td>
+                            <?php echo $roleId = 1 ? 'Мужской' : $roleId = 2 ? 'Женский' : 'null'; ?>
+                        </td>
+                        <td>
+                            <?php echo $user['birth_date']; ?>
+                        </td>
+                        <td>
+                            <?php echo $user['login']; ?>
+                        </td>
+                        <td>
+                            <?php echo $user['creation_date']; ?>
+                        </td>
+                        <td>
+                            <?php echo $roleId = 0 ? 'Пользователь' : $roleId = 1 ? 'Эксперт' : $roleId = 2 ? 'Админ' : 'null'; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
