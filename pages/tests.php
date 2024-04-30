@@ -26,35 +26,45 @@ require_once dirname(__DIR__) . "/backend/config.php";
                     <h3>Тест на простые визуальные сигналы</h3>
                 </div>
                 <p> Описание</p>
-                <button class="button">Пройти</button>
+                <a href="./tests/reaction_visual.html">
+                    <button class="button">Пройти</button>
+                </a>
             </div>
             <div class="box">
                 <div class="box_heading">
                     <h3>Тест на простые звуковые сигналы</h3>
                 </div>
                 <p> Описание</p>
-                <button class="button">Пройти</button>
+                <a href="./tests/reaction_audio.html">
+                    <button class="button">Пройти</button>
+                </a>
             </div>
             <div class="box">
                 <div class="box_heading">
                     <h3>Тест на разные цвета</h3>
                 </div>
                 <p> Описание</p>
-                <button class="button">Пройти</button>
+                <a href="./tests/reaction_colors.html">
+                    <button class="button">Пройти</button>
+                </a>
             </div>
             <div class="box">
                 <div class="box_heading">
                     <h3>Тест на скорость сложения в уме - сложный звуковой сигнал</h3>
                 </div>
                 <p> Описание</p>
-                <button class="button">Пройти</button>
+                <a href="./tests/reaction_visual_task.html">
+                    <button class="button">Пройти</button>
+                </a>
             </div>
             <div class="box">
                 <div class="box_heading">
                     <h3>Тест на скорость сложения в уме - сложный визуальный сигнал</h3>
                 </div>
                 <p> Описание</p>
-                <button class="button">Пройти</button>
+                <a href="./tests/reaction_audio_task.html">
+                    <button class="button">Пройти</button>
+                </a>
             </div>
         </div>
     </main>

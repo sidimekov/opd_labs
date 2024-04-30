@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reaction Test</title>
+  <style>
+    #progressBar {
+      width: 100%;
+      height: 20px;
+      background-color: #ccc;
+    }
+    #progressBar div {
+      height: 100%;
+      background-color: #4CAF50;
+      width: 0;
+      transition: width 0.25s;
+    }
+    #task {
+      font-size: 24px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    #buttons {
+      text-align: center;
+      margin-top: 50px;
+    }
+   .button {
+      width: 200px;
+      height: 100px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 24px;
+      margin: 10px;
+    }
+   .button:nth-child(2) {
+      background-color: #ccc;
+    }
+    #restartButton {
+      width: 300px; /* increased width */
+      height: 150px; /* increased height */
+      font-size: 36px; /* increased font size */
+      background-color: #4CAF50; /* same background color as the other buttons */
+      color: #fff; /* same text color as the other buttons */
+      border: none;
+      border-radius: 10px; /* increased border radius */
+      cursor: pointer;
+      margin: 20px; /* added margin for better spacing */
+    }
+  </style>
+</head>
+<body>
+  <div id="progressBar"><div id="progress"></div></div>
+  <div id="task"></div>
+  <div id="buttons">
+    <button class="button" id="button-even">Even</button>
+    <button class="button" id="button-odd">Odd</button>
+  </div>
+  <div id="results"></div>
+  <div id="attempts"></div>
+  <button id="restartButton">Restart</button>
+
+  <script>
+    const taskElement = document.getElementById('task');
+    const buttonEven = document.getElementById('button-even');
+    const buttonOdd = document.getElementById('button-odd');
+    const results = document.getElementById('results');
+    const attempts = document.getElementById('attempts');
+    const restartButton = document.getElementById('restartButton');
+    let attemptsCount = 0;
+    let successes = 0;
+    let totalTime = 0;
+    let task;
+
+    function startProgress() {
+      attemptsCount = 0;
+      successes = 0;
+      totalTime = 0;
+      progress.style.width = '0%';
+      const interval = setInterval(() => {
+        progress.style.width = `${(attemptsCount / 15) * 100}%`;
+        if (attemptsCount >= 15) {
+          clearInterval(interval);
+          buttonEven.removeEventListener('click', handleAnswer);
+          buttonOdd.removeEventListener('click', handleAnswer);
+          results.textContent = `Successful attempts: ${successes}\nFailed attempts: ${attemptsCount - successes}\nMid time of successful attempts: ${totalTime / successes}ms`;
+          attempts.textContent = `Attempts: ${15}`;
+        }
+      }, 1000);
+    }
+
+    function generateTask() {
+      const num1 = Math.floor(Math.random() * 100);
+      const num2 = Math.floor(Math.random() * 100);
+      const operator = Math.random() < 0.5? '+' : '-';
+      task = `${num1} ${operator} ${num2}`;
+      taskElement.textContent = task;
+      return task;
+    }
+
+    function handleAnswer(event) {
+        if (attemptsCount<15){
+            attemptsCount++;
+            const result = eval(task);
+            if (event.target.id === 'button-even' && result % 2 === 0) {
+                successes++;
+                totalTime += new Date() - startTime;
+                results.textContent += `\nSuccessful attempt ${attemptsCount} - time: ${new Date() - startTime}ms`;
+                task = null;
+                startButton();  
+            } else if (event.target.id === 'button-odd' && result % 2!== 0) {
+                successes++;
+                totalTime += new Date() - startTime;
+                results.textContent += `\nSuccessful attempt ${attemptsCount} - time: ${new Date() - startTime}ms`;
+                task = null;
+                startButton();
+            } else {
+                results.textContent += `\nFailed attempt ${attemptsCount}`;
+                task = null;
+                startButton();
+            }
+        }
+    }
+
+    function startButton() {
+        if (attemptsCount<15){
+            const delay = 0; // Random delay between 2 and 3,5 seconds
+            startTime = new Date();
+            setTimeout(() => {
+                if (!task) {
+                generateTask();
+                }
+                buttonEven.addEventListener('click', handleAnswer);
+                buttonOdd.addEventListener('click', handleAnswer);
+            }, delay);
+        }
+    }
+
+    function restartGame() {
+      attemptsCount = 0;
+      successes = 0;
+      totalTime = 0;
+      progress.style.width = '0%';
+      results.textContent = '';
+      attempts.textContent = '';
+      task = null;
+      startButton();
+      startProgress();
+    }
+
+    let startTime;
+    generateTask();
+    startButton();
+    startProgress();
+    restartButton.addEventListener('click', restartGame);
+  </script>
+</body>
+</html>
