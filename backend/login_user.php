@@ -3,13 +3,17 @@
 require_once __DIR__ . '/help_funcs.php';
 require_once __DIR__ . '/db_managers.php';
 
+clearValidationErrors();
 
 // данные из post в переменные
 $login = $_POST['login'];
 $password = $_POST['password'];
 
-// валидация
+$logf = fopen('logs/log.txt', 'a');
+fwrite($logf, "\nauthorization:\n");
+fwrite($logf, $login . ' ' . $password . "\n");
 
+// валидация
 if (empty ($login)) {
     setValidationError('login', 'Пустой login!');
 }
@@ -18,28 +22,37 @@ if (empty ($password)) {
 }
 
 
-
-$user = findUser($login);
+$user = getUserByLogin($login);
 
 // вход
 
 // проверка пароля
-if (!hasValidationErrors() && !password_verify($password, $user['password'])) {
+if (!hasValidationErrors() && $password != $user['password']) {
     setMessage('error', 'Неверный пароль');
+
+    fwrite($logf, join(" ", $_SESSION['message']) . "\n");
+    fclose($logf);
+
     redirect('/pages/main.php');
 }
 
 // если в валидации какие-то ошибки, то обратно
 
 if (hasValidationErrors()) {
-    setUserMenuDisplay(true);
+    // setUserMenuDisplay(true);
     setOldValue('login', $login);
-    // redirect('/main.php');
+
+    fwrite($logf, join(' ', $_SESSION['validation']) . "\n");
+    fclose($logf);
+
     redirectToPrevious();
 }
-    // успешный заход
 
-    $_SESSION['user']['id'] = $user['id'];
+// успешный заход
+fwrite($logf, $user['id'] . " log in.\n");
+fclose($logf);
 
-    setUserMenuDisplay(false);
-    redirectToPrevious();
+$_SESSION['user']['id'] = $user['id'];
+
+// setUserMenuDisplay(false);
+redirectToPrevious();

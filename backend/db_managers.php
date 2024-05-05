@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+// session_start();
 
 require_once __DIR__ . '/config.php';
 
@@ -95,10 +95,6 @@ function getUserResults($userId, $testId): array
     $stmt->execute();
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
-
-
-
-
 
 function getTestById(int $test_id): array|bool
 {
