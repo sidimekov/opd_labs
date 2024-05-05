@@ -1,0 +1,60 @@
+name login qwer qwer 1 2001-10-20
+integerArray
+login:
+login qwerНеверный пароль
+
+authorization:
+ 
+Пустой login! Пустой пароль!
+
+authorization:
+login qwer
+Неверный пароль
+
+authorization:
+login qwer
+Неверный пароль
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+timon abcd
+1 log in.
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+timon abcd
+1 log in.
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+timon abcd
+1 log in.
+
+authorization:
+timon abcd
+1 log in.
+
+authorization:
+login qwer
+2 log in.
+
+authorization:
+login qwer
+2 log in.

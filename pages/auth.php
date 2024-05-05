@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__) . "/backend/config.php";
+require_once dirname(__DIR__) . "/backend/help_funcs.php";
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +25,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
     </div>
 
     <div class="container" id="registrationForm">
-        <form>
+        <form action="../backend/register_user.php" method="post">
             <label for="login">Логин:</label><br>
             <input type="text" id="login" name="login"><br>
 
@@ -47,11 +48,15 @@ require_once dirname(__DIR__) . "/backend/config.php";
             <input type="password" id="confirm-password" name="confirm-password"><br>
 
             <button type="submit">Зарегистрироваться</button>
+
+            <?php if (hasValidationErrors()): ?>
+                <br><br><label>Ошибка в введённых значениях</label>
+            <?php endif; ?>
         </form>
     </div>
 
     <div class="container" id="loginForm">
-        <form>
+        <form action="../backend/login_user.php" method="post">
             <label for="login">Логин:</label><br>
             <input type="text" id="login" name="login"><br>
 
@@ -59,6 +64,10 @@ require_once dirname(__DIR__) . "/backend/config.php";
             <input type="password" id="password" name="password"><br>
 
             <button type="submit">Войти</button>
+
+            <?php if (hasValidationErrors()): ?>
+                <br><br><label>Ошибка в введённых значениях</label>
+            <?php endif; ?>
         </form>
     </div>
 

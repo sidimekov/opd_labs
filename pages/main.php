@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__) . "/backend/config.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +25,11 @@ require_once dirname(__DIR__) . "/backend/config.php";
         деятельности, разработать систему оценки простых и сложных сенсомоторных
         реакций человека, как первый элемент батареи тестов
     </div>
+
+    <?php 
+    print_r($_SESSION); 
+    echo session_id();
+    ?>
 </body>
 
 </html>

@@ -1,15 +1,24 @@
 <?php
 
-require_once __DIR__ . "/help_funcs.php";
-require_once __DIR__ . "/db_managers.php";
+require_once __DIR__ . '/help_funcs.php';
+require_once __DIR__ . '/db_managers.php';
+
+clearValidationErrors();
 
 // данные из post в переменные
 $name = $_POST['name'];
 $login = $_POST['login'];
-$password = $_POST['password'];
-$gender = $_POST['gender'];
+$password = trim($_POST['password']);
+$confirm_password = trim($_POST['confirm-password']);
+$gender = (int) trim($_POST['gender']);
 $birth_date = $_POST['birth_date'];
 
+$logf = fopen('logs/log.txt', 'a');
+fwrite($logf, "\nregistration:\n");
+
+$s = join(' ', array($name, $login, $password, $confirm_password, $gender, $birth_date));
+fwrite($logf, $s . "\n");
+fwrite($logf, gettype($gender));
 
 // валидация
 
@@ -23,22 +32,35 @@ if (empty ($login)) {
 if (empty ($password)) {
     setValidationError('password', 'Пустой пароль!');
 }
+if ($password != $confirm_password){
+    setValidationError('password', 'Пароль не совпадает!');
+}
 
 if (hasValidationErrors()) {
-    setUserMenuDisplay(true);
+    // setUserMenuDisplay(true);
+    // echo "error";
+
+    fwrite($logf, join(' ', $_SESSION['validation']) . "\n");
+    fclose($logf);
+
     redirectToPrevious();
-    // redirect('/main.php');
-}
+} 
 
 try{
-    setUserData($name, $login, 0, $password, $birth_date, $gender_id);
+    setUserData($name, $login, 0, $password, $birth_date, $gender);
 } catch (\Exception $e){
     setMessage('error', 'Произошла ошибка, возможно, этот логин уже занят.');
-    setUserMenuDisplay(true);
+
+    fclose($logf);
+
+    // setUserMenuDisplay(true);
     redirectToPrevious();
 }
 
-$user = findUser($login);
+$user = getUserByLogin($login);
 $_SESSION['user']['id'] = $user['id'];
 
-redirectToPrevious();
+fwrite($logf, getUsers() . "register.\n");
+fclose($logf);
+
+redirect('pages/main.php');
