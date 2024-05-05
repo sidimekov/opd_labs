@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/help_funcs.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    logout();
-}
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+logout();
+// }
 
-redirectToPrevious();
+// redirectToPrevious();
 // redirect('pages/main.php');

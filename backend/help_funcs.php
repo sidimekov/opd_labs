@@ -84,7 +84,7 @@ function getMessage(string $key): string
 
 function logout(): void
 {
-    unset($_SESSION['user']['id']);
+    unset($_SESSION['user']);
     redirect('pages/main.php');
 }
 
