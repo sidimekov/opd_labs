@@ -97,8 +97,8 @@ function getMessage(string $key): string
 
 function logout(): void
 {
-    unset($_SESSION['user']['id']);
-    // redirect('/pages/main.php');
+    unset($_SESSION['user']);
+    redirect('pages/main.php');
 }
 
 function checkAuth(): void

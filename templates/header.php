@@ -2,6 +2,7 @@
 
 require_once(dirname(__DIR__) . "/backend/db_managers.php");
 
+// $_SESSION['user'] = getUserById(1);
 $user = currentUser();
 ?>
 
@@ -9,14 +10,14 @@ $user = currentUser();
     <div class="user-icon">
         <?php if (!$user) : ?>
             <a href="../pages/auth.php">
-            <?php endif; ?>
-            <button class="user-icon-button" id="user-icon-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </button>
-            <?php if (!$user) : ?>
+        <?php endif; ?>
+                <button class="user-icon-button" id="user-icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
+        <?php if (!$user) : ?>
             </a>
         <?php endif; ?>
     </div>
@@ -34,7 +35,7 @@ $user = currentUser();
     <a href="tests.php" class="nav-link">
         <h3>Тесты</h3>
     </a>
-    
+
     <!-- <?php if ($user) : ?>
         <a href="my_stats.php" class="nav-link">
             <h3>Моя статистика</h3>
