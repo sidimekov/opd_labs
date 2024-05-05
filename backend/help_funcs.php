@@ -39,6 +39,7 @@ function hasValidationError(string $fieldName): bool
 
 function hasValidationErrors(): bool
 {
+    // print_r($_SESSION['validation']);
     if (!empty($_SESSION['validation']) || (hasMessage('error'))) {
         return true;
     } else {
@@ -51,6 +52,18 @@ function validationErrorMessage(string $fieldName): string
     $message = $_SESSION['validation'][$fieldName] ?? '';
     unset($_SESSION['validation'][$fieldName]);
     return $message;
+}
+
+function clearValidationErrors(): void
+{
+    unset($_SESSION['validation']);
+    unset($_SESSION['message']);
+}
+
+function clearSession(): void
+{
+    clearValidationErrors();
+    unset($_SESSION['old']);
 }
 
 function setOldValue(string $key, mixed $value): void

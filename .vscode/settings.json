@@ -1,0 +1,32 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "5.18.161.110",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "opd",
+            "database": "opd_africa_savers",
+            "username": "root",
+            "password": "qwer123"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "192.168.0.110",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "opd1",
+            "database": "opd_africa_savers",
+            "username": "admin_tima",
+            "password": "qwer1234"
+        }
+    ]
+}
