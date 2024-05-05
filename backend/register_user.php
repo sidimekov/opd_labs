@@ -63,4 +63,5 @@ $_SESSION['user']['id'] = $user['id'];
 fwrite($logf, getUsers() . "register.\n");
 fclose($logf);
 
-redirect('pages/main.php');
+// щас находится в backend/register_user.php, значит надо в ../pages/main.php
+redirect('../pages/main.php');

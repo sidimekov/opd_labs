@@ -6,14 +6,11 @@ require_once dirname(__DIR__) . "/backend/config.php";
 // обычные функции
 
 // перейти на конкретную страницу
-function redirect(string $path)
+// можно использовать .. и .
+function redirect($url, $statusCode = 303)
 {
-    if (str_starts_with($path, "/")) {
-        header("Location: " . ROOT . $path);
-    } else {
-        header("Location: " . ROOT . "/" . $path);
-    }
-    die();
+   header('Location: ' . $url, true, $statusCode);
+   die();
 }
 
 // Вернуться на предыдущую страницу
@@ -22,7 +19,7 @@ function redirectToPrevious()
     if (!empty($_SERVER['HTTP_REFERER'])) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     } else {
-        redirect('pages/main.php');
+        redirect('/ЛР2-4/pages/main.php');
     }
     die();
 }
@@ -98,7 +95,8 @@ function getMessage(string $key): string
 function logout(): void
 {
     unset($_SESSION['user']);
-    redirect('pages/main.php');
+    // redirect('pages/main.php');
+    redirectToPrevious();
 }
 
 function checkAuth(): void

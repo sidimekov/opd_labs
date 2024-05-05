@@ -58,3 +58,55 @@ login qwer
 authorization:
 login qwer
 2 log in.
+
+registration:
+Boba loginn pass pass 2 2024-05-22
+integerArrayregister.
+
+authorization:
+loginn pass
+2 log in.
+
+authorization:
+loginn passs
+Неверный пароль
+
+authorization:
+1234 124152
+Неверный пароль
+
+authorization:
+1234 
+Пустой пароль!
+
+authorization:
+ 
+Пустой login! Пустой пароль!
+
+registration:
+    1 
+integerПустое имя! Пустой логин! Пустой пароль!
+
+authorization:
+loginn pass
+2 log in.
+
+authorization:
+ 
+Пустой login! Пустой пароль!
+
+registration:
+12512 124 135315 1235235 1 
+integerПароль не совпадает!
+
+registration:
+2135 124 123 123 1 
+integerArrayregister.
+
+registration:
+2135 124 2135 1235 1 
+integerПароль не совпадает!
+
+registration:
+123 123 123 123 1 2024-04-30
+integerArrayregister.

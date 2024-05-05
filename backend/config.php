@@ -8,8 +8,8 @@ session_start();
 define("ROOT", dirname(__DIR__));
 
 // данные для бд
-const DB_HOST = '192.168.0.110';
+const DB_HOST = 'localhost';
 const DB_PORT = '3306';
-const DB_NAME = 'opd_africa_savers';
-const DB_USERNAME = 'admin_tima';
-const DB_PASSWORD = 'qwer1234';
+const DB_NAME = 'labs';
+const DB_USERNAME = 'root';
+const DB_PASSWORD = '';

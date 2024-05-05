@@ -27,8 +27,8 @@ require_once dirname(__DIR__) . "/backend/config.php";
     </div>
 
     <?php 
-    print_r($_SESSION); 
-    echo session_id();
+    // print_r($_SESSION); 
+    // echo session_id();
     ?>
 </body>
 

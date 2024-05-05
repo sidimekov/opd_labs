@@ -7,4 +7,4 @@ logout();
 // }
 
 // redirectToPrevious();
-redirect('pages/main.php');
+// redirect('pages/main.php');

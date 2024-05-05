@@ -40,7 +40,8 @@
   <div id="attempts"></div>
   <button id="restartButton">Restart</button>
 
-  <script>
+  <script type="module">
+    import { sendData } from '../../scripts/data_manager.js';
     const button = document.getElementById('button');
     const progress = document.getElementById('progress');
     const results = document.getElementById('results');
@@ -61,8 +62,29 @@
           clearInterval(interval);
           button.removeEventListener('click', handleClick);
           button.style.backgroundColor = 'green';
-          results.textContent = `Successful attempts: ${successes}\nFailed attempts: ${attemptsCount - successes}\nMid time of successful attempts: ${totalTime / successes}ms`;
+
+          // расчёт оценок
+          var reaction_time = totalTime / successes;
+          var accuracy = successes;
+
+          results.textContent = `Successful attempts: ${successes}\nFailed attempts: ${attemptsCount - successes}\nMid time of successful attempts: ${reaction_time}ms`;
           attempts.textContent = `Attempts: ${15}`;
+
+          // отправка оценок на серв
+          var formData = new FormData();
+          // id тестов:
+          // 1 - Тест на простые визуальные сигналы
+          // 2 - Тест на простые звуковые сигналы
+          // 3 - Тест на сложные цветные сигналы
+          // 4 - Тест сложные цифровые визуальные сигналы
+          // 5 - Тест на сложные цифровые звуковые сигналы
+          formData.append('test_id', 1);
+          formData.append('reaction_time', reaction_time);
+          formData.append('accuracy', accuracy);
+          formData.append('misses', 0);
+          formData.append('mistakes', 0);
+          var result = sendData(formData,'../../backend/requests/send_user_results.php');
+          console.log(result.response);
         }
       }, 1000);
     }

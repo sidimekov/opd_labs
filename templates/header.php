@@ -22,7 +22,7 @@ $user = currentUser();
         <?php endif; ?>
     </div>
     <?php if ($user) : ?>
-        <p id="heading-text"><?php $user['name'] ?></p>
+        <p id="heading-text"><?php echo $user['name'] ?></p>
         <a href="../backend/logout.php" id="end-heading-text">Выйти</a>
     <?php else : ?>
         <label for="user-icon-button" id="heading-text">Войти / Зарегистрироваться</label>
