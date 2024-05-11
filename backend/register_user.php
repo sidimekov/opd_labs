@@ -43,7 +43,7 @@ if (hasValidationErrors()) {
     fwrite($logf, join(' ', $_SESSION['validation']) . "\n");
     fclose($logf);
 
-    redirectToPrevious();
+    redirect('../pages/auth.php');
 } 
 
 try{
@@ -53,8 +53,7 @@ try{
 
     fclose($logf);
 
-    // setUserMenuDisplay(true);
-    redirectToPrevious();
+    redirect('../pages/auth.php');
 }
 
 $user = getUserByLogin($login);

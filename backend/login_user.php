@@ -33,7 +33,7 @@ if (!hasValidationErrors() && $password != $user['password']) {
     fwrite($logf, join(" ", $_SESSION['message']) . "\n");
     fclose($logf);
 
-    redirect('/pages/main.php');
+    redirect('../pages/auth.php');
 }
 
 // если в валидации какие-то ошибки, то обратно
@@ -45,7 +45,7 @@ if (hasValidationErrors()) {
     fwrite($logf, join(' ', $_SESSION['validation']) . "\n");
     fclose($logf);
 
-    redirectToPrevious();
+    redirect('../pages/auth.php');
 }
 
 // успешный заход
