@@ -14,6 +14,9 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/stats.css">
     <link rel="stylesheet" href="../styles/boxes.css">
+    <link rel="stylesheet" href="../styles/windows.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -54,7 +57,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         <div class="progress-bar-fill" style="width: 3%;"></div>
                     </div>
                 </div>
-                <button class="button" name="show_my_dynamic" testId="0">Динамика</button>
+                <button class="button" name="show_my_dynamic" test_id="1">Динамика</button>
             </div>
             <div class="box">
                 <div class="box_heading">
@@ -88,7 +91,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         <div class="progress-bar-fill" style="width: 3%;"></div>
                     </div>
                 </div>
-                <button class="button" name="show_my_dynamic" testId="1">Динамика</button>
+                <button class="button" name="show_my_dynamic" test_id="2">Динамика</button>
             </div>
             <div class="box">
                 <div class="box_heading">
@@ -122,7 +125,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         <div class="progress-bar-fill" style="width: 3%;"></div>
                     </div>
                 </div>
-                <button class="button" name="show_my_dynamic" testId="2">Динамика</button>
+                <button class="button" name="show_my_dynamic" test_id="3">Динамика</button>
             </div>
             <div class="box">
                 <div class="box_heading">
@@ -156,7 +159,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         <div class="progress-bar-fill" style="width: 3%;"></div>
                     </div>
                 </div>
-                <button class="button" name="show_my_dynamic" testId="3">Динамика</button>
+                <button class="button" name="show_my_dynamic" test_id="4">Динамика</button>
             </div>
             <div class="box">
                 <div class="box_heading">
@@ -190,10 +193,13 @@ require_once dirname(__DIR__) . "/backend/config.php";
                         <div class="progress-bar-fill" style="width: 3%;"></div>
                     </div>
                 </div>
-                <button class="button" name="show_my_dynamic" testId="4">Динамика</button>
+                <button class="button" name="show_my_dynamic" test_id="5">Динамика</button>
             </div>
         </div>
     </main>
+
+    <?php include dirname(__DIR__) . '/templates/chart.php'; ?>
+    <script src="../scripts/my_stats.js" type="module"></script>
 
 </body>
 

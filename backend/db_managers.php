@@ -85,7 +85,7 @@ function setUserData(string $name, string $login, int $role_id, string $password
     // }
 }
 
-function getUserResults($userId, $testId): array
+function getUserResults($userId, $testId): array | false
 {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM testings
@@ -93,7 +93,7 @@ function getUserResults($userId, $testId): array
     $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
     $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function getTestById(int $test_id): array|bool
