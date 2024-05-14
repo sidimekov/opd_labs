@@ -10,7 +10,7 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
-    <link rel="icon" href="../../ico.ico" type="image/x-icon">
+    <link rel="icon" href="../resources/ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/auth.css">

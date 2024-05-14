@@ -110,3 +110,67 @@ integerПароль не совпадает!
 registration:
 123 123 123 123 1 2024-04-30
 integerArrayregister.
+
+authorization:
+zalupenko zaluepnko
+Неверный пароль
+
+authorization:
+zalupenko zaluepkno
+Неверный пароль
+
+authorization:
+zalupeknko zaluekon
+Неверный пароль
+
+authorization:
+zalupeknko 123
+Неверный пароль
+
+registration:
+124 123   1 
+integerПустой пароль!
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+registration:
+1234 12345 12345 12345 1 2024-05-10
+integerArrayregister.
+
+authorization:
+123 123
+4 log in.

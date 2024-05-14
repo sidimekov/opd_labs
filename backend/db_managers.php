@@ -109,7 +109,31 @@ function getTests(): array
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM tests");
     $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    // добавить ссылки на файлы для норм перенаправления
+    foreach ($results as $i => $result) {
+        switch ($result['id']) {
+            case 1:
+                $result['href'] = 'reaction_visual.php';
+                break;
+            case 2:
+                $result['href'] = 'reaction_audio.php';
+                break;
+            case 3:
+                $result['href'] = 'reaction_colors.php';
+                break;
+            case 4:
+                $result['href'] = 'reaction_visual_task.php';
+                break;
+            case 5:
+                $result['href'] = 'reaction_audio_task.php';
+                break;
+        }
+        $results[$i] = $result;
+    }
+
+    return $results;
 }
 
 function getTestResults($testId): array
