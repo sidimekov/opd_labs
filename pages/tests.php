@@ -22,6 +22,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
         <h1 class="heading">Тесты на сенсомоторные реакции</h1>
         <div class="boxes">
             <?php foreach (getTests() as $test) : ?>
+
                 <div class="box">
                     <div class="box_heading">
                         <h3><?php echo $test['name']; ?></h3>

@@ -47,7 +47,8 @@ require_once dirname(__DIR__) . "/backend/config.php";
                             <?php echo $user['name']; ?>
                         </td>
                         <td>
-                            <?php echo $roleId = 1 ? 'Мужской' : $roleId = 2 ? 'Женский' : 'null'; ?>
+                            <!-- <?php var_dump($genderId); ?> -->
+                            <?php echo $genderId == 1 ? 'Мужской' : ($genderId == 2 ? 'Женский' : 'null'); ?>
                         </td>
                         <td>
                             <?php echo $user['birth_date']; ?>
@@ -59,7 +60,8 @@ require_once dirname(__DIR__) . "/backend/config.php";
                             <?php echo $user['creation_date']; ?>
                         </td>
                         <td>
-                            <?php echo $roleId = 0 ? 'Пользователь' : $roleId = 1 ? 'Эксперт' : $roleId = 2 ? 'Админ' : 'null'; ?>
+                            <!-- <?php var_dump($roleId); ?> -->
+                            <?php echo $roleId == 0 ? 'Пользователь' : ($roleId == 1 ? 'Эксперт' : ($roleId == 2 ? 'Админ' : 'null')); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

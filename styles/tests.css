@@ -120,15 +120,16 @@
 }
 
 .zvook-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: absolute;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
     /* background-color: #eee; */
+    right: 55%;
+    top: 70%;
+    z-index: 0;
 }
 
 .zvook {
@@ -137,9 +138,8 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    background-color: rgb(209,206, 206);
-    margin-bottom: 70%;
-    margin-left: -17%;
+    /* margin-bottom: 70%;
+    margin-left: -17%; */
 }
 
 .grey-button-container {

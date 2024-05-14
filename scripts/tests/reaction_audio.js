@@ -31,9 +31,11 @@ function restartGame() {
     isAudioPlaying = false;
     startAudio();
     startProgress();
-    erika.pause;
+    erika.pause();
     erika.currentTime = 10;
     isAudioPlaying = false;
+    button.innerHTML = "Жми, когда услышишь звук";
+    button.style.backgroundColor = "green";
 }
 
 document.getElementById("restartButton").addEventListener('click', restartGame);
@@ -94,12 +96,15 @@ function handleClick() {
         erika.pause();
         erika.currentTime = 10;
         isAudioPlaying = false;
+        clearTimeout(timeoutId);
         startAudio();
     } else if (attemptsCount < 15) {
         attemptsCount++;
         progressBarText.innerHTML = attemptsCount + "/15";
+        erika.pause();
+        erika.currentTime = 10;
+        clearTimeout(timeoutId);
     }
-    clearTimeout(timeoutId);
 }
 
 function startAudio() {
@@ -114,19 +119,20 @@ function startAudio() {
     }
 }
 
-function firstPress() {
-    startAudio();
-    startProgress();
-    button.removeEventListener('click', firstPress);
-    button.innerHTML = "Жми, когда услышишь звук";
-    button.style.backgroundColor = "green";
-}
+let startTime;
 
 attemptsCount = 0;
 successes = 0;
 totalTime = 0;
 progress.style.width = '0%';
 
-button.addEventListener('click', firstPress);
+function firstPress() {
+    button.removeEventListener('click', firstPress);
+    button.innerHTML = "Жми, когда услышишь звук";
+    button.style.backgroundColor = "green";
+    startAudio();
+    startProgress();
+}
 
-let startTime;
+
+button.addEventListener('click', firstPress);

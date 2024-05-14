@@ -129,6 +129,9 @@ function getTests(): array
             case 5:
                 $result['href'] = 'reaction_audio_task.php';
                 break;
+            default:
+                $result['href'] = 'reaction_visual.php';
+                break;
         }
         $results[$i] = $result;
     }

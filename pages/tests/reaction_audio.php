@@ -36,7 +36,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
             <button class="big-red-button" id="button">Включи звук и нажми, чтобы начать тест</button>
             <div class="timer-text-container">
                 <div class="timer" id="timer">0 ms</div>
-                <div class="text">ремя реакции текущей попытки</div>
+                <div class="text">Время реакции текущей попытки</div>
             </div>
             <div id="results"></div>
             <div id="attempts"></div>
@@ -44,11 +44,11 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
                 <button class="back-button" id="backButton">Назад</button>
             </a>
             <button class="restart-button" id="restartButton">Перезапустить</button>
-            <div class="zvook-container">
+            <!-- <div class="zvook-container">
                 <div class="zvook">
-                    <img src="../../resources/zvook.png" alt="Извинись." width="300" height="300">
+                    <img src="../../resources/zvook0.png" alt="Извинись." width="150" height="150">
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
