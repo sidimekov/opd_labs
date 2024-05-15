@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__DIR__) . "/backend/config.php";
+$userId = $_SESSION['user']['id'];
+
 ?>
 
 <!DOCTYPE html>
@@ -26,183 +28,49 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <main class="main">
         <h1 class="heading">Личные результаты</h1>
         <div class="boxes">
-            <?php foreach (getUserResults($_SESSION['user']['id'], 1) as $tru1) : ?>
+            <?php foreach (getTests() as $test) : ?>
+                <?php $testId = $test['id'];
+                $mids = getMidUserStats($testId, $userId); ?>
                 <div class="box">
                     <div class="box_heading">
-                        <h3>Тест на простые визуальные сигналы</h3>
+                        <h3><?php echo $test['name']; ?></h3>
                     </div>
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
-                        <?php echo $tru1['reaction_time']; ?>
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
+                    <?php if (!$mids) : ?>
+                        <div class="stat_container">
+                            <p>Вы ещё не проходили этот тест</p>
+                        </div>
+                    <?php else : ?>
+                        <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            <?php echo $mids['reaction_time']; ?>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
 
-                        <?php echo $tru1['accuracy']; ?>
+                            <?php echo $mids['accuracy']; ?>
 
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
 
-                        <?php echo $tru1['misses']; ?>
+                            <?php echo $mids['misses']; ?>
 
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
 
-                        <?php echo $tru1['mistakes']; ?>
+                            <?php echo $mids['mistakes']; ?>
 
-                    </div>
-                    <button class="button" name="show_my_dynamic" test_id="1">Динамика</button>
-                </div>
-
-            <?php endforeach; ?>
-
-            <?php foreach (getUserResults($_SESSION['user']['id'], 2) as $tru2) : ?>
-
-                <div class="box">
-                    <div class="box_heading">
-                        <h3>Тест на простые звуковые сигналы</h3>
-                    </div>
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
-
-                        <?php echo $tru2['reaction_time']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
-
-                        <?php echo $tru2['accuracy']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
-
-                        <?php echo $tru2['misses']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
-
-                        <?php echo $tru2['mistakes']; ?>
-
-                    </div>
-                    <button class="button" name="show_my_dynamic" test_id="2">Динамика</button>
-                </div>
-
-            <?php endforeach; ?>
-
-            <?php foreach (getUserResults($_SESSION['user']['id'], 3) as $tru3) : ?>
-
-                <div class="box">
-                    <div class="box_heading">
-                        <h3>Тест на сложные цветные сигналы</h3>
-                    </div>
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
-
-                        <?php echo $tru3['reaction_time']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
-
-                        <?php echo $tru3['accuracy']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
-
-                        <?php echo $tru3['misses']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
-
-                        <?php echo $tru3['mistakes']; ?>
-
-                    </div>
-                    <button class="button" name="show_my_dynamic" test_id="3">Динамика</button>
-                </div>
-
-            <?php endforeach; ?>
-
-            <?php foreach (getUserResults($_SESSION['user']['id'], 4) as $tru4) : ?>
-
-                <div class="box">
-                    <div class="box_heading">
-                        <h3>Тест на сложные цифровые визуальные сигналы</h3>
-                    </div>
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
-
-                        <?php echo $tru4['reaction_time']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
-
-                        <?php echo $tru4['accuracy']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
-
-                        <?php echo $tru4['misses']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
-
-                        <?php echo $tru4['mistakes']; ?>
-
-                    </div>
-                    <button class="button" name="show_my_dynamic" test_id="4s">Динамика</button>
-                </div>
-
-            <?php endforeach; ?>
-
-
-            <?php foreach (getUserResults($_SESSION['user']['id'], 5) as $tru5) : ?>
-
-                <div class="box">
-                    <div class="box_heading">
-                        <h3>Тест на сложные цифровые звуковые сигналы</h3>
-                    </div>
-
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
-
-                        <?php echo $tru5['reaction_time']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
-
-                        <?php echo $tru5['accuracy']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
-
-                        <?php echo $tru5['misses']; ?>
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
-
-                        <?php echo $tru5['mistakes']; ?>
-
-                    </div>
-                    <button class="button" name="show_my_dynamic" test_id="5">Динамика</button>
+                        </div>
+                        <button class="button" name="show_my_dynamic" test_id="<?php echo $testId; ?>">Динамика</button>
+                    <?php endif; ?>
                 </div>
 
             <?php endforeach; ?>
         </div>
     </main>
 
-    
+
     <?php include dirname(__DIR__) . '/templates/chart.php'; ?>
     <script src="../scripts/my_stats.js" type="module"></script>
 

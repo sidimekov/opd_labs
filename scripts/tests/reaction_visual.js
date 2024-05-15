@@ -28,7 +28,7 @@ function startProgress() {
 
             if (successes > 4) {
 
-                results.innerHTML = `Успешных попыток: ${successes}<br>Пропущенных попыток: ${attemptsCount - successes}<br>Среднее время успешных попыток: ${totalTime / successes}ms`;
+                results.innerHTML = `Успешных попыток: ${successes}<br>Пропущенных попыток: ${15 - successes}<br>Среднее время успешных попыток: ${totalTime / successes}ms`;
                 attempts.textContent = `Attempts: ${15}`;
                 // расчёт оценок
                 var reaction_time = totalTime / successes;

@@ -122,14 +122,15 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
                 </thead>
                 <tbody>
                     <?php foreach (getUsers() as $user) : ?>
-                        <?php $userId = $user['id']; 
-                        $userLogin = $user['login'];?>
+                        <?php $userId = $user['id'];
+                        $userLogin = $user['login']; ?>
 
                         <tr class="table_row" id="<?php echo $userLogin; ?>">
                             <td>
                                 <?php echo $user['login']; ?>
                             </td>
                             <?php foreach (getTests() as $test) : ?>
+                                <?php $testId = $test['id']; ?>
                                 <td>
                                     <div class="stat_container">
                                         <p>Среднее время реакции</p>
@@ -163,6 +164,7 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
 
 
                                     </div>
+                                    <button class="button" name="show_spec_user_dynamic" user_id="<?php echo $userId; ?>" test_id="<?php echo $testId; ?>">Динамика</button>
                                 </td>
                             <?php endforeach; ?>
                         </tr>

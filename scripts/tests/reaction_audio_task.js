@@ -44,7 +44,7 @@ function startProgress() {
                 formData.append('reaction_time', reaction_time);
                 formData.append('accuracy', accuracy);
                 formData.append('misses', 0);
-                formData.append('mistakes', 0);
+                formData.append('mistakes', 15 - accuracy);
                 var result = sendData(formData, '../../backend/requests/send_user_results.php');
                 console.log(result.response);
 

@@ -168,3 +168,35 @@ function addTestResults(int $user_id, int $test_id, int $reaction_time, int $acc
         die($e->getMessage());
     }
 }
+
+// возвращает список из 4х стат: [среднее время реации, средня точность, ср. пропуски, ср. ошибки]
+function getMidUserStats($testId, $userId = null): array | false
+{
+    if ($userId == null) {
+        $results = getTestResults($testId);
+    } else {
+        $results = getUserResults($userId, $testId);
+    }
+
+    $sums = ['reaction_time' => 0, 'accuracy' => 0, 'misses' => 0, 'mistakes' => 0];
+
+    foreach ($results as $result) {
+        $sums['reaction_time'] += $result['reaction_time'];
+        $sums['accuracy'] += $result['accuracy'];
+        $sums['misses'] += $result['misses'];
+        $sums['mistakes'] += $result['mistakes'];
+    }
+
+    $arr = ['reaction_time' => 0, 'accuracy' => 0, 'misses' => 0, 'mistakes' => 0];
+    $n = count($results);
+    if ($n > 0) {
+        $arr['reaction_time'] = round($sums['reaction_time'] / $n,2);
+        $arr['accuracy'] = round($sums['accuracy'] / $n, 2);
+        $arr['misses'] = round($sums['misses'] / $n, 2);
+        $arr['mistakes'] = round($sums['mistakes'] / $n, 2);
+    } else {
+        $arr = false;
+    }
+
+    return $arr;
+}

@@ -1,6 +1,6 @@
 import { sendData } from '../../scripts/data_manager.js';
 
-let erika = new Audio("../../resources/Erika.mp3")
+let erika = new Audio("../../resources/notify.mp3")
 
 const button = document.getElementById('button');
 const progress = document.getElementById('progress');
@@ -27,12 +27,12 @@ function restartGame() {
     results.textContent = '';
     attempts.textContent = '';
     erika.pause();
-    erika.currentTime = 10;
+    erika.currentTime = 0;
     isAudioPlaying = false;
     startAudio();
     startProgress();
     erika.pause();
-    erika.currentTime = 10;
+    erika.currentTime = 0;
     isAudioPlaying = false;
     button.innerHTML = "Жми, когда услышишь звук";
     button.style.backgroundColor = "green";
@@ -80,7 +80,7 @@ function startProgress() {
                 results.innerHTML = results.innerHTML + "Результаты не могут быть записаны, т.к. успешных попыток должно быть хотя бы 5.<br> Попробуйте ещё раз";
             }
             erika.pause();
-            erika.currentTime = 10;
+            erika.currentTime = 0;
             isAudioPlaying = false;
         }
     }, 1000);
@@ -94,7 +94,7 @@ function handleClick() {
         totalTime += new Date() - startTime;
         timer.innerHTML = new Date() - startTime + "ms";
         erika.pause();
-        erika.currentTime = 10;
+        erika.currentTime = 0;
         isAudioPlaying = false;
         clearTimeout(timeoutId);
         startAudio();
@@ -102,7 +102,7 @@ function handleClick() {
         attemptsCount++;
         progressBarText.innerHTML = attemptsCount + "/15";
         erika.pause();
-        erika.currentTime = 10;
+        erika.currentTime = 0;
         clearTimeout(timeoutId);
     }
 }

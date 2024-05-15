@@ -16,6 +16,7 @@ const restartButton = document.getElementById('restartButton');
 let attemptsCount = 0;
 let successes = 0;
 let totalTime = 0;
+let mistakes = 0;
 let currentColor = '#ccc';
 
 var timeoutId = -1;
@@ -25,6 +26,7 @@ function startProgress() {
         attemptsCount = 0;
         successes = 0;
         totalTime = 0;
+        mistakes = 0;
         progress.style.width = '0%';
         const interval = setInterval(() => {
             progress.style.width = `${Math.min(100, (attemptsCount / 15) * 100)}%`;
@@ -40,7 +42,7 @@ function startProgress() {
                 if (successes > 4) {
                     
                     timer.innerHTML = (totalTime/successes).toFixed(3)+" ms";
-                    timerText.innerHTML = "Среднее время успешных попыток"+ "<br>Удачных: " + successes + "<br>Пропущенных: " + (attemptsCount - successes);
+                    timerText.innerHTML = "Среднее время успешных попыток"+ "<br>Удачных: " + successes + "<br>Пропущенных: " + (attemptsCount - successes - mistakes) + "<br>Ошибок: " + (mistakes);
 
                     // расчёт оценок
                     var reaction_time = totalTime / successes;
@@ -57,8 +59,8 @@ function startProgress() {
                     formData.append('test_id', 3);
                     formData.append('reaction_time', reaction_time);
                     formData.append('accuracy', accuracy);
-                    formData.append('misses', 0);
-                    formData.append('mistakes', 0);
+                    formData.append('misses', 15 - accuracy);
+                    formData.append('mistakes', mistakes);
                     var result = sendData(formData, '../../backend/requests/send_user_results.php');
                     console.log(result.response);
 
@@ -75,9 +77,12 @@ function handleClick(event) {
         attemptsCount++;
         progressBarText.innerHTML = attemptsCount + "/15";
         if (event.target.style.backgroundColor === currentColor) {
+            console.log(event.target.style.backgroundColor, currentColor);
             successes++;
             totalTime += new Date() - startTime;
             timer.innerHTML = new Date() - startTime + "ms";
+        } else if (circle.style.backgroundColor != 'gray'){
+            mistakes++;
         }
         circle.style.backgroundColor = 'gray';
         clearTimeout(timeoutId);
@@ -104,11 +109,13 @@ function startButton() {
 function restartGame() {
     progressBarText.innerHTML = "0/15";
     timer.innerHTML = "00:00";
-    timerText.innerHTML = "Last successful attempt time";
+    timerText.innerHTML = "Время последней успешной попытки";
+    circle.innerHTML = "";
     circle.style.backgroundColor = 'gray';
     attemptsCount = 0;
     successes = 0;
     totalTime = 0;
+    mistakes = 0;
     progress.style.width = '0%';
     startButton();
     startProgress();

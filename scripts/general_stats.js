@@ -54,7 +54,9 @@ const chartWindow = document.getElementById("chart");
 // кнопка закрытия окна
 const closeWindow = document.getElementById("close_chart_window");
 // кнопки открытия окон
-const openWindows = document.getElementsByName("show_test_dynamic");
+const openWindowsTest = document.getElementsByName("show_test_dynamic");
+// кнопки открытия окон
+const openWindowsSpecUser = document.getElementsByName("show_spec_user_dynamic");
 // канва графика
 const ctx = document.getElementById('my_chart').getContext('2d');
 // график
@@ -74,8 +76,8 @@ chartWindow.addEventListener('click', (e) => {
     }
 });
 
-// открыть окно кнопками
-openWindows.forEach((button) => {
+// открыть окно кнопками (динамика теста)
+openWindowsTest.forEach((button) => {
     var testId = button.getAttribute("test_id");
     button.addEventListener('click', async () => {
         chartWindow.style.display = 'block';
@@ -85,6 +87,26 @@ openWindows.forEach((button) => {
         // console.log(testId);
 
         var jsonResults = getData(formData, '../backend/requests/get_test_results.php');
+
+        jsonResults.then(showChart);
+
+    });
+});
+
+
+// открыть окно кнопками (динамика спец. юзера)
+openWindowsSpecUser.forEach((button) => {
+    var testId = button.getAttribute("test_id");
+    var userId = button.getAttribute("user_id");
+    button.addEventListener('click', async () => {
+        chartWindow.style.display = 'block';
+
+        let formData = new FormData();
+        formData.append("test_id", testId);
+        formData.append("user_id", userId);
+        // console.log(testId);
+
+        var jsonResults = getData(formData, '../backend/requests/get_spec_user_results.php');
 
         jsonResults.then(showChart);
 
