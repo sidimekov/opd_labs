@@ -9,8 +9,8 @@ require_once dirname(__DIR__) . "/backend/config.php";
 // можно использовать .. и .
 function redirect($url, $statusCode = 303)
 {
-   header('Location: ' . $url, true, $statusCode);
-   die();
+    header('Location: ' . $url, true, $statusCode);
+    die();
 }
 
 // Вернуться на предыдущую страницу
@@ -111,4 +111,32 @@ function checkGuest(): void
     if (isset($_SESSION['user']['id'])) {
         redirect('pages/main.php');
     }
+}
+
+function getNormalizedUserLogins($gender_id, $ageInterval): array
+{
+    $logins = [];
+    foreach (getUsers() as $user) {
+        if ($user['gender_id'] == $gender_id) {
+
+            $age = getAge($user['birth_date']);
+
+            if ($age > $ageInterval * 10 && $age <= ($ageInterval + 1) * 10 || ($ageInterval == 0 && $age <= 0) || ($ageInterval == 6 && $age >= 60)) {
+                $logins[] = $user['login'];
+            }
+        }
+    }
+    return $logins;
+}
+
+function getAge($birthDate) {
+    $birthDate = $birthDate;
+    //explode the date to get month, day and year
+    $birthDate = explode("-", $birthDate);
+    //get age from date or birthdate
+    $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[0], $birthDate[1]))) > date("md")
+        ? ((date("Y") - $birthDate[0]) - 1)
+        : (date("Y") - $birthDate[0]));
+
+    return $age;
 }
