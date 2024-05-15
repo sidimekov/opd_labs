@@ -29,48 +29,47 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
 
         <h1 class="heading">Результаты тестов всех пользователей</h1>
         <div class="boxes">
-            <?php foreach (getTests() as $test) :
+            <?php foreach (getTests() as $test) : ?>
+                <?php
                 // id теста, который щас в цикле
                 $testId = $test['id'];
-            ?>
+                // получение средних значений
+                $mids = getMidUserStats($testId);
+                ?>
 
                 <div class="box">
                     <div class="box_heading">
                         <h3><?php echo $test['name']; ?></h3>
                     </div>
-                    <div class="stat_container">
-                        <p>Среднее время реакции</p>
+                    <?php if (!$mids) : ?>
+                        <div class="stat_container">
+                            <p>Никто ещё не проходил этот тест</p>
+                        </div>
+                    <?php else : ?>
+                        <div class="stat_container">
+                            <p>Среднее время реакции</p>
+                            <?php echo $mids['reaction_time']; ?>
+                        </div>
+                        <div class="stat_container">
+                            <p>Точность</p>
 
-                        <?php
-                        echo '//сюда среднее время реакции у этого теста с testId' ?>
+                            <?php echo $mids['accuracy']; ?>
 
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество пропусков</p>
 
-                    </div>
-                    <div class="stat_container">
-                        <p>Точность</p>
+                            <?php echo $mids['misses']; ?>
 
-                        <?php
-                        echo '//сюда среднее точность у этого теста с testId' ?>
+                        </div>
+                        <div class="stat_container">
+                            <p>Количество ошибок</p>
 
+                            <?php echo $mids['mistakes']; ?>
 
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество пропусков</p>
-
-                        <?php
-                        echo '//сюда среднее пропуски у этого теста с testId' ?>
-
-
-                    </div>
-                    <div class="stat_container">
-                        <p>Количество ошибок</p>
-
-                        <?php
-                        echo '//сюда среднее ошибки у этого теста с testId' ?>
-
-
-                    </div>
-                    <button class="button" name="show_test_dynamic" test_id="<?php echo $testId; ?>">Динамика</button>
+                        </div>
+                        <button class="button" name="show_test_dynamic" test_id="<?php echo $testId; ?>">Динамика</button>
+                    <?php endif; ?>
                 </div>
 
             <?php endforeach; ?>
@@ -97,6 +96,7 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
                     </select>
                 </div>
                 <button class="norm-button" id="normalize">Показать пользователей</button>
+                <button class="norm-button" id="showAll">Показать всех</button>
             </div>
 
             <table class="table">
@@ -123,50 +123,56 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
                 <tbody>
                     <?php foreach (getUsers() as $user) : ?>
                         <?php $userId = $user['id'];
-                        $userLogin = $user['login']; ?>
+                        $userLogin = $user['login']
+                        ?>
 
                         <tr class="table_row" id="<?php echo $userLogin; ?>">
                             <td>
                                 <?php echo $user['login']; ?>
                             </td>
                             <?php foreach (getTests() as $test) : ?>
-                                <?php $testId = $test['id']; ?>
+                                <?php
+                                $testId = $test['id'];
+                                $mids = getMidUserStats($testId, $userId);
+                                ?>
                                 <td>
-                                    <div class="stat_container">
-                                        <p>Среднее время реакции</p>
+                                    <?php
+                                    if (!$mids) : ?>
+                                        <div class="stat_container">
+                                            <p>Пользователь ещё не проходил этот тест</p>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="stat_container">
+                                            <p>Среднее время реакции</p>
 
-                                        <?php
-                                        echo '//сюда среднее реакцию пользователя с $userId' ?>
+                                            <?php echo $mids['reaction_time']; ?>
+                                        </div>
+                                        <div class="stat_container">
+                                            <p>Точность</p>
 
-
-                                    </div>
-                                    <div class="stat_container">
-                                        <p>Точность</p>
-
-                                        <?php
-                                        echo 'сюда среднюю точность с $userId' ?>
-
-
-                                    </div>
-                                    <div class="stat_container">
-                                        <p>Количество пропусков</p>
-
-                                        <?php
-                                        echo 'сюда среднюю пропуски с $userId'; ?>
+                                            <?php echo $mids['accuracy']; ?>
 
 
-                                    </div>
-                                    <div class="stat_container">
-                                        <p>Количество ошибок</p>
+                                        </div>
+                                        <div class="stat_container">
+                                            <p>Количество пропусков</p>
 
-                                        <?php
-                                        echo 'сюда среднюю ошбики с $userId'; ?>
+                                            <?php echo $mids['misses']; ?>
 
 
-                                    </div>
-                                    <button class="button" name="show_spec_user_dynamic" user_id="<?php echo $userId; ?>" test_id="<?php echo $testId; ?>">Динамика</button>
+                                        </div>
+                                        <div class="stat_container">
+                                            <p>Количество ошибок</p>
+
+                                            <?php echo $mids['mistakes']; ?>
+
+                                        </div>
+                                        <div class="stat_container">
+                                            <button class="button" name="show_spec_user_dynamic" user_id="<?php echo $userId; ?>" test_id="<?php echo $testId; ?>">Динамика</button>
+                                        </div>
                                 </td>
-                            <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                         </tr>
 
                     <?php endforeach; ?>

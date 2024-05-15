@@ -1,6 +1,7 @@
 import { getData } from './data_manager.js';
 
 let normalizeButton = document.getElementById("normalize");
+let showAllButton = document.getElementById("showAll");
 const tableRows = document.querySelectorAll(".table_row");
 
 normalizeButton.addEventListener('click', () => {
@@ -22,6 +23,10 @@ normalizeButton.addEventListener('click', () => {
     var jsonResults = getData(formData, '../backend/requests/get_normalized_users.php');
 
     jsonResults.then(showLogins);
+});
+
+showAllButton.addEventListener('click', () => {
+    showAllRows();
 });
 
 function showLogins(result) {

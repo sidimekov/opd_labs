@@ -34,11 +34,12 @@
 
 .norm-button {
     display: table-cell;
-    width: 40%;
+    width: 25%;
     background-color: #4CAF50;
     color: white;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin:10px
 }
