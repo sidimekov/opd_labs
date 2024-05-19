@@ -10,7 +10,7 @@ require_once __DIR__ . '/config.php';
 function getPDO(): PDO
 {
     try {
-        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . DB_NAME, DB_USERNAME, DB_PASSWORD);
+        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . 'testlabs', DB_USERNAME, DB_PASSWORD);
     } catch (\PDOException $e) {
         die("Connection error: {$e->getMessage()}");
     }
@@ -85,17 +85,6 @@ function setUserData(string $name, string $login, int $role_id, string $password
     // }
 }
 
-function getUserResults($userId, $testId): array | false
-{
-    $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM testings
-    WHERE test_id = :testId AND user_id = :userId");
-    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
-    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-}
-
 function getTestById(int $test_id): array|bool
 {
     $pdo = getPDO();
@@ -137,6 +126,17 @@ function getTests(): array
     }
 
     return $results;
+}
+
+function getUserResults($userId, $testId): array | false
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM testings
+    WHERE test_id = :testId AND user_id = :userId");
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function getTestResults($testId): array

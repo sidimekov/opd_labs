@@ -190,3 +190,51 @@ authorization:
 authorization:
 123 123
 4 log in.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+123 123
+4 log in.
+
+registration:
+Дмитрий sidimekov 12345 12345 1 2006-01-31
+integerArrayregister.
+
+authorization:
+123 123
+4 log in.
+
+authorization:
+sidimekov 12345
+7 log in.
+
+registration:
+тима tima abcd abcd 1 1900-10-10
+integerArrayregister.
+
+authorization:
+sidimekov 12345
+7 log in.
+
+authorization:
+sidimekov 12345
+7 log in.
+
+authorization:
+sidimekov 
+Пустой пароль!
+
+authorization:
+sidimekov 12345
+7 log in.
+
+authorization:
+sidimekov 12345
+7 log in.
+
+authorization:
+sidimekov 12345
+7 log in.

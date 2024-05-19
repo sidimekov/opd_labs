@@ -1,6 +1,7 @@
 import { sendData } from '../../scripts/data_manager.js';
 
-let erika = new Audio("../../resources/notify.mp3")
+// let erika = new Audio("../../resources/bella ciao.mp3");
+let erika = new Audio("../../resources/notify.mp3");
 
 const button = document.getElementById('button');
 const progress = document.getElementById('progress');
