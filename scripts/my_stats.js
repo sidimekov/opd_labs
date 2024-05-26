@@ -19,7 +19,7 @@ closeWindow.addEventListener('click', () => {
 
 // закрытие при клике снаружи окна
 chartWindow.addEventListener('click', (e) => {
-    if (e.target == chartWindow) {
+    if (e.target === chartWindow) {
         chartWindow.style.display = 'none';
         myChart.destroy();
     }
@@ -33,7 +33,6 @@ openWindows.forEach((button) => {
 
         let formData = new FormData();
         formData.append("test_id", testId);
-        // console.log(testId);
 
         var jsonResults = getData(formData, '../backend/requests/get_user_results.php');
 
@@ -49,30 +48,38 @@ function showChart(result) {
         document.getElementById("window_message").innerHTML = "Динамика результатов";
         userResults = new Map(Object.entries(result.response));
 
-        var reactionTimeMap = {};
-
+        // мапа по типу стата: среднее значение статы
+        var statsMap = {};
+        // даты
+        var testingDates = {};
 
         userResults.keys().forEach((key) => {
             let result = userResults.get(key);
 
-            // console.log(result.reaction_time);
-            reactionTimeMap[result.testing_date] = result.reaction_time;
+            Object.entries(result.statistics).forEach(([stat, value]) => {
+                var statMap = Object(statsMap[stat]);
+                statMap[result.testing_date] = value;
+                statsMap[stat] = statMap;
+            });
+
         });
 
-        console.log(reactionTimeMap);
+
+        console.log(statsMap);
 
         myChart.destroy();
         myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Время реакции в мс',
-                    data: reactionTimeMap,
-                    borderWidth: 1
-                }]
-            }
+            type: 'line'
         });
-
+        console.log(statsMap);
+        Object.entries(statsMap).forEach(([stat, values]) => {
+            myChart.data.datasets.push({
+                label: stat,
+                data: values,
+                borderWidth: 1
+            });
+        });
+        myChart.update();
 
     } else {
         // результатов нет

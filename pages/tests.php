@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__DIR__) . "/backend/config.php";
+require_once ROOT . "/backend/db_managers.php";
+$tests = getTests();
 ?>
 
 <!DOCTYPE html>
@@ -21,8 +23,78 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <main class="main">
         <h1 class="heading">Тесты на сенсомоторные реакции</h1>
         <div class="boxes">
-            <?php foreach (getTests() as $test) : ?>
+            <?php foreach (array_slice($tests, 0, 5) as $test) : ?>
 
+                <div class="box">
+                    <div class="box_heading">
+                        <h3><?php echo $test['name']; ?></h3>
+                    </div>
+                    <p><?php echo $test['description']; ?></p>
+                    <a href="./tests/<?php echo $test['href']; ?>">
+                        <button class="button">Пройти</button>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <h1 class="heading">Тесты на реакцию на движущийся объект</h1>
+        <div class="boxes">
+            <?php foreach (array_slice($tests, 5, 2) as $test) : ?>
+                <div class="box">
+                    <div class="box_heading">
+                        <h3><?php echo $test['name']; ?></h3>
+                    </div>
+                    <p><?php echo $test['description']; ?></p>
+                    <a href="./tests/<?php echo $test['href']; ?>">
+                        <button class="button">Пройти</button>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <h1 class="heading">Тесты на аналоговое слежение/преследование</h1>
+        <div class="boxes">
+            <?php foreach (array_slice($tests, 7, 2) as $test) : ?>
+                <div class="box">
+                    <div class="box_heading">
+                        <h3><?php echo $test['name']; ?></h3>
+                    </div>
+                    <p><?php echo $test['description']; ?></p>
+                    <a href="./tests/<?php echo $test['href']; ?>">
+                        <button class="button">Пройти</button>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <h1 class="heading">Тесты на внимание</h1>
+        <div class="boxes">
+            <?php foreach (array_slice($tests, 9, 2) as $test) : ?>
+                <div class="box">
+                    <div class="box_heading">
+                        <h3><?php echo $test['name']; ?></h3>
+                    </div>
+                    <p><?php echo $test['description']; ?></p>
+                    <a href="./tests/<?php echo $test['href']; ?>">
+                        <button class="button">Пройти</button>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <h1 class="heading">Тесты на память</h1>
+        <div class="boxes">
+            <?php foreach (array_slice($tests, 11, 2) as $test) : ?>
+                <div class="box">
+                    <div class="box_heading">
+                        <h3><?php echo $test['name']; ?></h3>
+                    </div>
+                    <p><?php echo $test['description']; ?></p>
+                    <a href="./tests/<?php echo $test['href']; ?>">
+                        <button class="button">Пройти</button>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <h1 class="heading">Тесты на мышление</h1>
+        <div class="boxes">
+            <?php foreach (array_slice($tests, 13, 3) as $test) : ?>
                 <div class="box">
                     <div class="box_heading">
                         <h3><?php echo $test['name']; ?></h3>

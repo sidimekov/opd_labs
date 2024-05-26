@@ -13,7 +13,7 @@ if (currentUser()) {
     if ($userResults) {
         echo json_encode(array('response' => $userResults));
     } else {
-        echo json_encode(array('response' => null));
+        echo json_encode(array('response' => null, 'user_id' => $user_id, 'test_id' => $test_id, 'post' => $_POST));
     }
 } else {
     echo json_encode(array('response' => null));

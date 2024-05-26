@@ -14,6 +14,9 @@
     background-color: #f2f2f2;
     margin: 10px 10px;
     padding: 0px;
+    border: solid;
+    border-radius: 1px;
+    border-color: #ccc;
     box-sizing: border-box;
     text-align: center;
     position: relative;
@@ -22,6 +25,9 @@
 .box_heading {
     min-height: 50px;
     overflow: hidden;
+    border: solid;
+    border-radius: 1px;
+    border-color: #c7c7c7;
 }
 
 .box p {

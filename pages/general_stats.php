@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__DIR__) . "/backend/config.php";
-require_once dirname(__DIR__) . "/backend/help_funcs.php";
+require_once ROOT . "/backend/help_funcs.php";
+require_once ROOT . "/backend/db_managers.php";
+$tests = getTests();
 ?>
 
 <!DOCTYPE html>
@@ -22,167 +24,127 @@ require_once dirname(__DIR__) . "/backend/help_funcs.php";
 </head>
 
 <body>
-    <?php require_once ROOT . '/templates/header.php'; ?>
+<?php require_once ROOT . '/templates/header.php'; ?>
 
-    <main class="main">
-        <h1 class="heading">Общие результаты</h1>
+<main class="main">
+    <h1 class="heading">Общие результаты</h1>
 
-        <h1 class="heading">Результаты тестов всех пользователей</h1>
-        <div class="boxes">
-            <?php foreach (getTests() as $test) : ?>
+    <div class="norm-panel">
+        <div class="norm-element">
+            <label for="male">Муж</label>
+            <input type="radio" name="gender" id="male" value="М" checked>
+            <label for="female">Жен</label>
+            <input type="radio" name="gender" id="female" value="Ж">
+        </div>
+        <div class="norm-element">
+            Возраст:
+            <select name="age" id="norm-age">
+                <option value="0">0-10</option>
+                <option value="1">11-20</option>
+                <option value="2">21-30</option>
+                <option value="3">31-40</option>
+                <option value="4">41-50</option>
+                <option value="5">51-60</option>
+                <option value="6">60+</option>
+            </select>
+        </div>
+        <button class="norm-button" id="normalize">Показать пользователей</button>
+        <button class="norm-button" id="showAll">Показать всех</button>
+    </div>
+
+    <div class="table_container">
+        <table class="table">
+
+            <thead>
+            <tr>
+                <th>Логин пользователя</th>
+                <?php foreach ($tests as $test): ?>
+                    <th testId="<?php echo $test['id']; ?>"><?php echo $test['name']; ?></th>
+                <?php endforeach; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table_row0" id="mid_results">
+                <td>Средние результаты всех пользователей</td>
+                <?php foreach ($tests
+
+                as $test) : ?>
                 <?php
-                // id теста, который щас в цикле
                 $testId = $test['id'];
-                // получение средних значений
                 $mids = getMidUserStats($testId);
                 ?>
-
-                <div class="box">
-                    <div class="box_heading">
-                        <h3><?php echo $test['name']; ?></h3>
-                    </div>
+                <td>
                     <?php if (!$mids) : ?>
                         <div class="stat_container">
-                            <p>Никто ещё не проходил этот тест</p>
+                            <p>Никто не проходил этот тест</p>
                         </div>
                     <?php else : ?>
+                        <?php foreach ($mids as $stat => $midValue): ?>
+                            <div class="stat_container">
+                                <p><?php echo $stat; ?>:</p>
+                                <?php echo $midValue; ?>
+                            </div>
+                        <?php endforeach; ?>
                         <div class="stat_container">
-                            <p>Среднее время реакции</p>
-                            <?php echo $mids['reaction_time']; ?>
+                            <p>Количество прохождений:</p>
+                            <?php echo countUserResults($testId); ?>
                         </div>
-                        <div class="stat_container">
-                            <p>Точность</p>
-
-                            <?php echo $mids['accuracy']; ?>
-
-                        </div>
-                        <div class="stat_container">
-                            <p>Количество пропусков</p>
-
-                            <?php echo $mids['misses']; ?>
-
-                        </div>
-                        <div class="stat_container">
-                            <p>Количество ошибок</p>
-
-                            <?php echo $mids['mistakes']; ?>
-
-                        </div>
-                        <button class="button" name="show_test_dynamic" test_id="<?php echo $testId; ?>">Динамика</button>
+                        <button class="stat_button" name="show_test_dynamic" test_id="<?php echo $testId; ?>">
+                            Динамика
+                        </button>
                     <?php endif; ?>
-                </div>
+                    <?php endforeach; ?>
+                </td>
+            </tr>
+            <?php foreach (getUsers() as $user) : ?>
+                <?php $userId = $user['id'];
+                $userLogin = $user['login'];
+                ?>
+
+                <tr class="table_row" id="<?php echo $userLogin; ?>">
+                    <td>
+                        <?php echo $user['login']; ?>
+                    </td>
+                    <?php foreach ($tests
+
+                    as $test) : ?>
+                    <?php
+                    $testId = $test['id'];
+                    $mids = getMidUserStats($testId, $userId);
+                    ?>
+                    <td>
+                        <?php if (!$mids) : ?>
+                            <div class="stat_container">
+                                <p>Пользователь ещё не проходил этот тест</p>
+                            </div>
+                        <?php else : ?>
+                            <?php foreach ($mids as $stat => $midValue): ?>
+                                <div class="stat_container">
+                                    <p><?php echo $stat; ?>:</p>
+                                    <?php echo $midValue; ?>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="stat_container">
+                                <p>Количество прохождений:</p>
+                                <?php echo countUserResults($testId, $userId); ?>
+                            </div>
+                            <button class="stat_button" name="show_spec_user_dynamic" test_id="<?php echo $testId; ?>" user_id="<?php echo $userId; ?>">
+                                Динамика
+                            </button>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
 
             <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</main>
 
-            <h2 class="heading">Результаты тестов отдельных пользователей</h2>
+<?php include dirname(__DIR__) . '/templates/chart.php'; ?>
 
-            <div class="norm-panel">
-                <div class="norm-element">
-                    <label for="male">Муж</label>
-                    <input type="radio" name="gender" id="male" value="М" checked>
-                    <label for="female">Жен</label>
-                    <input type="radio" name="gender" id="female" value="Ж">
-                </div>
-                <div class="norm-element">
-                    Возраст:
-                    <select name="age" id="norm-age">
-                        <option value="0">0-10</option>
-                        <option value="1">11-20</option>
-                        <option value="2">21-30</option>
-                        <option value="3">31-40</option>
-                        <option value="4">41-50</option>
-                        <option value="5">51-60</option>
-                        <option value="6">60+</option>
-                    </select>
-                </div>
-                <button class="norm-button" id="normalize">Показать пользователей</button>
-                <button class="norm-button" id="showAll">Показать всех</button>
-            </div>
-
-            <table class="table">
-
-                <colgroup>
-                    <col style="width: 10%;">
-                    <col style="width: 18%;">
-                    <col style="width: 18%;">
-                    <col style="width: 18%;">
-                    <col style="width: 18%;">
-                    <col style="width: 18%;">
-                </colgroup>
-
-                <thead>
-                    <tr>
-                        <th>Логин пользователя</th>
-                        <th>Тест на простые визуальные сигналы</th>
-                        <th>Тест на простые звуковые сигналы</th>
-                        <th>Тест на разные цвета</th>
-                        <th>Тест на скорость сложения в уме - сложный звуковой сигнал</th>
-                        <th>Тест на скорость сложения в уме - сложный визуальный сигнал</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach (getUsers() as $user) : ?>
-                        <?php $userId = $user['id'];
-                        $userLogin = $user['login']
-                        ?>
-
-                        <tr class="table_row" id="<?php echo $userLogin; ?>">
-                            <td>
-                                <?php echo $user['login']; ?>
-                            </td>
-                            <?php foreach (getTests() as $test) : ?>
-                                <?php
-                                $testId = $test['id'];
-                                $mids = getMidUserStats($testId, $userId);
-                                ?>
-                                <td>
-                                    <?php
-                                    if (!$mids) : ?>
-                                        <div class="stat_container">
-                                            <p>Пользователь ещё не проходил этот тест</p>
-                                        </div>
-                                    <?php else : ?>
-                                        <div class="stat_container">
-                                            <p>Среднее время реакции</p>
-
-                                            <?php echo $mids['reaction_time']; ?>
-                                        </div>
-                                        <div class="stat_container">
-                                            <p>Точность</p>
-
-                                            <?php echo $mids['accuracy']; ?>
-
-
-                                        </div>
-                                        <div class="stat_container">
-                                            <p>Количество пропусков</p>
-
-                                            <?php echo $mids['misses']; ?>
-
-
-                                        </div>
-                                        <div class="stat_container">
-                                            <p>Количество ошибок</p>
-
-                                            <?php echo $mids['mistakes']; ?>
-
-                                        </div>
-                                        <div class="stat_container">
-                                            <button class="button" name="show_spec_user_dynamic" user_id="<?php echo $userId; ?>" test_id="<?php echo $testId; ?>">Динамика</button>
-                                        </div>
-                                </td>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                        </tr>
-
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-    </main>
-
-    <?php include dirname(__DIR__) . '/templates/chart.php'; ?>
-
-    <script type='module' src='../scripts/general_stats.js'></script>
+<script type='module' src='../scripts/general_stats.js'></script>
 
 </body>
 

@@ -2,6 +2,11 @@
     width: 95%;
     margin: 0 auto;
     border-collapse: collapse;
+    overflow: scroll;
+}
+.table_container {
+    width: 100%;
+    overflow: scroll;
 }
 
 .table th,

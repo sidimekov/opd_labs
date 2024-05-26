@@ -47,9 +47,10 @@ if (hasValidationErrors()) {
 } 
 
 try{
-    setUserData($name, $login, 0, $password, $birth_date, $gender);
+    addUserData($name, $login, 0, $password, $birth_date, $gender);
 } catch (\Exception $e){
     setMessage('error', 'Произошла ошибка, возможно, этот логин уже занят.');
+    fwrite($logf, $e->getMessage());
 
     fclose($logf);
 

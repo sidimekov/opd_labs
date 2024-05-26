@@ -1,240 +1,28 @@
-name login qwer qwer 1 2001-10-20
-integerArray
-login:
-login qwerНеверный пароль
 
-authorization:
- 
-Пустой login! Пустой пароль!
-
-authorization:
-login qwer
-Неверный пароль
-
-authorization:
-login qwer
-Неверный пароль
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-timon abcd
-1 log in.
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-timon abcd
-1 log in.
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-timon abcd
-1 log in.
-
-authorization:
-timon abcd
-1 log in.
-
-authorization:
-login qwer
-2 log in.
-
-authorization:
-login qwer
-2 log in.
 
 registration:
-Boba loginn pass pass 2 2024-05-22
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integer
+authorization:
+sidimekov vgmkscir
+Неверный пароль
+
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integer
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integer
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integer
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integer
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
+integerSQLSTATE[23503]: Foreign key violation: 7 ERROR:  insert or update on table "opd_users" violates foreign key constraint "opd_users_gender_id_fkey"
+DETAIL:  Key (gender_id)=(1) is not present in table "opd_genders".
+registration:
+Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
 integerArrayregister.
-
-authorization:
-loginn pass
-2 log in.
-
-authorization:
-loginn passs
-Неверный пароль
-
-authorization:
-1234 124152
-Неверный пароль
-
-authorization:
-1234 
-Пустой пароль!
-
-authorization:
- 
-Пустой login! Пустой пароль!
-
-registration:
-    1 
-integerПустое имя! Пустой логин! Пустой пароль!
-
-authorization:
-loginn pass
-2 log in.
-
-authorization:
- 
-Пустой login! Пустой пароль!
-
-registration:
-12512 124 135315 1235235 1 
-integerПароль не совпадает!
-
-registration:
-2135 124 123 123 1 
-integerArrayregister.
-
-registration:
-2135 124 2135 1235 1 
-integerПароль не совпадает!
-
-registration:
-123 123 123 123 1 2024-04-30
-integerArrayregister.
-
-authorization:
-zalupenko zaluepnko
-Неверный пароль
-
-authorization:
-zalupenko zaluepkno
-Неверный пароль
-
-authorization:
-zalupeknko zaluekon
-Неверный пароль
-
-authorization:
-zalupeknko 123
-Неверный пароль
-
-registration:
-124 123   1 
-integerПустой пароль!
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-registration:
-1234 12345 12345 12345 1 2024-05-10
-integerArrayregister.
-
-authorization:
-123 123
-4 log in.
-
-registration:
-12345 123456 123456 123456 1 2024-05-04
-integerArrayregister.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-123 123
-4 log in.
-
-registration:
-Дмитрий sidimekov 12345 12345 1 2006-01-31
-integerArrayregister.
-
-authorization:
-123 123
-4 log in.
-
-authorization:
-sidimekov 12345
-7 log in.
-
-registration:
-тима tima abcd abcd 1 1900-10-10
-integerArrayregister.
-
-authorization:
-sidimekov 12345
-7 log in.
-
-authorization:
-sidimekov 12345
-7 log in.
-
-authorization:
-sidimekov 
-Пустой пароль!
-
-authorization:
-sidimekov 12345
-7 log in.
-
-authorization:
-sidimekov 12345
-7 log in.
-
-authorization:
-sidimekov 12345
-7 log in.

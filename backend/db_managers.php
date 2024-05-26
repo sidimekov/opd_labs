@@ -9,24 +9,24 @@ require_once __DIR__ . '/config.php';
 
 function getPDO(): PDO
 {
-    try {
-        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . 'testlabs', DB_USERNAME, DB_PASSWORD);
-    } catch (\PDOException $e) {
-        die("Connection error: {$e->getMessage()}");
-    }
+//    try {
+//        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . 'testlabs', DB_USERNAME, DB_PASSWORD);
+    return new \PDO('pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';', DB_USERNAME, DB_PASSWORD);
+//    } catch (\PDOException $e) {
+//        die("Ошбика подключения в бд: {$e->getMessage()}");
+//    }
 }
-
 
 
 function getUsers(): array
 {
-    // user['id']
-    // user['name']
-    // user['email']
-    // user['password']
-    // user['role_id']
+// user['id']
+// user['name']
+// user['email']
+// user['password']
+// user['role_id']
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM users");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_USERS);
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
@@ -35,7 +35,7 @@ function getUserByLogin(string $login): array|bool
 {
     $pdo = getPDO();
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE login = :login");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_USERS . " WHERE login = :login");
     $stmt->execute(['login' => $login]);
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
@@ -43,7 +43,7 @@ function getUserByLogin(string $login): array|bool
 function getUserById(int $user_id): array|bool
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_USERS . " WHERE id = :id");
     $stmt->execute(['id' => $user_id]);
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
@@ -58,15 +58,15 @@ function currentUser(): array|false
 
     $userId = $_SESSION['user']['id'] ?? null;
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_USERS . " WHERE id = :id");
     $stmt->execute(['id' => $userId]);
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
-function setUserData(string $name, string $login, int $role_id, string $password, string $birth_date, int $gender_id)
+function addUserData(string $name, string $login, int $role_id, string $password, string $birth_date, int $gender_id)
 {
     $pdo = getPDO();
-    $query = 'INSERT INTO users (name,login, role_id, password, birth_date, gender_id) VALUES (:name, :login, :role_id, :password, :birth_date, :gender_id) ON DUPLICATE KEY UPDATE name=VALUES(name),login=VALUES(login),role_id=VALUES(role_id), password=VALUES(password), birth_date=VALUES(birth_date), gender_id=VALUES(gender_id);';
+    $query = 'INSERT INTO ' . DB_TABLE_USERS . ' (name,login, role_id, password, birth_date, gender_id) VALUES (:name, :login, :role_id, :password, :birth_date, :gender_id) ON DUPLICATE KEY UPDATE name=VALUES(name),login=VALUES(login),role_id=VALUES(role_id), password=VALUES(password), birth_date=VALUES(birth_date), gender_id=VALUES(gender_id);';
     $params = [
         'name' => $name,
         'login' => $login,
@@ -78,17 +78,17 @@ function setUserData(string $name, string $login, int $role_id, string $password
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
 
-    // try {
-    //     $stmt->execute($params);
-    // } catch (\Exception $e) {
-    //     die($e->getMessage());
-    // }
+// try {
+//     $stmt->execute($params);
+// } catch (\Exception $e) {
+//     die($e->getMessage());
+// }
 }
 
 function getTestById(int $test_id): array|bool
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM tests WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTS . " WHERE id = :id");
     $stmt->execute(['id' => $test_id]);
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
@@ -96,14 +96,15 @@ function getTestById(int $test_id): array|bool
 function getTests(): array
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM tests");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTS);
     $stmt->execute();
     $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-    // добавить ссылки на файлы для норм перенаправления
+// добавить ссылки на файлы для норм перенаправления
     foreach ($results as $i => $result) {
         switch ($result['id']) {
             case 1:
+            default:
                 $result['href'] = 'reaction_visual.php';
                 break;
             case 2:
@@ -118,9 +119,6 @@ function getTests(): array
             case 5:
                 $result['href'] = 'reaction_audio_task.php';
                 break;
-            default:
-                $result['href'] = 'reaction_visual.php';
-                break;
         }
         $results[$i] = $result;
     }
@@ -128,75 +126,112 @@ function getTests(): array
     return $results;
 }
 
-function getUserResults($userId, $testId): array | false
+function getUserResults($userId, $testId): array|false
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM testings
-    WHERE test_id = :testId AND user_id = :userId");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId AND user_id = :userId;");
     $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
     $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    $results = $stmt->fetchAll();
+    if ($results) {
+        foreach ($results as $key => $result) {
+            $result['statistics'] = json_decode($result['statistics'], true);
+            $results[$key] = $result;
+        }
+        return $results;
+    } else {
+        return false;
+    }
+//return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
-function getTestResults($testId): array
+function countUserResults($testId, $userId = null): int
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM testings WHERE test_id = :testId");
+    if ($userId == null) {
+        $stmt = $pdo->prepare("SELECT count(id) FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId;");
+    } else {
+        $stmt = $pdo->prepare("SELECT count(id) FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId AND user_id = :userId;");
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    }
     $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $stmt->fetch()[0];
 }
 
-function addTestResults(int $user_id, int $test_id, int $reaction_time, int $accuracy, int $misses, int $mistakes)
+function getTestResults($testId): array | false
 {
-
     $pdo = getPDO();
-    $query = 'INSERT INTO testings (user_id, test_id, reaction_time, accuracy, misses, mistakes) VALUES (:user_id, :test_id, :reaction_time, :accuracy, :misses, :mistakes);';
-    $params = [
-        'user_id' => $user_id,
-        'test_id' => $test_id,
-        'reaction_time' => $reaction_time,
-        'accuracy' => $accuracy,
-        'misses' => $misses,
-        'mistakes' => $mistakes
-    ];
-    $stmt = $pdo->prepare($query);
-    try {
-        $stmt->execute($params);
-    } catch (\Exception $e) {
-        die($e->getMessage());
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId");
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+    if ($results) {
+        foreach ($results as $key => $result) {
+            $result['statistics'] = json_decode($result['statistics'], true);
+            $results[$key] = $result;
+        }
+        return $results;
+    } else {
+        return false;
     }
+//return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function addTestResults($userId, $testId, $statistics, $isJson = true): void
+{
+    $pdo = getPDO();
+    if (!$isJson) {
+        // если не json, то закодировать в json
+        $statisticsJson = json_encode($statistics);
+    } else {
+        $statisticsJson = $statistics;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_TESTINGS . " (user_id, test_id, testing_date, statistics) VALUES (:userId, :testId, current_timestamp, :statistics);");
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+    $stmt->bindParam(':statistics', $statisticsJson, \PDO::PARAM_STR);
+    $stmt->execute();
 }
 
 // возвращает список из 4х стат: [среднее время реации, средня точность, ср. пропуски, ср. ошибки]
-function getMidUserStats($testId, $userId = null): array | false
+function getMidUserStats($testId, $userId = null)
 {
-    if ($userId == null) {
-        $results = getTestResults($testId);
-    } else {
-        $results = getUserResults($userId, $testId);
+    $pdo = getPDO();
+    $query = "SELECT statistics FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId";
+    if ($userId !== null) {
+        $query .= " AND user_id = :userId";
     }
 
-    $sums = ['reaction_time' => 0, 'accuracy' => 0, 'misses' => 0, 'mistakes' => 0];
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':testId', $testId, \PDO::PARAM_INT);
+
+    if ($userId !== null) {
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+    $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    $totalStats = [];
+    $totalCount = count($results);
 
     foreach ($results as $result) {
-        $sums['reaction_time'] += $result['reaction_time'];
-        $sums['accuracy'] += $result['accuracy'];
-        $sums['misses'] += $result['misses'];
-        $sums['mistakes'] += $result['mistakes'];
+        $statistics = json_decode($result['statistics'], true);
+        foreach ($statistics as $key => $value) {
+            if (!isset($totalStats[$key])) {
+                $totalStats[$key] = 0;
+            }
+            $totalStats[$key] += $value;
+        }
     }
 
-    $arr = ['reaction_time' => 0, 'accuracy' => 0, 'misses' => 0, 'mistakes' => 0];
-    $n = count($results);
-    if ($n > 0) {
-        $arr['reaction_time'] = round($sums['reaction_time'] / $n,2);
-        $arr['accuracy'] = round($sums['accuracy'] / $n, 2);
-        $arr['misses'] = round($sums['misses'] / $n, 2);
-        $arr['mistakes'] = round($sums['mistakes'] / $n, 2);
-    } else {
-        $arr = false;
+    $averageStats = [];
+    foreach ($totalStats as $key => $value) {
+        $averageStats[$key] = $value / $totalCount;
     }
 
-    return $arr;
+    return $averageStats;
 }

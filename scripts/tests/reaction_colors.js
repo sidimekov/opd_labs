@@ -48,21 +48,16 @@ function startProgress() {
                     var reaction_time = totalTime / successes;
                     var accuracy = successes;
 
-                    // отправка оценок на серв
-                    var formData = new FormData();
-                    // id тестов:
-                    // 1 - Тест на простые визуальные сигналы
-                    // 2 - Тест на простые звуковые сигналы
-                    // 3 - Тест на сложные цветные сигналы
-                    // 4 - Тест сложные цифровые визуальные сигналы
-                    // 5 - Тест на сложные цифровые звуковые сигналы
-                    formData.append('test_id', 3);
-                    formData.append('reaction_time', reaction_time);
-                    formData.append('accuracy', accuracy);
-                    formData.append('misses', 15 - accuracy);
-                    formData.append('mistakes', mistakes);
-                    var result = sendData(formData, '../../backend/requests/send_user_results.php');
-                    console.log(result.response);
+                    var stats = {
+                        reaction_time: reaction_time,
+                        accuracy: accuracy,
+                        mistakes: mistakes
+                    }
+
+                    // id теста смотрим на гитхабе, где находятся тз, в разделе инфы "какие идшники у тестов"
+                    var response = saveStats(stats, 3);
+
+                    console.log(response);
 
                 } else {
                     timerText.innerHTML = "Результаты не могут быть записаны, т.к. успешных попыток должно быть хотя бы 5.<br> Попробуйте ещё раз";
@@ -70,6 +65,21 @@ function startProgress() {
             }
         }, 1000);
     }
+}
+
+function saveStats(stats, testId) {
+    // отправка оценок на серв
+    var formData = new FormData();
+    // id тестов:
+    // 1 - Тест на простые визуальные сигналы
+    // 2 - Тест на простые звуковые сигналы
+    // 3 - Тест на сложные цветные сигналы
+    // 4 - Тест сложные цифровые визуальные сигналы
+    // 5 - Тест на сложные цифровые звуковые сигналы
+    formData.append('test_id', testId);
+    formData.append('statistics', JSON.stringify(stats));
+    var result = sendData(formData, '../../backend/requests/send_user_results.php');
+    return result.response;
 }
 
 function handleClick(event) {

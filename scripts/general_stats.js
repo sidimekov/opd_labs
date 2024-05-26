@@ -4,23 +4,26 @@ let normalizeButton = document.getElementById("normalize");
 let showAllButton = document.getElementById("showAll");
 const tableRows = document.querySelectorAll(".table_row");
 
+const genderCheck = document.querySelector('#male')
+const ageSelect = document.getElementById('norm-age');
+
 normalizeButton.addEventListener('click', () => {
 
     let genderId;
-    if (document.querySelector('#male').checked) {
+    if (genderCheck.checked) {
         genderId = 1;
     } else {
         genderId = 2;
     }
 
-    let ageInterval = document.getElementById('norm-age').value;
+    let ageInterval = ageSelect.value;
 
     let formData = new FormData();
     formData.append("gender_id", genderId);
     formData.append("age_interval", ageInterval);
     // console.log(testId);
 
-    var jsonResults = getData(formData, '../backend/requests/get_normalized_users.php');
+    var jsonResults = getData(formData, '../backend/requests/get_normalized.php');
 
     jsonResults.then(showLogins);
 });
@@ -53,7 +56,6 @@ function showAllRows() {
     });
 }
 
-
 // окно для динамики
 const chartWindow = document.getElementById("chart");
 // кнопка закрытия окна
@@ -75,7 +77,7 @@ closeWindow.addEventListener('click', () => {
 
 // закрытие при клике снаружи окна
 chartWindow.addEventListener('click', (e) => {
-    if (e.target == chartWindow) {
+    if (e.target === chartWindow) {
         chartWindow.style.display = 'none';
         myChart.destroy();
     }
@@ -125,33 +127,41 @@ function showChart(result) {
         document.getElementById("window_message").innerHTML = "Динамика результатов";
         userResults = new Map(Object.entries(result.response));
 
-        var reactionTimeMap = {};
-
+        // мапа по типу стата: среднее значение статы
+        var statsMap = {};
+        // даты
+        var testingDates = {};
 
         userResults.keys().forEach((key) => {
             let result = userResults.get(key);
 
-            // console.log(result.reaction_time);
-            reactionTimeMap[result.testing_date] = result.reaction_time;
+            Object.entries(result.statistics).forEach(([stat, value]) => {
+                var statMap = Object(statsMap[stat]);
+                statMap[result.testing_date] = value;
+                statsMap[stat] = statMap;
+            });
+
         });
 
-        console.log(reactionTimeMap);
+
+        console.log(statsMap);
 
         myChart.destroy();
         myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Время реакции в мс',
-                    data: reactionTimeMap,
-                    borderWidth: 1
-                }]
-            }
+            type: 'line'
         });
-
+        console.log(statsMap);
+        Object.entries(statsMap).forEach(([stat, values]) => {
+            myChart.data.datasets.push({
+                label: stat,
+                data: values,
+                borderWidth: 1
+            });
+        });
+        myChart.update();
 
     } else {
         // результатов нет
-        document.getElementById("window_message").innerHTML = "Тест ещё не пройден";
+        document.getElementById("window_message").innerHTML = "Вы ещё не проходили этот тест";
     }
 }
