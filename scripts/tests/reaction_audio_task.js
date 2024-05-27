@@ -14,11 +14,13 @@ let totalTime = 0;
 let task;
 
 var timeoutId = -1;
+var canBind = true;
 
 function startProgress() {
     attemptsCount = 0;
     successes = 0;
     totalTime = 0;
+    canBind = true;
     progress.style.width = '0%';
     const interval = setInterval(() => {
         progress.style.width = `${Math.min(100, (attemptsCount / 15) * 100)}%`;
@@ -26,6 +28,7 @@ function startProgress() {
             clearInterval(interval);
             buttonEven.removeEventListener('click', handleAnswer);
             buttonOdd.removeEventListener('click', handleAnswer);
+            canBind = false;
             
             
             if (successes > 4) {
@@ -89,6 +92,7 @@ function generateTask() {
         }
         buttonEven.addEventListener('click', handleAnswer);
         buttonOdd.addEventListener('click', handleAnswer);
+        canBind = true;
     }, delay);
 }
 
@@ -135,3 +139,21 @@ let startTime;
 generateTask();
 startProgress();
 restartButton.addEventListener('click', restartGame);
+
+
+
+// привязка клавиш
+document.onkeydown = function (e) {
+    e = e || window.event;
+    event = {target: {id : {}}};
+    switch (e.which || e.keyCode) {
+        case 49:
+            event.target.id = 'button-even';
+            handleAnswer(event);
+            break;
+        case 50:
+            event.target.id = 'button-odd';
+            handleAnswer(event);
+            break;
+    }
+}

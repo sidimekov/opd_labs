@@ -235,3 +235,99 @@ function getMidUserStats($testId, $userId = null)
 
     return $averageStats;
 }
+
+
+
+function getProfessions(): array|bool
+{
+    // professions['id']
+    // professions['name']
+    // professions['description']
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PROFESSIONS . ";");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function getProfessionById(int $prof_id): array|bool
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PROFESSIONS . " WHERE id = :id;");
+    $stmt->execute(['id' => $prof_id]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function getPiqs(): array|bool
+{
+    // piq['id']
+    // piq['name']
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQS . ";");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+function getPiqById(int $piq_id): array|bool
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQS . " WHERE id = :id;");
+    $stmt->execute(['id' => $piq_id]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+// Найти все ОЦЕНКИ у профессии
+// (каждый эксперт делает столько оценок, сколько пвк)
+function getProfRatings(int $prof_id): array|bool
+{
+    // rating - как вариант для инстанса ОДНОГО рейтинга у профессии, опциональная строка
+    // rating['id']
+    // rating['piq']
+    // rating['priority'] приоритет при записи подсчитывать как приоритет / 10 (максимум можно эксперту выбрать 10 пвк)
+    // rating['expert']
+    // rating['date']
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_RATINGS . " WHERE profession_id = :id;");
+    $stmt->execute(['id' => $prof_id]);
+    $tuples = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    if (!$tuples) {
+        return false;
+    } else {
+        foreach ($tuples as $key => $tuple) {
+            $tuple['piq'] = getPiqById($tuple['piq_id']);
+            $tuple['expert'] = getUserById($tuple['expert_id']);
+            $tuples[$key] = $tuple;
+        }
+    }
+    return $tuples;
+}
+
+
+// получить оценку эксперта одной профессии
+function getRatingBy($userId, $professionId): array|bool
+{
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_RATINGS . " WHERE profession_id = :profession_id AND expert_id = :expert_id;");
+    $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
+}
+
+// получить все оценки экспертов
+function getAllRatings() : array
+{
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_RATINGS . ";");
+    $stmt->execute();
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
+}
+
+// удалить оценки эксперта одной профессии
+function deleteRatingBy($userId, $professionId)
+{
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("DELETE FROM " . DB_TABLE_RATINGS . " WHERE profession_id = :profession_id AND expert_id = :expert_id;");
+    $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
+}

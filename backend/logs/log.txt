@@ -26,3 +26,7 @@ DETAIL:  Key (gender_id)=(1) is not present in table "opd_genders".
 registration:
 Дмитрий sidimekov vgmkscir vgmkscir 1 2006-01-31
 integerArrayregister.
+
+authorization:
+sidimekov vgmkscir
+3 log in.

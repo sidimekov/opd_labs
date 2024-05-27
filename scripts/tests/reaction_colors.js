@@ -21,12 +21,16 @@ let currentColor = '#ccc';
 
 var timeoutId = -1;
 
+// можно ли юзать привязку клавиш
+var canBind = true;
+
 function startProgress() {
     if (attemptsCount < 15) {
         attemptsCount = 0;
         successes = 0;
         totalTime = 0;
         mistakes = 0;
+        canBind = true;
         progress.style.width = '0%';
         const interval = setInterval(() => {
             progress.style.width = `${Math.min(100, (attemptsCount / 15) * 100)}%`;
@@ -35,6 +39,7 @@ function startProgress() {
                 button1.removeEventListener('click', handleClick);
                 button2.removeEventListener('click', handleClick);
                 button3.removeEventListener('click', handleClick);
+                canBind = false;
 
                 circle.innerHTML = 'Тест пройден'
                 circle.style.backgroundColor = 'green';
@@ -112,6 +117,7 @@ function startButton() {
             button1.addEventListener('click', handleClick);
             button2.addEventListener('click', handleClick);
             button3.addEventListener('click', handleClick);
+            canBind = true;
         }, delay);
     }
 }
@@ -135,3 +141,24 @@ let startTime;
 startButton();
 startProgress();
 restartButton.addEventListener('click', restartGame);
+
+
+// привязка клавиш
+document.onkeydown = function (e) {
+    e = e || window.event;
+    event = {target: {style: {}}};
+    switch (e.which || e.keyCode) {
+        case 49:
+            event.target.style.backgroundColor = 'green';
+            handleClick(event)
+            break;
+        case 50:
+            event.target.style.backgroundColor = 'blue';
+            handleClick(event)
+            break;
+        case 51:
+            event.target.style.backgroundColor = 'red';
+            handleClick(event)
+            break;
+    }
+}

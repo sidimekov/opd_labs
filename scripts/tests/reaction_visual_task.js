@@ -15,18 +15,21 @@ let totalTime = 0;
 let task;
 
 var timeoutId = -1;
+var canBind = true;
 
 function startProgress() {
     attemptsCount = 0;
     successes = 0;
     totalTime = 0;
     progress.style.width = '0%';
+    canBind = true;
     const interval = setInterval(() => {
         progress.style.width = `${Math.min(100, (attemptsCount / 15) * 100)}%`;
         if (attemptsCount >= 15) {
             clearInterval(interval);
             buttonEven.removeEventListener('click', handleAnswer);
             buttonOdd.removeEventListener('click', handleAnswer);
+            canBind = false;
             
             if (successes > 4) {
                     
@@ -49,6 +52,7 @@ function startProgress() {
 
             } else {
                 timerText.innerHTML = "Результаты не могут быть записаны, т.к. успешных попыток должно быть хотя бы 5.<br> Попробуйте ещё раз";
+                console.log(successes, totalTime);
             }
         }
     }, 1000);
@@ -86,6 +90,7 @@ function generateTask() {
         }
         buttonEven.addEventListener('click', handleAnswer);
         buttonOdd.addEventListener('click', handleAnswer);
+        canBind = true;
     }, delay);
 }
 
@@ -116,8 +121,8 @@ function handleAnswer(event) {
 
 
 function restartGame() {
-    timer.innerHTML = "00:00";
-    timerText.innerHTML = "Last successful attempt time";
+    timer.innerHTML = "0 ms";
+    timerText.innerHTML = "Время последней успешной попытки";
     progressBarText.innerHTML = "0/15";
     attemptsCount = 0;
     successes = 0;
@@ -134,3 +139,21 @@ let startTime;
 generateTask();
 startProgress();
 restartButton.addEventListener('click', restartGame);
+
+
+
+// привязка клавиш
+document.onkeydown = function (e) {
+    e = e || window.event;
+    event = {target: {id : {}}};
+    switch (e.which || e.keyCode) {
+        case 49:
+            event.target.id = 'button-even';
+            handleAnswer(event);
+            break;
+        case 50:
+            event.target.id = 'button-odd';
+            handleAnswer(event);
+            break;
+    }
+}

@@ -140,3 +140,55 @@ function getAge($birthDate) {
 
     return $age;
 }
+
+
+// ПОСЧИТАТЬ ИТОГОВЫЙ отсортированный рейтинг у профессии
+// типа подсчитать список ПВК и их процент важности у каждого для ОДНОЙ профессии
+function countProfResultRating(int $prof_id): void
+{
+    global $professionPiqs;
+    // возвращается список ссылочных массивов
+    // resultPiq - как вариант инстанса одного такого массива (пвк + его важность от 0 до 1 вкл.)
+    // resultPiq = getProfResultRating[piq_id]
+    // resultPiq['piq']
+    // resultPiq['importance']
+    $ratings = getProfRatings($prof_id);
+    $result = []; // result = [piq_id => ['piq' => piq, 'importance' => float]]
+    if ($ratings) {
+        foreach ($ratings as $rating) {
+            $currPiq = $rating['piq'];
+            $currPriority = $rating['priority'];
+            $piq = $result[$currPiq['id']] ?? null;
+            if (is_null($piq)) {
+                $result[$currPiq['id']]['piq'] = $currPiq;
+                $result[$currPiq['id']]['importance'] = $currPriority / 10;
+            } else {
+                $result[$currPiq['id']]['importance'] = ($result[$currPiq['id']]['importance'] + ($currPriority / 10)) / 2;
+            }
+        }
+    }
+
+    usort($result, 'importanceSort');
+    $result = array_reverse($result);
+    $professionPiqs[$prof_id] = $result;
+}
+
+// Получить подсчёт всех ПВК для ОДНОЙ профессии
+function getProfResultRating(int $prof_id, int $n = 0): array
+{
+    global $professionPiqs;
+    if (is_null($professionPiqs[$prof_id] ?? null)) {
+        countProfResultRating($prof_id);
+    }
+    if ($n == 0) {
+        return $professionPiqs[$prof_id];
+    } else {
+        return array_slice($professionPiqs[$prof_id], 0, $n);
+    }
+}
+
+function importanceSort($x, $y)
+{
+    return $x['importance'] <=> $y['importance'];
+}
+

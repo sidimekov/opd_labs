@@ -17,14 +17,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
 </head>
 
 <body>
-    <?php require_once ROOT . '/templates/header.php'; ?>
-    <script>
-        document.getElementById("nav_main").href = "../main.php";
-        document.getElementById("nav_tests").href = "../tests.php";
-        document.getElementById("nav_my_stats").href = "../my_stats.php";
-        document.getElementById("nav_gen_stats").href = "../general_stats.php";
-        document.getElementById("nav_userlist").href = "../admin_userlist.php";
-    </script>
+    <?php require_once ROOT . '/templates/test_header.php'; ?>
 
     <div class="main">
         <div class="scale-container" id="progressBar">
