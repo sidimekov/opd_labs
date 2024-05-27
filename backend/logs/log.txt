@@ -30,3 +30,21 @@ integerArrayregister.
 authorization:
 sidimekov vgmkscir
 3 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+registration:
+test test test test 1 2000-01-01
+integerSQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "DUPLICATE"
+LINE 1: ...te, gender_id) VALUES ($1, $2, $3, $4, $5, $6) ON DUPLICATE ...
+                                                             ^
+registration:
+test test test test 1 2000-01-09
+integerSQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "DUPLICATE"
+LINE 1: ...te, gender_id) VALUES ($1, $2, $3, $4, $5, $6) ON DUPLICATE ...
+                                                             ^
+registration:
+test test test test 1 2000-01-01
+integerArrayregister.

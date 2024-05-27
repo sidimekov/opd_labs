@@ -17,12 +17,15 @@ require_once ROOT . "/backend/help_funcs.php";
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/professions.css">
+    <link rel="stylesheet" href="../styles/windows.css">
+
+    <?php include_once ROOT . '/templates/script_reload.php'; ?>
 </head>
 
 <body>
 <?php require_once ROOT . '/templates/header.php'; ?>
 
-<div class="main">
+<main class="main">
     <h1 class="heading">Профессии</h1>
     <div class="profession-boxes">
         <?php $professions = getProfessions();
@@ -57,14 +60,52 @@ require_once ROOT . "/backend/help_funcs.php";
                                 <br>
                             <?php endforeach; ?>
                         <?php endif; ?>
+
+
+<!--                        попытка вставить 1 лабу-->
+<!--                        <br>-->
+<!--                        <br>-->
+<!--                        --><?php
+//                        $userId = currentUser()['id'];
+//                        $profId = $profession['id'];
+//                        if (empty (getRatingBy($userId, $profId))):
+//                            ?>
+<!--                            <div class="button-container">-->
+<!--                                <button type="button" name="--><?php //echo $profId; ?><!--_--><?php //echo $userId; ?><!--"-->
+<!--                                        id="rate-button"-->
+<!--                                        class="button" style="font-size: 16px;">Оценить профессию-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        --><?php //else: ?>
+<!--                            <div class="button-container">-->
+<!--                                <form method="post" action="backend/delete_rate.php">-->
+<!--                                    <button type="button" name="--><?php //echo $profId; ?><!--_--><?php //echo $userId; ?><!--"-->
+<!--                                            id="view-rating-button"-->
+<!--                                            class="button" style="font-size: 16px; width: 40%;">Посмотреть свою оценку-->
+<!--                                    </button>-->
+<!--                                    <input style='display: none;' name="delete_rate" value="--><?php //echo $profId; ?><!--">-->
+<!--                                    <button type="submit" class="button" style="font-size: 16px; width: 40%;">Удалить-->
+<!--                                        свою оценку-->
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                            </div>-->
+<!--                        --><?php //endif; ?>
+
+
                     </dl>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-</div>
 
-<script type='module' src="../scripts/professions.js"></script>
+    <?php include_once ROOT . '/templates/windows/choose_piqs.php'; ?>
+    <?php include_once ROOT . '/templates/windows/rate_piqs.php'; ?>
+    <?php include_once ROOT . '/templates/windows/show_rating.php'; ?>
+
+<!--    <script src="../scripts/rate_piqs.js"></script>-->
+</main>
+
+<!--<script type='module' src="../scripts/professions.js"></script>-->
 </body>
 
 </html>

@@ -66,7 +66,15 @@ function currentUser(): array|false
 function addUserData(string $name, string $login, int $role_id, string $password, string $birth_date, int $gender_id)
 {
     $pdo = getPDO();
-    $query = 'INSERT INTO ' . DB_TABLE_USERS . ' (name,login, role_id, password, birth_date, gender_id) VALUES (:name, :login, :role_id, :password, :birth_date, :gender_id) ON DUPLICATE KEY UPDATE name=VALUES(name),login=VALUES(login),role_id=VALUES(role_id), password=VALUES(password), birth_date=VALUES(birth_date), gender_id=VALUES(gender_id);';
+    $query = 'INSERT INTO ' . DB_TABLE_USERS . ' (name, login, role_id, password, birth_date, gender_id) 
+        VALUES (:name, :login, :role_id, :password, :birth_date, :gender_id) 
+        ON CONFLICT (login) DO UPDATE SET 
+            name = EXCLUDED.name,
+            role_id = EXCLUDED.role_id,
+            password = EXCLUDED.password,
+            birth_date = EXCLUDED.birth_date,
+            gender_id = EXCLUDED.gender_id;
+        ';
     $params = [
         'name' => $name,
         'login' => $login,
@@ -160,7 +168,7 @@ function countUserResults($testId, $userId = null): int
     return $stmt->fetch()[0];
 }
 
-function getTestResults($testId): array | false
+function getTestResults($testId): array|false
 {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTINGS . " WHERE test_id = :testId");
@@ -196,7 +204,6 @@ function addTestResults($userId, $testId, $statistics, $isJson = true): void
     $stmt->execute();
 }
 
-// возвращает список из 4х стат: [среднее время реации, средня точность, ср. пропуски, ср. ошибки]
 function getMidUserStats($testId, $userId = null)
 {
     $pdo = getPDO();
@@ -230,12 +237,11 @@ function getMidUserStats($testId, $userId = null)
 
     $averageStats = [];
     foreach ($totalStats as $key => $value) {
-        $averageStats[$key] = $value / $totalCount;
+        $averageStats[$key] = round($value / $totalCount, 2);
     }
 
     return $averageStats;
 }
-
 
 
 function getProfessions(): array|bool
@@ -266,6 +272,7 @@ function getPiqs(): array|bool
     $stmt->execute();
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
+
 function getPiqById(int $piq_id): array|bool
 {
     $pdo = getPDO();
@@ -313,7 +320,7 @@ function getRatingBy($userId, $professionId): array|bool
 }
 
 // получить все оценки экспертов
-function getAllRatings() : array
+function getAllRatings(): array
 {
     $pdo = getPDO();
 
