@@ -68,3 +68,7 @@ integerArrayregister.
 authorization:
 sidimekov vgmkscir
 3 log in.
+
+authorization:
+vasyok1488 qwerty
+6 log in.
