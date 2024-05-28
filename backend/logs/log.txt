@@ -80,3 +80,27 @@ sidimekov vgmkscir
 authorization:
 sidimekov vgmkscir
 3 log in.
+
+registration:
+    1 
+integerПустое имя! Пустой логин! Пустой пароль!
+
+authorization:
+ 
+Пустой login! Пустой пароль!
+
+authorization:
+leias19 19022006
+Неверный пароль
+
+authorization:
+leias19 19022006
+Неверный пароль
+
+authorization:
+leias19 19022006
+Неверный пароль
+
+registration:
+л leias19 19022006 19022006 2 2006-02-19
+integerArrayregister.
