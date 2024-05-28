@@ -312,7 +312,7 @@
   
 }
 
-.attention-instructions {
+.instructions {
     font-size:32px;
     position: absolute;
     top:17.5%;
@@ -331,7 +331,7 @@
     cursor: pointer;
 }
 
-.attention-start-button {
+.start-button {
     display: block;
     position: absolute;
     bottom: -10%;
