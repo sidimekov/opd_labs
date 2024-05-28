@@ -32,7 +32,7 @@ function startProgress() {
                 attempts.textContent = `Attempts: ${15}`;
                 // расчёт оценок
                 var reaction_time = totalTime / successes;
-                var accuracy = successes;
+                var accuracy = Math.round((successes / 15) * 100);
 
                 var stats = {
                     reaction_time: reaction_time,
