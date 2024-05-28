@@ -48,3 +48,23 @@ LINE 1: ...te, gender_id) VALUES ($1, $2, $3, $4, $5, $6) ON DUPLICATE ...
 registration:
 test test test test 1 2000-01-01
 integerArrayregister.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+registration:
+kostya rosh.28@mail.ru Qfc12erty Qfc12erty 1 2004-09-28
+integerArrayregister.
+
+registration:
+Vasyan1861 vasyok1488 qwerty qwerty 1 2024-05-29
+integerArrayregister.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
