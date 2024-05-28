@@ -127,15 +127,21 @@ function getTests(): array
             case 5:
                 $result['href'] = 'reaction_audio_task.php';
                 break;
-                case 10:
-                    $result['href'] = 'attention_distribution.php';
-                    break;
-                    case 15:
-                        $result['href'] = 'thinking_induction.php';
-                        break;
-                    case 12: 
-                        $result['href'] = 'memory_short_audio.php';
-                        break;
+            case 6:
+                $result['href'] = 'reaction_move_simple.php';
+                break;
+            case 7:
+                $result['href'] = 'reaction_move_hard.php';
+                break;
+            case 10:
+                $result['href'] = 'attention_distribution.php';
+                break;
+            case 15:
+                $result['href'] = 'thinking_induction.php';
+                break;
+            case 12:
+                $result['href'] = 'memory_short_audio.php';
+                break;
         }
         $results[$i] = $result;
     }
