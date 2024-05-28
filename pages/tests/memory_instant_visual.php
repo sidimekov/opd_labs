@@ -36,9 +36,8 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
         <button class="restart-button" id="restartButton">Перезапустить</button>
         <p class="instructions" id="memory-instructions">Как только увидите картинку, появившуюся второй раз, нажмите на неё</p>
         <button class="start-button" id="memory-start-button">Нажмите, чтобы начать тест</button>
-        <div class="memory-image-panel">
-            
-        </div>
+
+        <div class="memory-image-panel" id="memoryPanel"></div>
 
     </div>
 </div>

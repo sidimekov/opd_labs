@@ -21,6 +21,19 @@
     /* padding: 75px 0; */
 }
 
+.memory-image-panel {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #000;
+    align-content: center;
+    line-height: 100px;
+    font-size: 100px;
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    top:50%;
+}
+
 .scale-fill {
     position: absolute;
     top: 0;
