@@ -136,3 +136,7 @@ sidimekov vgmkscir
 registration:
 тимофей tim abcde abcde 1 2005-10-20
 integerArrayregister.
+
+authorization:
+rosh.28@mail.ru Qfc12erty
+5 log in.

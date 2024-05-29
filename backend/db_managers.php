@@ -379,7 +379,7 @@ function deleteRatingBy($userId, $professionId)
 function insertUsersPiq(int $userId, int $piqId, int $level){
     $pdo = getPDO();
 
-    $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_PIQ_LEVEL . " (user_id, piq_id, level) VALUES (:userId, :piqId, :level);");
+    $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_PIQ_LEVEL . " (user_id, piq_id, level) VALUES (:userId, :piqId, :level) ON CONFLICT (user_id, piq_id) DO UPDATE SET level=:level;");
     $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
     $stmt->bindParam(':piqId', $piqId, \PDO::PARAM_INT);
     $stmt->bindParam(':level', $level, \PDO::PARAM_INT);

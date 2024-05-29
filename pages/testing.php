@@ -28,7 +28,7 @@ $tests = getTests();
 
 
     <?php
-//    var_dump($_SESSION['testing']['stage']);
+   var_dump($_SESSION['testing']['stage']);
 
     if (!isset($_SESSION['testing']['stage'])) {
         $_SESSION['testing']['stage'] = 1;

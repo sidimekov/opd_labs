@@ -277,10 +277,16 @@ function getPiqLevel(int $user_id, int $piq_id)
 {
     global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
     $res_sum = 0;
+    // $tests = getTests();
     for ($i = 0; $i < 16; $i++) {
-        $res = getUserResults($user_id, $i);
-        $res_sum += testingMark($i, $res) * $PIQ_TO_TESTS[$piq_id][$i];
+        $res = getMidUserStats($i + 1, $user_id);
+        if ($res) {
+            // print_r($res);
+            // $res = $res[0]['statistics'];
+            $res_sum += testingMark($i + 1, $res) * $PIQ_TO_TESTS[$piq_id][$i];
+        }
     }
+    // var_dump(getPiqById($piq_id), $res_sum);
     return $res_sum;
 }
 
