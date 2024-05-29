@@ -104,3 +104,7 @@ leias19 19022006
 registration:
 л leias19 19022006 19022006 2 2006-02-19
 integerArrayregister.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
