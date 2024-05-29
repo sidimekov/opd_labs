@@ -224,9 +224,9 @@ function importanceSort($x, $y)
 
 // считает общую оценку прохождения теста в виде числа
 function testingMark(int $test_id, $test_results){
-    switch($test_id){
-        ;
-    }
+//    switch($test_id){
+//        ;
+//    }
 }
 
 // возвращает процент соответствия пользователя конкретному пвк
@@ -252,6 +252,7 @@ function getUsersProfessionMatch(int $user_id, int $prof_id){
     }
 
     return $result / count($profs_piq);
+    }
 // чекать если чел прошел тест
 function passed($userId, $testId) : bool
 {
