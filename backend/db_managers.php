@@ -104,7 +104,7 @@ function getTestById(int $test_id): array|bool
 function getTests(): array
 {
     $pdo = getPDO();
-    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTS);
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_TESTS . " ORDER by id ASC");
     $stmt->execute();
     $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -133,6 +133,12 @@ function getTests(): array
             case 7:
                 $result['href'] = 'reaction_move_hard.php';
                 break;
+            case 8:
+                $result['href'] = 'analog_follow.php';
+                break;
+            case 9:
+                $result['href'] = 'analog_chase.php';
+                break;
             case 10:
                 $result['href'] = 'attention_distribution.php';
                 break;
@@ -150,6 +156,9 @@ function getTests(): array
                 break;
             case 15:
                 $result['href'] = 'thinking_induction.php';
+                break;
+            case 16:
+                $result['href'] = 'abstraction_thinking.php';
                 break;
         }
         $results[$i] = $result;

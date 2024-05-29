@@ -128,7 +128,8 @@ function getNormalizedUserLogins($gender_id, $ageInterval): array
     return $logins;
 }
 
-function getAge($birthDate) {
+function getAge($birthDate)
+{
     $birthDate = $birthDate;
     //explode the date to get month, day and year
     $birthDate = explode("-", $birthDate);
@@ -275,7 +276,7 @@ function getPiqLevel(int $user_id, int $piq_id)
 {
     global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
     $res_sum = 0;
-    for ($i = 0; $i < 16; $i++){
+    for ($i = 0; $i < 16; $i++) {
         $res = getUserResults($user_id, $i);
         $res_sum += testingMark($i, $res) * $PIQ_TO_TESTS[$piq_id][$i] / 100;
     }
@@ -313,12 +314,14 @@ function passed($userId, $testId) : bool
     return (!empty(getUserResults($userId, $testId)));
 }
 
-function passedAll($userId) : bool
-{
-    foreach (getTests() as $test) {
-        if (!passed($userId, $test['id'])) {
-            return false;
+    function passedAll($userId): bool
+    {
+        foreach (getTests() as $test) {
+            if (!passed($userId, $test['id'])) {
+                return false;
+            }
         }
+        return true;
     }
     return true;
 }
