@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(300);
 // session_start();
 
 require_once __DIR__ . '/config.php';
@@ -255,7 +255,10 @@ function getMidUserStats($testId, $userId = null)
             if (!isset($totalStats[$key])) {
                 $totalStats[$key] = 0;
             }
-            $totalStats[$key] += $value;
+            // var_dump($value);
+            if ($value != "NaN") {
+                $totalStats[$key] += $value;
+            }
         }
     }
 
@@ -361,4 +364,9 @@ function deleteRatingBy($userId, $professionId)
 
     $stmt = $pdo->prepare("DELETE FROM " . DB_TABLE_RATINGS . " WHERE profession_id = :profession_id AND expert_id = :expert_id;");
     $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
+}
+
+// вставить данные о соответствии пользователя пвк
+function insertUsersPiq(){
+    ;
 }

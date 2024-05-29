@@ -242,7 +242,16 @@ function getUsersPiqLevel(int $user_id, int $piq_id)
     return $res_sum;
 }
 
+// обновление в базе данных информации о соответствии пользователя пвк
+function updateUserPiqs(int $userId){
+    $piqs = [253, 301, 245, 246, 282, 251, 240, 244, 241, 249, 215, 254, 260];
+    foreach($piqs as $i){
+        ;
+    }
+}
+
 // возвращает процент соответствия пользователя конкретной профессии
+// вычисляется среднее из всех пвк
 function getUsersProfessionMatch(int $user_id, int $prof_id){
     global $PROFESSIONS_TO_PIQ;
     $profs_piq = $PROFESSIONS_TO_PIQ[$prof_id];
@@ -252,10 +261,12 @@ function getUsersProfessionMatch(int $user_id, int $prof_id){
     }
 
     return $result / count($profs_piq);
+}
+
 // чекать если чел прошел тест
 function passed($userId, $testId) : bool
 {
-    return (!empty(getUserResults(currentUser()['id'], $test['id'])));
+    return (!empty(getUserResults($userId, $testId)));
 }
 
 function passedAll($userId) : bool
