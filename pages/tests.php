@@ -22,9 +22,11 @@ $tests = getTests();
 
     <main class="main">
         <br>
-        <a href="./testing.php">
-            <button class="button">Пройти тестирование с измерением сердцебиения</button>
-        </a>
+        <?php if (currentUser()) : ?>
+            <a href="./testing.php">
+                <button class="button">Пройти тестирование с измерением сердцебиения</button>
+            </a>
+        <?php endif; ?>
         <h1 class="heading">Тесты на сенсомоторные реакции</h1>
         <div class="boxes">
             <?php foreach (array_slice($tests, 0, 5) as $test) : ?>

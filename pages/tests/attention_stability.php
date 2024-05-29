@@ -84,7 +84,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
 <body>
 <?php require_once ROOT . '/templates/test_header.php'; ?>
 <main class="main">
-    <h1>Тест на реакцию</h1>
+    <h1>Тест на устойчивость внимания</h1>
     <div class="score-container" id="score-container" style="display: none">
         <h3>Счет: <span id="score">0</span></h3>
     </div>
