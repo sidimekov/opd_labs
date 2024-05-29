@@ -139,6 +139,9 @@ function getTests(): array
                     case 11: 
                         $result['href'] = 'attention_stability.php';
                         break;
+                    case 14:
+                        $result['href'] = 'thinking_analisys.php';
+                        break;
 
         }
         $results[$i] = $result;
