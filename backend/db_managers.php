@@ -367,6 +367,22 @@ function deleteRatingBy($userId, $professionId)
 }
 
 // вставить данные о соответствии пользователя пвк
-function insertUsersPiq(){
-    ;
+function insertUsersPiq(int $userId, int $piqId, int $level){
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_PIQ_LEVEL . " (user_id, piq_id, level) VALUES (:userId, :piqId, :level);");
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->bindParam(':piqId', $piqId, \PDO::PARAM_INT);
+    $stmt->bindParam(':level', $level, \PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+function getPiqsLevelFromDB(int $userId){
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . "WHERE user_id = :userId;");
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->execute();
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
 }
