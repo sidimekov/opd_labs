@@ -40,11 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function initializePositions() {
-    document.getElementById("marker").style.left = `${markerPosition.left}px`;
-    document.getElementById("marker").style.top = `${markerPosition.top}px`;
-    document.getElementById("chase-square").style.left = `${squarePosition.left}px`;
-    document.getElementById("chase-square").style.top = `${squarePosition.top}px`;
-  }
+    const testContainer = document.getElementById("test-container");
+    const marker = document.getElementById("marker");
+    const chaseSquare = document.getElementById("chase-square");
+
+    // Calculate the center positions
+    const containerWidth = testContainer.offsetWidth;
+    const containerHeight = testContainer.offsetHeight;
+
+    markerPosition.left = (containerWidth - marker.offsetWidth) / 2;
+    markerPosition.top = (containerHeight - marker.offsetHeight) / 2;
+
+    squarePosition.left = (containerWidth - chaseSquare.offsetWidth) / 2;
+    squarePosition.top = (containerHeight - chaseSquare.offsetHeight) / 2;
+
+    // Set the positions
+    marker.style.left = `${markerPosition.left}px`;
+    marker.style.top = `${markerPosition.top}px`;
+
+    chaseSquare.style.left = `${squarePosition.left}px`;
+    chaseSquare.style.top = `${squarePosition.top}px`;
+}
 
   // Функция для форматирования времени в формате mm:ss
   function formatTime(time) {
