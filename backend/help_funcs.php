@@ -2,6 +2,36 @@
 
 require_once dirname(__DIR__) . "/backend/config.php";
 
+// массив, в котором хранятся наборы пвк профессии
+// id тестов из базы данных
+$PROFESSIONS_TO_PIQ = [
+    1 => [253, 301, 245, 246, 282],
+    2 => [251, 240, 244, 241, 282],
+    3 => [249, 215, 282, 254, 260]
+];
+
+// массив, в котором пвк ставятся в соответсвие тесты
+// пвк из бд
+$PIQ_TO_TESTS = [
+    253 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100],
+    301 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 10, 50, 0, 0, 0],
+    245 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 75, 20, 0],
+    246 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 67, 7],
+    282 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 14, 15, 14, 14],
+    251 => [0, 0, 0, 0, 0, 2, 2, 5, 5, 24, 0, 24, 28, 0, 0, 10],
+    240 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 45, 0, 0, 50],
+    244 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10, 10, 40, 35],
+    241 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 6, 20, 60],
+    249 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 75],
+    215 => [0, 0, 0, 0, 0, 15, 15, 20, 15, 0, 0, 0, 0, 30, 5, 0],
+    254 => [0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 25, 15, 25, 7, 13],
+    260 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 85, 0, 0, 5]
+];
+
+$IDEAL_TESTINGS_VALUES = array();
+for($i = 0; $i < 16; $i++){
+    $IDEAL_TESTINGS_VALUES[$i] = 1;
+}
 
 // обычные функции
 
@@ -192,3 +222,34 @@ function importanceSort($x, $y)
     return $x['importance'] <=> $y['importance'];
 }
 
+// считает общую оценку прохождения теста в виде числа
+function testingMark(int $test_id, $test_results){
+    switch($test_id){
+        ;
+    }
+}
+
+// возвращает процент соответствия пользователя конкретному пвк
+function getUsersPiqLevel(int $user_id, int $piq_id)
+{
+    global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
+    $res_sum = 0;
+    for ($i = 0; $i < 16; $i++){
+        $res = getUserResults($user_id, $i);
+        $res_sum += $res["accuracy"] * $PIQ_TO_TESTS[$piq_id][$i] / 100 / $IDEAL_TESTINGS_VALUES[$i];
+    }
+
+    return $res_sum;
+}
+
+// возвращает процент соответствия пользователя конкретной профессии
+function getUsersProfessionMatch(int $user_id, int $prof_id){
+    global $PROFESSIONS_TO_PIQ;
+    $profs_piq = $PROFESSIONS_TO_PIQ[$prof_id];
+    $result = 0;
+    for ($i = 0; $i < count($profs_piq); $i++){
+        $result += getUsersPiqLevel($user_id, $profs_piq[$i]);
+    }
+
+    return $result / count($profs_piq);
+}
