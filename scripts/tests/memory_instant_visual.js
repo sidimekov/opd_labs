@@ -12,103 +12,125 @@ document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("memory-start-button");
     const memoryPanel = document.getElementById('memoryPanel');
 
-
-    function getRandomElements(arrOrObj, amount) {
-        // Если передан объект, преобразуем его в массив ключей
-        const elements = Array.isArray(arrOrObj) ? arrOrObj : Object.keys(arrOrObj);
-        const result = [];
-        const length = elements.length;
-
-        if (length <= amount) {
-            return elements; // Возвращаем все элементы, если их меньше или равно 5
-        }
-
-        while (result.length < amount) {
-            const randomIndex = Math.floor(Math.random() * length);
-            const randomElement = elements[randomIndex];
-            if (!result.includes(randomElement)) {
-                result.push(randomElement);
-            }
-        }
-
-        return result;
-    }
-
-
     const stages = [
+        { images: 3, duration: 1000 },
+        { images: 3, duration: 1000 },
+        { images: 3, duration: 1000 },
         { images: 5, duration: 1000 },
-        { images: 7, duration: 1000 },
-        { images: 7, duration: 750 },
+        { images: 5, duration: 1000 },
+        { images: 5, duration: 1000 },
+        { images: 5, duration: 750 },
+        { images: 5, duration: 750 },
+        { images: 5, duration: 750 }
     ];
 
-    const EMOJIS = ['☀️', '⭐️', '❄️', '⛈️', '🌈', '🌊', '🌻', '🍁', '🌸', '🌟', '🍕', '🎈', '🚀', '🌺', '🍦', '🎸', '🎨', '🐱', '🚲', '⚽'];
+    const EMOJIS = ['☀️', '⭐️', '❄️', '⛈️', '🌈', '🌊', '🌻', '🍁', '🌸', '🍕', '🎈', '🚀', '🌺', '🍦', '🎸', '🎨', '🐱', '🚲', '⚽'];
     let currentStage = 0;
+    let displayedCount = 0;
     let shownImages = [];
     let correctClicks = 0;
     let totalClicks = 0;
     let startTime = 0;
     let reactionTimes = [];
 
+
     function startTest() {
         var mustClick = false;
         var clicked = false;
+        var lastEmoji;
+        var cooldownImageId = -1;
+
+        var curEmojis = EMOJIS.slice();
+
         startButton.style.display = 'none';
         memoryPanel.style.display = 'block';
-        if (currentStage >= stages.length) {
+        instructions.textContent = "Как только увидите картинку, появившуюся второй раз, нажмите на неё";
+        if (currentStage >= 9) {
             endTest();
             return;
         }
 
-        const { images, duration } = stages[currentStage];
+        var { images, duration } = stages[currentStage];
         shownImages = [];
-        let displayedCount = 0;
 
         function showNextImage() {
 
             if (clicked && mustClick) {
                 const timeTaken = (Date.now() - startTime) / 1000;
-                correctClicks += currentStage + 1;
+                correctClicks += Math.floor(currentStage / 3) + 1;
                 reactionTimes.push(timeTaken);
-            }
-
-            if (displayedCount >= images * 5) {
+                instructions.textContent = "Верно!";
+                memoryPanel.textContent = "✔️";
+                timer.innerHTML = timeTaken + "ms";
                 currentStage++;
-                startTest();
+                setTimeout(startTest, 2000);
+                return;
+            } else if (mustClick && !clicked || clicked && !mustClick) {
+                instructions.textContent = "Вы не нажали на повторяющуюся картинку!";
+                memoryPanel.textContent = "❌";
+                currentStage++;
+                setTimeout(startTest, 2000);
                 return;
             }
 
-            let emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
-            if (Math.random() < 0.2 && shownImages.length > 0) {
-                emoji = shownImages[Math.floor(Math.random() * shownImages.length)];
+            let emoji = curEmojis[Math.floor(Math.random() * curEmojis.length)];
+            if ((Math.random() < 0.2 && shownImages.length > 2) || (shownImages.length > images)) {
+                emoji = shownImages[Math.floor(Math.random() * (shownImages.length - 1))];
                 mustClick = true;
+                console.log(emoji, currentStage);
             } else {
                 shownImages.push(emoji);
+                let ind = curEmojis.indexOf(emoji);
+                if (ind > -1) {
+                    curEmojis.splice(ind, 1);
+                }
             }
+            lastEmoji = EMOJIS.indexOf(emoji);
 
             memoryPanel.textContent = emoji;
             startTime = Date.now();
 
             displayedCount++;
-            setTimeout(showNextImage, duration);
+            progressBarText.textContent = Math.min(currentStage + 1, 9) + "/9";
+            progress.style.width = `${Math.min(100, ((currentStage+1) / 9) * 100)}%`;
+            cooldownImageId = setTimeout(showNextImage, duration);
         }
 
         memoryPanel.onclick = function () {
-
             clicked = true;
             totalClicks++;
+            if (cooldownImageId != -1) {
+                clearTimeout(cooldownImageId);
+                showNextImage();
+            }
         };
 
         showNextImage();
     }
 
     function endTest() {
-        const maxPoints = stages.reduce((sum, stage, index) => sum + (index + 1) * stage.images, 0) * 5;
+        const maxPoints = 3+6+9;
         const accuracy = (correctClicks / maxPoints) * 100;
-        const averageReactionTime = reactionTimes.reduce((sum, time) => sum + time, 0) / reactionTimes.length;
+        var averageReactionTime = reactionTimes.reduce((sum, time) => sum + time, 0) / reactionTimes.length;
+        if (isNaN(averageReactionTime)) {
+            averageReactionTime = 0;
+        }
+        console.log(accuracy, maxPoints, averageReactionTime);
 
-        instructions.textContent += `Точность: ${accuracy.toFixed(2)}`;
+        if (accuracy > 10) {
+
+
+            var stats = {
+                accuracy: accuracy.toFixed(2),
+                reaction_time: averageReactionTime.toFixed(2)
+            }
+
+            saveStats(stats, 13);
+        }
+
+        instructions.innerHTML = `Точность: ${accuracy.toFixed(2)}`;
         instructions.innerHTML += "<br>";
-        instructions.textContent += `Время реакции: ${averageReactionTime.toFixed(2)}`;
+        instructions.innerHTML += `Время реакции: ${averageReactionTime.toFixed(2)}`;
     }
 
     startButton.addEventListener('click', startTest);

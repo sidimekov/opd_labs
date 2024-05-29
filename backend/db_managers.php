@@ -142,11 +142,14 @@ function getTests(): array
             case 12:
                 $result['href'] = 'memory_short_audio.php';
                 break;
-            case 15:
-                $result['href'] = 'thinking_induction.php';
+            case 13:
+                $result['href'] = 'memory_instant_visual.php';
                 break;
             case 14:
                 $result['href'] = 'thinking_analisys.php';
+                break;
+            case 15:
+                $result['href'] = 'thinking_induction.php';
                 break;
         }
         $results[$i] = $result;

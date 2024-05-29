@@ -23,7 +23,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
     <div class="scale-container" id="progressBar">
         <div class="scale-fill" id="progress">
         </div>
-        <div class="scale-text" id="progressBarText">0/15</div>
+        <div class="scale-text" id="progressBarText">0/9</div>
     </div>
     <div class="button-container">
         <div class="timer-text-container">
