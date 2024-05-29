@@ -314,14 +314,12 @@ function passed($userId, $testId) : bool
     return (!empty(getUserResults($userId, $testId)));
 }
 
-    function passedAll($userId): bool
-    {
-        foreach (getTests() as $test) {
-            if (!passed($userId, $test['id'])) {
-                return false;
-            }
+function passedAll($userId): bool
+{
+    foreach (getTests() as $test) {
+        if (!passed($userId, $test['id'])) {
+            return false;
         }
-        return true;
     }
     return true;
 }
