@@ -11,7 +11,7 @@ $tests = getTests();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
+    <title>Тестирование</title>
     <link rel="icon" href="../../ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/general.css">
@@ -227,6 +227,9 @@ $tests = getTests();
     $max_change = (abs($_SESSION['testing'][2] - $_SESSION['testing'][1]) + abs($_SESSION['testing'][1] - $_SESSION['testing'][0])) / 2;
     ?>
     <p>Ваши показатели в среднем менялись на <?php echo $max_change; ?></p>
+    <?php if (passedAll(currentUser()['id'])){
+        updateUserPiqs(currentUser()['id']);
+    } ?>
     <button class="button" style="width: 20%">Посмотреть уровень развития ПВК</button>
     <form method="post">
         <button class="button" type="submit" style="width: 15%; height: 5%">Сбросить тестирование и начать заново</button>

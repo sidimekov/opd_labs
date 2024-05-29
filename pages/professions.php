@@ -10,6 +10,8 @@ if (currentUser()) {
     $userId = -1;
 }
 
+var_dump(passedAll($userId));
+
 ?>
 
 <!DOCTYPE html>
@@ -18,14 +20,14 @@ if (currentUser()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Главная</title>
+    <title>Профессии</title>
     <link rel="icon" href="../../ico.ico" type="image/x-icon">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/professions.css">
     <link rel="stylesheet" href="../styles/windows.css">
 
-    <?php include_once ROOT . '/templates/script_reload.php'; ?>
+<!--    --><?php //include_once ROOT . '/templates/script_reload.php'; ?>
 </head>
 
 <body>
@@ -47,6 +49,17 @@ if (currentUser()) {
                         <?php echo $profession['description']; ?>
                     </p>
                     <button class="pvc-button">Показать рейтинг ПВК</button>
+
+                    <br>
+                    <?php if ($userId != -1 && passedAll($userId)): ?>
+                        <?php $level =  getProfessionMatch($userId, $profession['id']); ?>
+                        Ваша совместимость с профессией:
+                        <div class="rating-bar"
+                             style="width: 90%; background: linear-gradient(to right, green <?php echo $level; ?>%, white 0%);">
+                        </div>
+                        <?php echo $level . '%'; ?>
+                        <br>
+                    <?php endif; ?>
                     <dl class="pvc-list">
                         <?php $results = getProfResultRating($profession['id'], 10);
                         if (empty ($results)): ?>
@@ -67,13 +80,13 @@ if (currentUser()) {
                                 </div>
                                 <br>
                             <?php if ($userId != -1 && passedAll($userId)): ?>
-                                Ваш уровень развития:
-                                <div class="rating-bar"
-                                     style="width: 90%; background: linear-gradient(to green, red <?php echo $importance; ?>%, white 0%);">
-                                </div>
-                                <div class="rating-progress">
-                                    <?php echo $importance . '%'; ?>
-                                </div>
+                                <?php $piqId = $piq['id']; ?>
+                                <?php $level =  getOnePiqLevelFromDB($userId, $piqId)['level']; ?>
+                                    Уровень развития ПВК:
+                                    <div class="rating-bar"
+                                         style="width: 90%; background: linear-gradient(to right, green <?php echo $level; ?>%, white 0%);">
+                                    </div>
+                                    <?php echo $level . '%'; ?>
                                 <br>
                             <?php endif; ?>
                             <?php endforeach; ?>
@@ -89,6 +102,7 @@ if (currentUser()) {
 </main>
 
 <!--<script type='module' src="../scripts/professions.js"></script>-->
+<script src="../scripts/professions.js"></script>
 </body>
 
 </html>

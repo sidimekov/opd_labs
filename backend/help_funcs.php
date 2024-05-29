@@ -247,10 +247,10 @@ function testingMark(int $test_id, $test_results)
             $result = min($test_results['reaction_time'] / 100, 1);
             break;
         case 10:
-            $result = min($test_results['accuracy'] / 25, 1);
+            $result = min($test_results['accuracy'] / 20, 1);
             break;
         case 11:
-            $result = min($test_results['accuracy'] / 25, 1);
+            $result = min($test_results['accuracy'] / 20, 1);
             break;
         case 12:
             $result = min($test_results['accuracy'] / 25, 1);
@@ -279,7 +279,7 @@ function getPiqLevel(int $user_id, int $piq_id)
     $res_sum = 0;
     for ($i = 0; $i < 16; $i++) {
         $res = getUserResults($user_id, $i);
-        $res_sum += testingMark($i, $res) * $PIQ_TO_TESTS[$piq_id][$i] / 100;
+        $res_sum += testingMark($i, $res) * $PIQ_TO_TESTS[$piq_id][$i];
     }
     return $res_sum;
 }
@@ -314,15 +314,16 @@ function getProfessionMatch(int $userId, int $profId)
 // чекать если чел прошел тест
 function passed($userId, $testId): bool
 {
-    return (!empty(getUserResults($userId, $testId)));
+    if (!getUserResults($userId, $testId)) {
+        return false;
+    }
+    return true;
 }
 
 function passedAll($userId): bool
 {
     foreach (getTests() as $test) {
-        if (!passed($userId, $test['id'])) {
-            return false;
-        }
+
     }
     return true;
 }
