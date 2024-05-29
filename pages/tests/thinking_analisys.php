@@ -30,6 +30,9 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            margin:10px
         }
 
         .progress-container {
@@ -58,219 +61,14 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
 
         #results {
             margin-top: 30px;
+            width: 100%;
+            align-content: center;
+            bottom: 50%;
         }
     </style>
 </head>
 
 <body>
-<script type="module">
-        import {
-            sendData
-        } from '../../scripts/data_manager.js';
-
-      
-            const stages = [{
-                    difficulty: "легкий",
-                    questions: 4,
-                    points: 1
-                },
-                {
-                    difficulty: "средний",
-                    questions: 4,
-                    points: 2
-                },
-                {
-                    difficulty: "сложный",
-                    questions: 4,
-                    points: 3
-                },
-            ];
-            const dayNames = [
-                "Воскресенье",
-                "Понедельник",
-                "Вторник",
-                "Среда",
-                "Четверг",
-                "Пятница",
-                "Суббота",
-            ];
-
-            let currentStage = 0;
-            let currentQuestion = 0;
-            let score = 0;
-            let reactionTimes = [];
-            let startTime;
-            let correctAnswer;
-
-            function startTest() {
-                document.getElementById("start-button").style.display = "none";
-                document.getElementById("question-container").innerText = "";
-                document.getElementById("score-container").style.display = "block";
-                document.getElementById("progress-container").style.display = "block";
-                document.getElementById("button-container").style.display = "flex";
-                score = 0;
-                reactionTimes = [];
-                currentStage = 0;
-                currentQuestion = 0;
-                updateScore();
-                nextQuestion();
-            }
-
-            function nextQuestion() {
-                if (currentStage >= stages.length) {
-                    displayResults();
-                    return;
-                }
-                if (currentQuestion >= stages[currentStage].questions) {
-                    currentStage++;
-                    currentQuestion = 0;
-                    if (currentStage >= stages.length) {
-                        displayResults();
-                        return;
-                    }
-                }
-                updateProgressBar();
-                generateQuestion();
-                startTime = new Date().getTime();
-            }
-
-            function generateQuestion() {
-                let randomDate = new Date();
-                randomDate.setDate(randomDate.getDate() + Math.floor(Math.random() * 100) - 50);
-                let question = "";
-                let daysOffset = 0;
-                const randomChoice = Math.floor(Math.random() * 5);
-                const todayDay = randomDate.getDay();
-
-                if (stages[currentStage].difficulty === "легкий") {
-                    daysOffset = Math.floor(Math.random() * 10);
-                    correctAnswer = dayNames[(todayDay + daysOffset) % 7];
-                    if (randomChoice === 0) {
-                        question = `День недели: ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
-                    } else if (randomChoice === 1) {
-                        question = `Какой день недели будет через ${daysOffset} дней от нынешнего дня?`;
-                    } else if (randomChoice === 2) {
-                        question = `Сегодня ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
-                    } else if (randomChoice === 3) {
-                        question = `Какой день недели будет через ${daysOffset} дней, если сегодня ${dayNames[todayDay]}?`;
-                    } else {
-                        question = `Если сегодня ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
-                    }
-                } else if (stages[currentStage].difficulty === "средний") {
-                    daysOffset = 6;
-                    let pastDay = new Date(randomDate);
-                    pastDay.setDate(randomDate.getDate() - 2);
-                    const pastDayIndex = pastDay.getDay();
-                    correctAnswer = dayNames[(pastDayIndex + daysOffset) % 7];
-                    if (randomChoice === 0) {
-                        question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день будет через ${daysOffset} дней?`;
-                    } else if (randomChoice === 1) {
-                        question = `Какой день будет через ${daysOffset} дней, если два дня назад был ${dayNames[pastDayIndex]}?`;
-                    } else if (randomChoice === 2) {
-                        question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день будет через шесть дней?`;
-                    } else if (randomChoice === 3) {
-                        question = `Какой день будет через шесть дней, если два дня назад был ${dayNames[pastDayIndex]}?`;
-                    } else {
-                        question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день через шесть дней?`;
-                    }
-                } else if (stages[currentStage].difficulty === "сложный") {
-                    daysOffset = Math.round(3 + Math.random() * 3);
-                    let futureDay = new Date(randomDate);
-                    futureDay.setDate(randomDate.getDate() + daysOffset);
-                    const futureDayIndex = futureDay.getDay();
-                    correctAnswer = dayNames[(futureDayIndex + daysOffset) % 7]; // Ensure proper wrapping
-                    if (randomChoice === 0) {
-                        question = `Через ${daysOffset} дней я скажу, что завтра будет ${dayNames[(futureDayIndex + daysOffset) % 7]}. Какой день был позавчера?`;
-                    } else if (randomChoice === 1) {
-                        question = `Если через ${daysOffset} дней я скажу, что завтра будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
-                    } else if (randomChoice === 2) {
-                        question = `Через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
-                    } else if (randomChoice === 3) {
-                        question = `Какой день был два дня назад, если через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}?`;
-                    } else {
-                        question = `Если через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
-                        correctAnswer = dayNames[(futureDayIndex + daysOffset - 2) % 7];
-                    }
-                }
-                document.getElementById("question-container").innerText = question;
-            }
-
-            function submitAnswer(answer) {
-                let endTime = new Date().getTime();
-                let reactionTime = (endTime - startTime) / 1000;
-                reactionTimes.push(reactionTime);
-                if (answer === correctAnswer) {
-                    score += stages[currentStage].points;
-                    updateScore();
-                }
-                currentQuestion++;
-                nextQuestion();
-            }
-
-            function updateProgressBar() {
-                let progressBar = document.getElementById("progress-bar");
-                let progress = ((currentStage * stages[0].questions + currentQuestion) / (stages.length * stages[0].questions)) * 100;
-                progressBar.style.width = progress + "%";
-            }
-
-            function updateScore() {
-                document.getElementById("score").innerText = score;
-            }
-
-            function displayResults() {
-                let meanReactionTime = reactionTimes.reduce((a, b) => a + b) / reactionTimes.length;
-                let stdDeviation = Math.sqrt(reactionTimes.map((x) => Math.pow(x - meanReactionTime, 2)).reduce((a, b) => a + b) / reactionTimes.length);
-                document.getElementById("test-container").style.display = "none";
-                document.getElementById("progress-container").style.display = "none";
-                document.getElementById("score-container").style.display = "none";
-                document.getElementById("results").innerHTML = `
-            <h2>Результаты</h2>
-            <p>Точность: ${score}</p>
-            <p>Среднее время реакции: ${meanReactionTime.toFixed(2)} секунды</p>
-            <p>Стандартное отклонение времени реакции: ${stdDeviation.toFixed(2)}</p>
-            
-            <button id="retry">Пройти тест заново</button>
-        `;
-                var stats = {
-                    accuracy: (score / 28 * 100).toFixed(2),
-                    reaction_time: meanReactionTime.toFixed(2),
-                    standart_deviation: stdDeviation.toFixed(2)
-                }
-                var response = saveStats(stats, 14);
-                console.log(response);
-                var retryBtn = document.getElementById("retry");
-                if (retryBtn != null) {
-                    retryBtn.addEventListener("click", retryTest);
-                }
-            }
-
-            function retryTest() {
-                document.getElementById("results").innerHTML = "";
-                document.getElementById("test-container").style.display = "block";
-                document.getElementById("start-button").style.display = "inline";
-                document.getElementById("progress-container").style.display = "none";
-                document.getElementById("score-container").style.display = "none";
-                document.getElementById("button-container").style.display = "none";
-                document.getElementById("question-container").innerText = 'Нажмите "Начать тест", чтобы начать.';
-                score = 0;
-                updateScore();
-            }
-            const startButton = document.getElementById("start-button");
-            startButton.addEventListener("click", startTest);
-
-            function saveStats(stats, testId) {
-                // отправка оценок на серв
-                var formData = new FormData();
-                formData.append("test_id", testId);
-                formData.append("statistics", JSON.stringify(stats));
-                // этот метод sendData есть на серваке, локально работать не будет
-                var result = sendData(
-                    formData,
-                    "../../backend/requests/send_user_results.php"
-                );
-                return result.response;
-            }
-    </script>
     <?php require_once ROOT . '/templates/test_header.php'; ?>
     <div class="main">
         <h1>Тест на дни недели</h1>
@@ -281,21 +79,22 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
             <div id="progress-bar" class="progress-bar"></div>
         </div>
         <div id="test-container">
-            <div id="question-container">Нажмите "Начать тест", чтобы начать.</div>
+            <div id="question-container">Как можно быстрее отвечайте на вопросы.<br>Нажмите "Начать тест", чтобы начать.</div>
             <div class="button-container" id="button-container" style="display: none">
-                <button class="day-button" onclick="submitAnswer('Понедельник')">Понедельник</button>
-                <button class="day-button" onclick="submitAnswer('Вторник')">Вторник</button>
-                <button class="day-button" onclick="submitAnswer('Среда')">Среда</button>
-                <button class="day-button" onclick="submitAnswer('Четверг')">Четверг</button>
-                <button class="day-button" onclick="submitAnswer('Пятница')">Пятница</button>
-                <button class="day-button" onclick="submitAnswer('Суббота')">Суббота</button>
-                <button class="day-button" onclick="submitAnswer('Воскресенье')">Воскресенье</button>
+                <button class="day-button" id="day_0">Понедельник</button>
+                <button class="day-button" id="day_1">Вторник</button>
+                <button class="day-button" id="day_2">Среда</button>
+                <button class="day-button" id="day_3">Четверг</button>
+                <button class="day-button" id="day_4">Пятница</button>
+                <button class="day-button" id="day_5">Суббота</button>
+                <button class="day-button" id="day_6">Воскресенье</button>
             </div>
-            <button id="start-button" onclick="startTest()">Начать тест</button>
+            <button id="start-button" class="button">Начать тест</button>
         </div>
         <div id="results"></div>
     </div>
 
+    <script type='module' src="../../scripts/tests/thinking_analisys.js"></script>
 </body>
 
 </html>

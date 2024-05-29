@@ -64,12 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const todayDay = randomDate.getDay();
 
         if (stages[currentStage].difficulty === "легкий") {
-            daysOffset = Math.floor(Math.random() * 10);
+            daysOffset = 2 + Math.floor(Math.random() * 7);
             correctAnswer = dayNames[(todayDay + daysOffset) % 7];
             if (randomChoice === 0) {
                 question = `День недели: ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
             } else if (randomChoice === 1) {
                 question = `Какой день недели будет через ${daysOffset} дней от нынешнего дня?`;
+                correctAnswer = dayNames[((new Date()).getDay() + daysOffset) % 7];
             } else if (randomChoice === 2) {
                 question = `Сегодня ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
             } else if (randomChoice === 3) {
@@ -78,45 +79,73 @@ document.addEventListener("DOMContentLoaded", () => {
                 question = `Если сегодня ${dayNames[todayDay]}, какой день будет через ${daysOffset} дней?`;
             }
         } else if (stages[currentStage].difficulty === "средний") {
-            daysOffset = 6;
+            daysOffset = Math.round(2+Math.random()*3);
             let pastDay = new Date(randomDate);
             pastDay.setDate(randomDate.getDate() - 2);
             const pastDayIndex = pastDay.getDay();
             correctAnswer = dayNames[(pastDayIndex + daysOffset) % 7];
             if (randomChoice === 0) {
-                question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день будет через ${daysOffset} дней?`;
+                question = `Два дня назад был ${dayNames[mod(pastDayIndex-2,7)]}, какой день будет через ${daysOffset} дней?`;
             } else if (randomChoice === 1) {
-                question = `Какой день будет через ${daysOffset} дней, если два дня назад был ${dayNames[pastDayIndex]}?`;
+                question = `Какой день будет через ${daysOffset} дней, если два дня назад был ${dayNames[mod(pastDayIndex-2,7)]}?`;
             } else if (randomChoice === 2) {
-                question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день будет через шесть дней?`;
+                question = `Два дня назад был ${dayNames[mod(pastDayIndex-2,7)]}, какой день будет через ${daysOffset} дней?`;
             } else if (randomChoice === 3) {
-                question = `Какой день будет через шесть дней, если два дня назад был ${dayNames[pastDayIndex]}?`;
+                question = `Какой день будет через ${daysOffset} дней, если два дня назад был ${dayNames[mod(pastDayIndex-2,7)]}?`;
             } else {
-                question = `Два дня назад был ${dayNames[(pastDayIndex-2)%7]}, какой день через шесть дней?`;
+                question = `Два дня назад был ${dayNames[mod(pastDayIndex-2,7)]}, какой день через ${daysOffset} дней?`;
             }
         } else if (stages[currentStage].difficulty === "сложный") {
             daysOffset = Math.round(3+Math.random()*3);
             let futureDay = new Date(randomDate);
             futureDay.setDate(randomDate.getDate() + daysOffset);
             const futureDayIndex = futureDay.getDay();
-            correctAnswer = dayNames[(futureDayIndex+daysOffset) % 7]; // Ensure proper wrapping
+            correctAnswer = dayNames[mod(futureDayIndex - 2,  7)]; // Ensure proper wrapping
             if (randomChoice === 0) {
-                question = `Через ${daysOffset} дней я скажу, что завтра будет ${dayNames[(futureDayIndex + daysOffset) % 7]}. Какой день был позавчера?`;
+                question = `Через ${daysOffset} дней я скажу, что завтра будет ${dayNames[mod(futureDayIndex + daysOffset + 1,  7)]}. Какой день был позавчера?`;
             } else if (randomChoice === 1) {
-                question = `Если через ${daysOffset} дней я скажу, что завтра будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
+                question = `Если через ${daysOffset} дней я скажу, что завтра будет ${dayNames[mod(futureDayIndex + daysOffset+1,  7)]}, какой день был два дня назад?`;
             } else if (randomChoice === 2) {
-                question = `Через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
+                question = `Через ${daysOffset} дней будет ${dayNames[mod(futureDayIndex + daysOffset,  7)]}, какой день был два дня назад?`;
             } else if (randomChoice === 3) {
-                question = `Какой день был два дня назад, если через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}?`;
+                question = `Какой день был два дня назад, если через ${daysOffset} дней будет ${dayNames[mod(futureDayIndex + daysOffset,  7)]}?`;
             } else {
-                question = `Если через ${daysOffset} дней будет ${dayNames[(futureDayIndex + daysOffset) % 7]}, какой день был два дня назад?`;
-                correctAnswer = dayNames[(futureDayIndex+daysOffset-2) % 7];
+                question = `Если через ${daysOffset} дней будет ${dayNames[mod(futureDayIndex + daysOffset,  7)]}, какой день был два дня назад?`;
             }
+            console.log(daysOffset, "Выбрана " + dayNames[futureDay.getDay()], correctAnswer);
         }
         document.getElementById("question-container").innerText = question;
     }
 
+    document.getElementById("day_0").onclick = submitAnswer;
+    document.getElementById("day_1").onclick = submitAnswer;
+    document.getElementById("day_2").onclick = submitAnswer;
+    document.getElementById("day_3").onclick = submitAnswer;
+    document.getElementById("day_4").onclick = submitAnswer;
+    document.getElementById("day_5").onclick = submitAnswer;
+    document.getElementById("day_6").onclick = submitAnswer;
     function submitAnswer(answer) {
+        if (this.id === "day_0") {
+            answer = 'Понедельник';
+        }
+        if (this.id === "day_1") {
+            answer = 'Вторник';
+        }
+        if (this.id === "day_2") {
+            answer = 'Среда';
+        }
+        if (this.id === "day_3") {
+            answer = 'Четверг';
+        }
+        if (this.id === "day_4") {
+            answer = 'Пятница';
+        }
+        if (this.id === "day_5") {
+            answer = 'Суббота';
+        }
+        if (this.id === "day_6") {
+            answer = 'Воскресенье';
+        }
         let endTime = new Date().getTime();
         let reactionTime = (endTime - startTime) / 1000;
         reactionTimes.push(reactionTime);
@@ -150,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>Среднее время реакции: ${meanReactionTime.toFixed(2)} секунды</p>
             <p>Стандартное отклонение времени реакции: ${stdDeviation.toFixed(2)}</p>
             
-            <button id="retry">Пройти тест заново</button>
+            <button id="retry" class="button">Пройти тест заново</button>
         `;
         var stats = {
             accuracy: (score/28*100).toFixed(2),
@@ -191,5 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return result.response;
     }
 
+    function mod(n,m) {
+        return (n % m + m) % m;
+    }
 
 });
