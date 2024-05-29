@@ -143,6 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     document.getElementById("test-container").style.display = "none";
+    document.getElementById("progress-container").style.display="none";
+    document.getElementById("progress-bar").style.display="none";
     document.getElementById("results").innerHTML = `
         <h2>Результаты</h2>
         <p>Точность: ${score}</p>

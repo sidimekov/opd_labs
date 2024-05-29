@@ -4,107 +4,69 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<<<<<<< HEAD
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-=======
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
->>>>>>> 39f7251e1085c977297baa09a239f3f96c01b814
+
     <title>Тест на абстрактное мышление</title>
     <link rel="icon" href="../../resources/ico.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="../../styles/header.css"/>
     <link rel="stylesheet" href="../../styles/general.css"/>
     <link rel="stylesheet" href="../../styles/tests.css"/>
     <style>
-        #test-container,
-        #results,
-        .score-container {
-            display: none;
-        }
-        #question-container {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+         #test-container,
+      #results,
+      .progress-container,
+      .score-container {
+        display: none;
+      }
+      #question-container {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      #answer-input {
+        padding: 10px;
+        font-size: 16px;
+        width: 300px;
+        margin-bottom: 20px;
+      }
+      #submit-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .progress-container {
+        width: 100%;
+        background-color: #f3f3f3;
+        height: 30px;
+      }
 
-        #submit-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #f3f3f3;
-            border: 1px solid #ccc;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            height: 30px;
-            z-index: 1000;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #4caf50;
-            text-align: center;
-            line-height: 30px;
-            color: white;
-        }
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #4caf50;
-            color: white;
-        }
-        #results {
+      .progress-bar {
+        height: 100%;
+        width: 0;
+        background-color: #4caf50;
+        text-align: center;
+        line-height: 30px;
+        color: white;
+      }
+      table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+      #results {
             margin-top: 20px;
-        }
-        .progress-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #f3f3f3;
-            height: 30px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #4caf50;
-        }
-
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        th {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        #results {
-            margin-top: 20px;
-            /*position: absolute;*/
             top: 20%;
-            width: 100%;
-            align-content: center;
+            left: 25%;
         }
     </style>
 </head>
@@ -126,13 +88,12 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
             <div class="score-container" id="score-container">
                 <h3>Счет: <span id="score">0</span></h3>
             </div>
+            <div class="progress-container" id="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
         </div>
 
         <div id="results"></div>
-    </div>
-
-    <div class="progress-container" id="progress-container">
-        <div id="progress-bar" class="progress-bar"></div>
     </div>
 
     <script type='module' src="../../scripts/tests/abstraction_thinking.js"></script>
