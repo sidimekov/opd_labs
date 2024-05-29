@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedNote === correctAnswer) {
       accuracy += currentStage;
     }
+    console.log(accuracy, currentStage);
     if (currentStage < 3) {
       currentStage++;
       updateProgressBar();
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("test-container").style.display = "none";
     document.getElementById("results").innerHTML = `
                 <h2>Результаты</h2>
-                <p>Точность: ${accuracy}</p>
+                <p>Точность: ${(accuracy / 6 * 100).toFixed(3)}</p>
                 <p>Среднее время реакции: ${mean.toFixed(2)} секунды</p>
                 <p>Стандартное отклонение времени реакции: ${stdDeviation.toFixed(
                   2
@@ -119,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button id="retry">Пройти тест заново</button>
             `;
     var stats = {
-      accuracy: accuracy,
+      accuracy: (accuracy / 6 * 100).toFixed(3),
       reaction_time: mean.toFixed(2),
       standard_deviation: stdDeviation.toFixed(2),
     };

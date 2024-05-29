@@ -70,7 +70,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
         </a>
         <div id="results"></div>
     </main>
-    <script type='module' src="../../scripts/tests/short_memory_audio.js"></script>
+    <script type='module' src="../../scripts/tests/memory_short_audio.js"></script>
 </body>
 
 </html>

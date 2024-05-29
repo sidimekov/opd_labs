@@ -7,164 +7,134 @@ document.addEventListener("DOMContentLoaded", () => {
     const progress = document.getElementById('progress');
     const timer = document.getElementById('timer');
     const restartButton = document.getElementById('restartButton');
-    var totalTime = 0;
-    var startTime = 0;
-    var points = 0;
 
-    const imagePanel = document.getElementById("memory-image-panel");
     const instructions = document.getElementById("memory-instructions");
     const startButton = document.getElementById("memory-start-button");
+    const memoryPanel = document.getElementById('memoryPanel');
+
+    const stages = [
+        { images: 3, duration: 1000 },
+        { images: 3, duration: 1000 },
+        { images: 3, duration: 1000 },
+        { images: 5, duration: 1000 },
+        { images: 5, duration: 1000 },
+        { images: 5, duration: 1000 },
+        { images: 5, duration: 750 },
+        { images: 5, duration: 750 },
+        { images: 5, duration: 750 }
+    ];
+
+    const EMOJIS = ['☀️', '⭐️', '❄️', '⛈️', '🌈', '🌊', '🌻', '🍁', '🌸', '🍕', '🎈', '🚀', '🌺', '🍦', '🎸', '🎨', '🐱', '🚲', '⚽'];
     let currentStage = 0;
+    let displayedCount = 0;
+    let shownImages = [];
+    let correctClicks = 0;
+    let totalClicks = 0;
+    let startTime = 0;
+    let reactionTimes = [];
 
-    const EMOJIS = ['☀️', '⭐️', '❄️', '⛈️', '🌈', '🌊', '🌻', '🍁', '🌸', '🌟', '🍕', '🎈', '🚀', '🌺', '🍦', '🎸', '🎨', '🐱', '🚲', '⚽'];
-
-    function getRandomElements(arrOrObj, amount) {
-        // Если передан объект, преобразуем его в массив ключей
-        const elements = Array.isArray(arrOrObj) ? arrOrObj : Object.keys(arrOrObj);
-        const result = [];
-        const length = elements.length;
-
-        if (length <= amount) {
-            return elements; // Возвращаем все элементы, если их меньше или равно 5
-        }
-
-        while (result.length < amount) {
-            const randomIndex = Math.floor(Math.random() * length);
-            const randomElement = elements[randomIndex];
-            if (!result.includes(randomElement)) {
-                result.push(randomElement);
-            }
-        }
-
-        return result;
-    }
-
-    function generateTable() {
-        if (currentStage <= 5) {
-            var color_pair = getRandomElement(COLOR_PAIRS);
-        } else if (currentStage <= 10) {
-            var letter_pair = getRandomElement(LETTER_PAIRS);
-        } else {
-            var symbol = getRandomElement(SHAPE_SYMBOLS);
-        }
-
-        table.innerHTML = "";
-
-        for (let i = 0; i < 10; i++) {
-            const row = table.insertRow();
-            for (let j = 0; j < 10; j++) {
-                const cell = row.insertCell();
-                const btn = document.createElement("button");
-                btn.classList.add("attention-table-cell");
-
-                if (currentStage <= 5) {
-                    if (chosenButtons[currentStage].row === i + 1 && chosenButtons[currentStage].col === j + 1) {
-                        btn.style.backgroundColor = color_pair.adjusted;
-                    } else {
-                        btn.style.backgroundColor = color_pair.base;
-                    }
-                } else if (currentStage <= 10) {
-                    btn.style.fontSize = "24px";
-                    if (chosenButtons[currentStage].row === i + 1 && chosenButtons[currentStage].col === j + 1) {
-                        btn.textContent = letter_pair.similar;
-                    } else {
-                        btn.textContent = letter_pair.base;
-                    }
-                } else {
-                    btn.textContent = symbol;
-                    if (chosenButtons[currentStage].row === i + 1 && chosenButtons[currentStage].col === j + 1) {
-                        btn.style.fontSize = "16px";
-                    } else {
-                        btn.style.fontSize = Math.floor(Math.random() * 8) + 20 + "px";
-                    }
-                }
-
-                btn.addEventListener("click", () => handleImageClick(i + 1, j + 1));
-                cell.appendChild(btn);
-            }
-        }
-    }
-
-    function handleImageClick(image) {
-        if (chosenButtons[currentStage].row === row && chosenButtons[currentStage].col === col) {
-            currentStage++;
-            if (currentStage < chosenButtons.length) {
-                setInstruction();
-                generateTable();
-                let attTime = new Date() - startTime;
-                totalTime += attTime;
-                attentionTimes[currentStage] = attTime;
-                timer.innerHTML = `${attTime}ms`;
-                startTime = new Date();
-            } else {
-                instructions.textContent = "Тест завершен!";
-                table.style.display = "none";
-                console.log(Object.values(attentionTimes));
-
-                let attentionTime = (totalTime / 15).toFixed(2);
-                let stdDeviation = calculateStandardDeviation(Object.values(attentionTimes)).toFixed(2);
-
-                instructions.innerHTML = `Среднее время успешных попыток: ${attentionTime}ms<br>Стандартное отклонение: ${stdDeviation}<br>Ошибок: ${mistakes}`;
-
-                var stats = {
-                    attention_time: attentionTime,
-                    standard_deviation: stdDeviation,
-                    mistakes: mistakes
-                }
-
-                var response = saveStats(stats, 10);
-
-                console.log(response);
-
-            }
-            progressBarText.textContent = `${currentStage}/15`;
-            progress.style.width = `${Math.min(100, (currentStage / 15) * 100)}%`;
-        } else {
-            let str = "<br>Неверная ячейка, попробуйте ещё раз";
-            mistakes++;
-            if (!instructions.innerHTML.includes(str)) {
-                instructions.innerHTML += str;
-            }
-        }
-    }
-
-    function setInstruction() {
-        if (currentStage <= 5) {
-            instructions.textContent = `Нажмите на ячейку с отличающимся от других цветом`;
-        } else if (currentStage <= 10) {
-            instructions.textContent = `Нажмите на ячейку с отличающейся буквы`;
-        } else {
-            instructions.textContent = `Нажмите на ячейку с минимальным размером фигуры`;
-        }
-    }
-
-    startButton.addEventListener("click", startTest);
 
     function startTest() {
-        currentStage = 0;
-        progressBarText.textContent = `0/15`;
-        progress.style.width = `0%`;
-        timer.innerHTML = "0ms";
-        totalTime = 0;
-        mistakes = 0;
-        attentionTimes = [];
-        generateStages();
-        console.log(chosenButtons);
-        setInstruction();
-        table.style.display = "table";
-        startButton.style.display = "none";
-        generateTable();
-        startTime = new Date();
+        var mustClick = false;
+        var clicked = false;
+        var lastEmoji;
+        var cooldownImageId = -1;
+
+        var curEmojis = EMOJIS.slice();
+
+        startButton.style.display = 'none';
+        memoryPanel.style.display = 'block';
+        instructions.textContent = "Как только увидите картинку, появившуюся второй раз, нажмите на неё";
+        if (currentStage >= 9) {
+            endTest();
+            return;
+        }
+
+        var { images, duration } = stages[currentStage];
+        shownImages = [];
+
+        function showNextImage() {
+
+            if (clicked && mustClick) {
+                const timeTaken = (Date.now() - startTime) / 1000;
+                correctClicks += Math.floor(currentStage / 3) + 1;
+                reactionTimes.push(timeTaken);
+                instructions.textContent = "Верно!";
+                memoryPanel.textContent = "✔️";
+                timer.innerHTML = timeTaken + "ms";
+                currentStage++;
+                setTimeout(startTest, 2000);
+                return;
+            } else if (mustClick && !clicked || clicked && !mustClick) {
+                instructions.textContent = "Вы не нажали на повторяющуюся картинку!";
+                memoryPanel.textContent = "❌";
+                currentStage++;
+                setTimeout(startTest, 2000);
+                return;
+            }
+
+            let emoji = curEmojis[Math.floor(Math.random() * curEmojis.length)];
+            if ((Math.random() < 0.2 && shownImages.length > 2) || (shownImages.length > images)) {
+                emoji = shownImages[Math.floor(Math.random() * (shownImages.length - 1))];
+                mustClick = true;
+                console.log(emoji, currentStage);
+            } else {
+                shownImages.push(emoji);
+                let ind = curEmojis.indexOf(emoji);
+                if (ind > -1) {
+                    curEmojis.splice(ind, 1);
+                }
+            }
+            lastEmoji = EMOJIS.indexOf(emoji);
+
+            memoryPanel.textContent = emoji;
+            startTime = Date.now();
+
+            displayedCount++;
+            progressBarText.textContent = Math.min(currentStage + 1, 9) + "/9";
+            progress.style.width = `${Math.min(100, ((currentStage+1) / 9) * 100)}%`;
+            cooldownImageId = setTimeout(showNextImage, duration);
+        }
+
+        memoryPanel.onclick = function () {
+            clicked = true;
+            totalClicks++;
+            if (cooldownImageId != -1) {
+                clearTimeout(cooldownImageId);
+                showNextImage();
+            }
+        };
+
+        showNextImage();
     }
 
-    table.style.display = "none";
+    function endTest() {
+        const maxPoints = 3+6+9;
+        const accuracy = (correctClicks / maxPoints) * 100;
+        var averageReactionTime = reactionTimes.reduce((sum, time) => sum + time, 0) / reactionTimes.length;
+        if (isNaN(averageReactionTime)) {
+            averageReactionTime = 0;
+        }
+        console.log(accuracy, maxPoints, averageReactionTime);
 
-    function restartGame() {
-        startTest();
+        if (accuracy > 10) {
+
+
+            var stats = {
+                accuracy: accuracy.toFixed(2),
+                reaction_time: averageReactionTime.toFixed(2)
+            }
+
+            saveStats(stats, 13);
+        }
+
+        instructions.innerHTML = `Точность: ${accuracy.toFixed(2)}`;
+        instructions.innerHTML += "<br>";
+        instructions.innerHTML += `Время реакции: ${averageReactionTime.toFixed(2)}`;
     }
 
-    restartButton.addEventListener('click', restartGame);
-
+    startButton.addEventListener('click', startTest);
+    restartButton.addEventListener('click', ()=> location.reload());
 
     function saveStats(stats, testId) {
         // отправка оценок на серв

@@ -9,22 +9,22 @@ require_once __DIR__ . '/config.php';
 
 function getPDO(): PDO
 {
-//    try {
-//        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . 'testlabs', DB_USERNAME, DB_PASSWORD);
+    //    try {
+    //        return new \PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';charset=utf8;dbname=' . 'testlabs', DB_USERNAME, DB_PASSWORD);
     return new \PDO('pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';', DB_USERNAME, DB_PASSWORD);
-//    } catch (\PDOException $e) {
-//        die("Ошбика подключения в бд: {$e->getMessage()}");
-//    }
+    //    } catch (\PDOException $e) {
+    //        die("Ошбика подключения в бд: {$e->getMessage()}");
+    //    }
 }
 
 
 function getUsers(): array
 {
-// user['id']
-// user['name']
-// user['email']
-// user['password']
-// user['role_id']
+    // user['id']
+    // user['name']
+    // user['email']
+    // user['password']
+    // user['role_id']
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_USERS);
     $stmt->execute();
@@ -86,11 +86,11 @@ function addUserData(string $name, string $login, int $role_id, string $password
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
 
-// try {
-//     $stmt->execute($params);
-// } catch (\Exception $e) {
-//     die($e->getMessage());
-// }
+    // try {
+    //     $stmt->execute($params);
+    // } catch (\Exception $e) {
+    //     die($e->getMessage());
+    // }
 }
 
 function getTestById(int $test_id): array|bool
@@ -108,7 +108,7 @@ function getTests(): array
     $stmt->execute();
     $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-// добавить ссылки на файлы для норм перенаправления
+    // добавить ссылки на файлы для норм перенаправления
     foreach ($results as $i => $result) {
         switch ($result['id']) {
             case 1:
@@ -142,6 +142,12 @@ function getTests(): array
             case 12:
                 $result['href'] = 'memory_short_audio.php';
                 break;
+            case 13:
+                $result['href'] = 'memory_instant_visual.php';
+                break;
+            case 14:
+                $result['href'] = 'thinking_analisys.php';
+                break;
             case 15:
                 $result['href'] = 'thinking_induction.php';
                 break;
@@ -169,7 +175,7 @@ function getUserResults($userId, $testId): array|false
     } else {
         return false;
     }
-//return $stmt->fetch(\PDO::FETCH_ASSOC);
+    //return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
 function countUserResults($testId, $userId = null): int
@@ -202,7 +208,7 @@ function getTestResults($testId): array|false
     } else {
         return false;
     }
-//return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    //return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function addTestResults($userId, $testId, $statistics, $isJson = true): void
