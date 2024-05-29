@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("results").style.display = "block";
     document.getElementById("question-container").innerText = ""; // Clear the question container
     var stats = {
-      accuracy: score,
+      accuracy: score, 
       reaction_time: meanReactionTime.toFixed(2),
       standard_devision: stdDeviation.toFixed(2),
     };

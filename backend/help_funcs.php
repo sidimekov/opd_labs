@@ -29,7 +29,7 @@ $PIQ_TO_TESTS = [
 ];
 
 $IDEAL_TESTINGS_VALUES = array();
-for($i = 0; $i < 16; $i++){
+for ($i = 0; $i < 16; $i++) {
     $IDEAL_TESTINGS_VALUES[$i] = 1;
 }
 
@@ -159,7 +159,8 @@ function getNormalizedUserLogins($gender_id, $ageInterval): array
     return $logins;
 }
 
-function getAge($birthDate) {
+function getAge($birthDate)
+{
     $birthDate = $birthDate;
     //explode the date to get month, day and year
     $birthDate = explode("-", $birthDate);
@@ -223,9 +224,9 @@ function importanceSort($x, $y)
 }
 
 // считает общую оценку прохождения теста в виде числа
-function testingMark(int $test_id, $test_results){
-    switch($test_id){
-        ;
+function testingMark(int $test_id, $test_results)
+{
+    switch ($test_id) {;
     }
 }
 
@@ -234,7 +235,7 @@ function getUsersPiqLevel(int $user_id, int $piq_id)
 {
     global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
     $res_sum = 0;
-    for ($i = 0; $i < 16; $i++){
+    for ($i = 0; $i < 16; $i++) {
         $res = getUserResults($user_id, $i);
         $res_sum += $res["accuracy"] * $PIQ_TO_TESTS[$piq_id][$i] / 100 / $IDEAL_TESTINGS_VALUES[$i];
     }
@@ -243,27 +244,29 @@ function getUsersPiqLevel(int $user_id, int $piq_id)
 }
 
 // возвращает процент соответствия пользователя конкретной профессии
-function getUsersProfessionMatch(int $user_id, int $prof_id){
+function getUsersProfessionMatch(int $user_id, int $prof_id)
+{
     global $PROFESSIONS_TO_PIQ;
     $profs_piq = $PROFESSIONS_TO_PIQ[$prof_id];
     $result = 0;
-    for ($i = 0; $i < count($profs_piq); $i++){
+    for ($i = 0; $i < count($profs_piq); $i++) {
         $result += getUsersPiqLevel($user_id, $profs_piq[$i]);
     }
 
     return $result / count($profs_piq);
-// чекать если чел прошел тест
-function passed($userId, $testId) : bool
-{
-    return (!empty(getUserResults(currentUser()['id'], $test['id'])));
-}
-
-function passedAll($userId) : bool
-{
-    foreach (getTests() as $test) {
-        if (!passed($userId, $test['id'])) {
-            return false;
-        }
+    // чекать если чел прошел тест
+    function passed($userId, $testId): bool
+    {
+        return (!empty(getUserResults(currentUser()['id'], $testId)));
     }
-    return true;
+
+    function passedAll($userId): bool
+    {
+        foreach (getTests() as $test) {
+            if (!passed($userId, $test['id'])) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
