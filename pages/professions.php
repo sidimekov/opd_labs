@@ -98,10 +98,6 @@ require_once ROOT . "/backend/help_funcs.php";
         <?php endif; ?>
     </div>
 
-    <?php include_once ROOT . '/templates/windows/choose_piqs.php'; ?>
-    <?php include_once ROOT . '/templates/windows/rate_piqs.php'; ?>
-    <?php include_once ROOT . '/templates/windows/show_rating.php'; ?>
-
 <!--    <script src="../scripts/rate_piqs.js"></script>-->
 </main>
 

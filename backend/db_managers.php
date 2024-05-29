@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(300);
 // session_start();
 
 require_once __DIR__ . '/config.php';
@@ -264,7 +264,10 @@ function getMidUserStats($testId, $userId = null)
             if (!isset($totalStats[$key])) {
                 $totalStats[$key] = 0;
             }
-            $totalStats[$key] += $value;
+            // var_dump($value);
+            if ($value != "NaN") {
+                $totalStats[$key] += $value;
+            }
         }
     }
 
@@ -370,4 +373,25 @@ function deleteRatingBy($userId, $professionId)
 
     $stmt = $pdo->prepare("DELETE FROM " . DB_TABLE_RATINGS . " WHERE profession_id = :profession_id AND expert_id = :expert_id;");
     $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
+}
+
+// вставить данные о соответствии пользователя пвк
+function insertUsersPiq(int $userId, int $piqId, int $level){
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_PIQ_LEVEL . " (user_id, piq_id, level) VALUES (:userId, :piqId, :level);");
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->bindParam(':piqId', $piqId, \PDO::PARAM_INT);
+    $stmt->bindParam(':level', $level, \PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+function getPiqsLevelFromDB(int $userId){
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . "WHERE user_id = :userId;");
+    $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+    $stmt->execute();
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
 }

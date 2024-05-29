@@ -13,6 +13,10 @@ if (currentUser()) {
 
     // отправить с помощью echo что то по типу ваши результаты сохранены
     echo json_encode(array('response' => 'done', 'stats' => $statistics, 'post' => $_POST));
+
+    if (passedAll($user_id)){
+        updateUserPiqs($user_id);
+    }
 } else {
     // что то придумать для незареганных пользователей
     // отправить с помощью echo что то по типу тест пройден, зарегайтесь, чтобы просматривать динамику и историю ваших прохождений

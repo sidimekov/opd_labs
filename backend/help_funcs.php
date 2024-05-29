@@ -2,37 +2,6 @@
 
 require_once dirname(__DIR__) . "/backend/config.php";
 
-// массив, в котором хранятся наборы пвк профессии
-// id тестов из базы данных
-$PROFESSIONS_TO_PIQ = [
-    1 => [253, 301, 245, 246, 282],
-    2 => [251, 240, 244, 241, 282],
-    3 => [249, 215, 282, 254, 260]
-];
-
-// массив, в котором пвк ставятся в соответсвие тесты
-// пвк из бд
-$PIQ_TO_TESTS = [
-    253 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100],
-    301 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 10, 50, 0, 0, 0],
-    245 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 75, 20, 0],
-    246 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 67, 7],
-    282 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 14, 15, 14, 14],
-    251 => [0, 0, 0, 0, 0, 2, 2, 5, 5, 24, 0, 24, 28, 0, 0, 10],
-    240 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 45, 0, 0, 50],
-    244 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10, 10, 40, 35],
-    241 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 6, 20, 60],
-    249 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 75],
-    215 => [0, 0, 0, 0, 0, 15, 15, 20, 15, 0, 0, 0, 0, 30, 5, 0],
-    254 => [0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 25, 15, 25, 7, 13],
-    260 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 85, 0, 0, 5]
-];
-
-$IDEAL_TESTINGS_VALUES = array();
-for ($i = 0; $i < 16; $i++) {
-    $IDEAL_TESTINGS_VALUES[$i] = 1;
-}
-
 // обычные функции
 
 // перейти на конкретную страницу
@@ -223,42 +192,127 @@ function importanceSort($x, $y)
     return $x['importance'] <=> $y['importance'];
 }
 
-// считает общую оценку прохождения теста в виде числа
+// 7 лаба
+
+// массив, в котором хранятся наборы пвк профессии
+// id тестов из базы данных
+$PROFESSIONS_TO_PIQ = [
+    1 => [253, 301, 245, 246, 282],
+    2 => [251, 240, 244, 241, 282],
+    3 => [249, 215, 282, 254, 260]
+];
+
+// массив, в котором пвк ставятся в соответсвие тесты
+// пвк из бд
+$PIQ_TO_TESTS = [
+    253 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100],
+    301 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 10, 50, 0, 0, 0],
+    245 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 75, 20, 0],
+    246 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 67, 7],
+    282 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 14, 15, 14, 14],
+    251 => [0, 0, 0, 0, 0, 2, 2, 5, 5, 24, 0, 24, 28, 0, 0, 10],
+    240 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 45, 0, 0, 50],
+    244 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10, 10, 40, 35],
+    241 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 6, 20, 60],
+    249 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 75],
+    215 => [0, 0, 0, 0, 0, 15, 15, 20, 15, 0, 0, 0, 0, 30, 5, 0],
+    254 => [0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 25, 15, 25, 7, 13],
+    260 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 85, 0, 0, 5]
+];
+
+$IDEAL_TESTINGS_VALUES = array();
+for($i = 0; $i < 16; $i++){
+    $IDEAL_TESTINGS_VALUES[$i] = 1;
+}
+
+// считает общую оценку прохождения теста в виде числа от 0 до 1
 function testingMark(int $test_id, $test_results){
-//    switch($test_id){
-//        ;
-//    }
+    $result = 0;
+    switch($test_id){
+        case 6:
+            $a1 = max(min($test_results['reaction_time_module'], 100), 50);
+            $a2 = max(min($test_results['standard_deviation_module'], 50), 28);
+            $result = (100 - $a1) / 50 * (50 - $a2) / 22;
+            break;
+        case 7:
+            $a1 = max(min($test_results['reaction_time_module'], 250), 140);
+            $a2 = max(min($test_results['standard_deviation_module'], 300), 170);
+            $result = (250 - $a1) / 110 * (300 - $a2) / 170;
+            break;
+        case 8:
+            $result = min($test_results['reaction_time'] / 100, 1);
+            break;
+        case 9:
+            $result = min($test_results['reaction_time'] / 100, 1);
+            break;
+        case 10:
+            $result = min($test_results['accuracy'] / 25, 1);
+            break;
+        case 11:
+            $result = min($test_results['accuracy'] / 25, 1);
+            break;
+        case 12:
+            $result = min($test_results['accuracy'] / 25, 1);
+            break;
+        case 13:
+            $result = min($test_results['accuracy'] / 10, 1);
+            break;
+        case 14:
+            $result = min($test_results['accuracy'] / 20, 1);
+            break;
+        case 15:
+            $result = (20 - max(min($test_results['reaction_time'], 20), 2)) / 18;
+            break;
+        case 16:
+            $result = min($test_results['accuracy'] / 10, 1);
+            break;
+    }
+
+    return $result;
 }
 
 // возвращает процент соответствия пользователя конкретному пвк
-function getUsersPiqLevel(int $user_id, int $piq_id)
+function getPiqLevel(int $user_id, int $piq_id)
 {
     global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
     $res_sum = 0;
     for ($i = 0; $i < 16; $i++) {
         $res = getUserResults($user_id, $i);
-        $res_sum += $res["accuracy"] * $PIQ_TO_TESTS[$piq_id][$i] / 100 / $IDEAL_TESTINGS_VALUES[$i];
+        $res_sum += testingMark($i, $res) * $PIQ_TO_TESTS[$piq_id][$i] / 100;
     }
-
     return $res_sum;
 }
 
+// обновление в базе данных информации о соответствии пользователя пвк
+function updateUserPiqs(int $userId){
+    $piqs = [253, 301, 245, 246, 282, 251, 240, 244, 241, 249, 215, 254, 260];
+    foreach($piqs as $i){
+        insertUsersPiq($userId, $i, getPiqLevel($userId, $i));
+    }
+}
+
 // возвращает процент соответствия пользователя конкретной профессии
-function getUsersProfessionMatch(int $user_id, int $prof_id)
-{
+// вычисляется среднее из всех пвк
+function getProfessionMatch(int $userId, int $profId){
     global $PROFESSIONS_TO_PIQ;
-    $profs_piq = $PROFESSIONS_TO_PIQ[$prof_id];
+    $profs_piq = $PROFESSIONS_TO_PIQ[$profId];
     $result = 0;
-    for ($i = 0; $i < count($profs_piq); $i++) {
-        $result += getUsersPiqLevel($user_id, $profs_piq[$i]);
+    $piqs_level = getPiqsLevelFromDB($userId);
+
+    foreach($piqs_level as $i){
+        if (in_array($i['piq_id'], $profs_piq)){
+            $result += $i['level'];
+        }
     }
 
     return $result / count($profs_piq);
-    // чекать если чел прошел тест
-    function passed($userId, $testId): bool
-    {
-        return (!empty(getUserResults(currentUser()['id'], $testId)));
-    }
+}
+
+// чекать если чел прошел тест
+function passed($userId, $testId) : bool
+{
+    return (!empty(getUserResults($userId, $testId)));
+}
 
     function passedAll($userId): bool
     {
@@ -269,4 +323,5 @@ function getUsersProfessionMatch(int $user_id, int $prof_id)
         }
         return true;
     }
+    return true;
 }
