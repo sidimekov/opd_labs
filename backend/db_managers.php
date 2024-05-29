@@ -389,7 +389,7 @@ function insertUsersPiq(int $userId, int $piqId, int $level){
 function getPiqsLevelFromDB(int $userId){
     $pdo = getPDO();
 
-    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . "WHERE user_id = :userId;");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . " WHERE user_id = :userId;");
     $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
     $stmt->execute();
     $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -399,7 +399,7 @@ function getPiqsLevelFromDB(int $userId){
 function getOnePiqLevelFromDB(int $userId, int $piqId){
     $pdo = getPDO();
 
-    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . "WHERE user_id = :userId AND piq_id = :piqId;");
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . " WHERE user_id = :userId AND piq_id = :piqId;");
     $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
     $stmt->bindParam(':piqId', $piqId, \PDO::PARAM_INT);
     $stmt->execute();

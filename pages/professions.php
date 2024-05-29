@@ -4,6 +4,12 @@ require_once dirname(__DIR__) . "/backend/config.php";
 require_once ROOT . "/backend/db_managers.php";
 require_once ROOT . "/backend/help_funcs.php";
 
+if (currentUser()) {
+    $userId = currentUser()['id'];
+} else {
+    $userId = -1;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +52,7 @@ require_once ROOT . "/backend/help_funcs.php";
                         if (empty ($results)): ?>
                             <p>Для данной профессии ещё нет оценок</p>
                         <?php else: ?>
+                        <?php $piqs = []; ?>
                             <?php foreach ($results as $piq_id => $result): ?>
                                 <?php $importance = round($result['importance'] * 100);
                                 $piq = $result['piq']; ?>
@@ -56,49 +63,29 @@ require_once ROOT . "/backend/help_funcs.php";
                                 </div>
                                 <div class="rating-progress">
                                     <?php echo $importance . '%'; ?>
+                                    <?php $piqs[$piq_id] = $importance; ?>
                                 </div>
                                 <br>
+                            <?php if ($userId != -1 && passedAll($userId)): ?>
+                                Ваш уровень развития:
+                                <div class="rating-bar"
+                                     style="width: 90%; background: linear-gradient(to green, red <?php echo $importance; ?>%, white 0%);">
+                                </div>
+                                <div class="rating-progress">
+                                    <?php echo $importance . '%'; ?>
+                                </div>
+                                <br>
+                            <?php endif; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
-
-
-<!--                        попытка вставить 1 лабу-->
-<!--                        <br>-->
-<!--                        <br>-->
-<!--                        --><?php
-//                        $userId = currentUser()['id'];
-//                        $profId = $profession['id'];
-//                        if (empty (getRatingBy($userId, $profId))):
-//                            ?>
-<!--                            <div class="button-container">-->
-<!--                                <button type="button" name="--><?php //echo $profId; ?><!--_--><?php //echo $userId; ?><!--"-->
-<!--                                        id="rate-button"-->
-<!--                                        class="button" style="font-size: 16px;">Оценить профессию-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        --><?php //else: ?>
-<!--                            <div class="button-container">-->
-<!--                                <form method="post" action="backend/delete_rate.php">-->
-<!--                                    <button type="button" name="--><?php //echo $profId; ?><!--_--><?php //echo $userId; ?><!--"-->
-<!--                                            id="view-rating-button"-->
-<!--                                            class="button" style="font-size: 16px; width: 40%;">Посмотреть свою оценку-->
-<!--                                    </button>-->
-<!--                                    <input style='display: none;' name="delete_rate" value="--><?php //echo $profId; ?><!--">-->
-<!--                                    <button type="submit" class="button" style="font-size: 16px; width: 40%;">Удалить-->
-<!--                                        свою оценку-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        --><?php //endif; ?>
-
-
                     </dl>
+
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
 
-<!--    <script src="../scripts/rate_piqs.js"></script>-->
+    <!--    <script src="../scripts/rate_piqs.js"></script>-->
 </main>
 
 <!--<script type='module' src="../scripts/professions.js"></script>-->
