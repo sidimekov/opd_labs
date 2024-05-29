@@ -112,3 +112,27 @@ sidimekov vgmkscir
 authorization:
 sidimekov vgmkscir
 3 log in.
+
+registration:
+Polina mep nojruv-zagMib-pofsa5 nojruv-zagMib-pofsa5 2 2005-12-10
+integerArrayregister.
+
+authorization:
+leias19 19022006
+7 log in.
+
+authorization:
+sidimekov vmgkscir
+Неверный пароль
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+registration:
+тимофей tim abcde abcde 1 2005-10-20
+integerArrayregister.

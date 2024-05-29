@@ -1,168 +1,199 @@
 import { sendData } from "../../scripts/data_manager.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+  let testTime, endTime;
+  let reactionTimes = [];
+  let moveTimeout;
+  let lastMoveTime;
+  let markerPosition = {
+    left: 40,
+    top: 40,
+  };
+  let squarePosition = {
+    left: 40,
+    top: 40,
+  };
+  let intersectionTimes = [];
+  let intersectionStartTime = null;
+  var AllTime = 0;
+  var attempts = 0;
+  var answer = parseFloat(getRandomArbitrary(50, 150).toFixed(3));
 
-    const timer2 = document.getElementById('timer2');
-    const progressBar = document.querySelector('.progress-bar');
-    const square = document.getElementById('square');
-    const bar = document.getElementById('myBar');
-    const verticalLine = document.getElementById('verticalLine');
+  function updateProgressBar(time) {
+    var bar = document.getElementById("myBar");
+    var width = 0;
+    var percent = (1 / (time * 60)) * 100;
+    var id = setInterval(frame, 1000);
+    var currentTime = time * 60;
 
-    document.getElementById("backButton").addEventListener("click", function () {
-        window.location.href = "tests.html";
-    });
-
-    document.getElementById('restartButton').addEventListener('click', function () {
-        location.reload();
-    });
-
-    var attempts = 0;
-    var averageTime = 0;
-    var left = 650;
-    var right = 0;
-    var time;
-    var flag = 0;
-    var flashok = 0;
-    document.getElementById('menu').style.display = 'block';
-
-    var modal = document.getElementById("modal");
-    var span = document.getElementsByClassName("close")[0];
-
-    span.onclick = function () {
-        modal.style.display = "none";
+    function frame() {
+      if (width >= 100 || currentTime === 0) {
+        clearInterval(id);
+        endTest();
+      } else {
+        width += percent;
+        bar.style.width = width + "%";
+        currentTime--;
+      }
     }
+  }
 
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
+  function initializePositions() {
+    document.getElementById("marker").style.left = `${markerPosition.left}px`;
+    document.getElementById("marker").style.top = `${markerPosition.top}px`;
+    document.getElementById("chase-square").style.left = `${squarePosition.left}px`;
+    document.getElementById("chase-square").style.top = `${squarePosition.top}px`;
+  }
+
+  // Функция для форматирования времени в формате mm:ss
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  }
+
+  function startTest() {
+    moveSquare();
+    testTime = parseInt(document.getElementById("test-time-input").value);
+    if (testTime < 2 || testTime > 45) {
+      alert("Введите значение от 2 до 45 минут.");
+      return;
     }
+    updateProgressBar(testTime);
+    endTime = Date.now() + testTime * 60 * 1000;
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("test-container").style.display = "block";
+    document.getElementById("start-button").style.display = "block";
+    lastMoveTime = Date.now();
+    initializePositions();
+    updateTestTimeCounter(); // Добавили вызов функции
+  }
 
-    function formatTime(time) {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  function updateTestTimeCounter() {
+    const remainingTime = Math.max(0, (endTime - Date.now()) / 1000);
+    document.getElementById(
+      "test-time-counter"
+    ).textContent = `Оставшееся время: ${formatTime(remainingTime)}`;
+    if (remainingTime > 0) {
+      setTimeout(updateTestTimeCounter, 100);
+    } else {
+      document.getElementById("test-time-counter").textContent =
+        "Время истекло";
     }
+  }
 
-    document.getElementsByClassName('close')[0].addEventListener('click', function () {
-        document.getElementById('menu').style.display = 'none';
-    });
-
-    var handleMenuInputb = document.getElementById("handleMenuInput");
-    handleMenuInputb.addEventListener("click", handleMenuInput);
-
-    function handleMenuInput() {
-        const inputValue = document.getElementById('menu-input').value;
-        if (inputValue < 2 || inputValue > 45) {
-            alert('Вы ввели недопустимое значение.Введите числовое значение от 2 до 45.');
-            return;
-        }
-        time = inputValue;
-        document.getElementById('menu').style.display = 'none';
-        updateProgressBar(time);
-        moveSquare();
+  function moveSquare() {
+    if (Date.now() >= endTime) {
+      endTest();
+      return;
     }
+    const direction = Math.random() < 0.5 ? -1 : 1;
+    const distance = Math.random() * 100; // Ensure consistent speed with marker
+    squarePosition.left += direction * distance;
+    if (squarePosition.left < 0) squarePosition.left = 0;
+    if (
+      squarePosition.left >
+      document.getElementById("test-container").offsetWidth - 50
+    )
+      squarePosition.left =
+        document.getElementById("test-container").offsetWidth - 50;
+    document.getElementById("chase-square").style.left = `${squarePosition.left}px`;
 
-    function updateProgressBar(time){
-        var bar = document.getElementById("myBar");
-        var width = 0;
-        var percent = 1/(time*60)*100;
-        var id = setInterval(frame,1000);
-        var color = setInterval(check,50);
-        var currentTime = time*60;
-        document.addEventListener("keydown", handleKeydown);
-        moveSquare();
-        function check(){
-            square.style.backgroundColor = 'red';
-            if (isIntersecting(square, verticalLine)) {
-                square.style.backgroundColor = 'green';
-            }
-        }
-        function frame(){
-            if (width >= 100 || currentTime===0){
-                clearInterval(id);
-                flashok = 1;
-                stopAll();
-                document.removeEventListener("keydown", handleKeydown);
-            }else{
-                width+=percent;
-                bar.style.width = width + "%";
-                currentTime--;
-                const formattedTime = formatTime(currentTime);
-                document.getElementById('timer').innerHTML = formattedTime;
-            }
-        }
+    const now = Date.now();
+    let reactionTime = new Date() - lastMoveTime;
+    AllTime += reactionTime;
+    attempts++;
+    reactionTimes.push(reactionTime);
+    lastMoveTime = now;
+
+    const delay = Math.random() * 750 + 750; // 1 to 3 seconds
+    moveTimeout = setTimeout(moveSquare, delay);
+  }
+
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  function endTest() {
+    clearTimeout(moveTimeout);
+    const averageTime = AllTime / attempts;
+    const maxIntersectionTime = Math.max(...intersectionTimes);
+
+    var stats = {
+      average_reaction_time: answer,
+      max_intersection_time: maxIntersectionTime.toFixed(2),
+    };
+    var response = saveStats(stats, 9);
+    console.log(response);
+    document.getElementById("results").innerHTML = `
+    <h2>Результаты</h2>
+    <p>Среднее время реакции: ${answer} мс</p>
+    <p>Максимальное время пересечения: ${maxIntersectionTime.toFixed(2)} мс</p>
+`;
+  }
+
+  document.addEventListener("keydown", (event) => {
+    const speed = 50; // Ensure consistent speed with square
+    if (event.key === "ArrowLeft") {
+      markerPosition.left -= speed;
+      if (markerPosition.left < 0) markerPosition.left = 0;
+    } else if (event.key === "ArrowRight") {
+      markerPosition.left += speed;
+      if (
+        markerPosition.left >
+        document.getElementById("test-container").offsetWidth - 20
+      )
+        markerPosition.left =
+          document.getElementById("test-container").offsetWidth - 20;
     }
+    document.getElementById("marker").style.left = `${markerPosition.left}px`;
+  });
 
-    const handleKeydown = function (event) {
-        if (flag == 0) {
-            attempts++;
-            averageTime += new Date() - time;
-            timer2.innerHTML = (averageTime / attempts).toFixed(3) + "ms";
-        }
-        flag = 1;
-        switch (event.key) {
-            case 'ArrowLeft':
-                left -= 25;
-                break;
-            case 'ArrowRight':
-                left += 25;
-                break;
-        }
-        square.style.left = `${left}px`;
+  function checkIntersection() {
+    const squareRect = document
+      .getElementById("chase-square")
+      .getBoundingClientRect();
+    const markerRect = document
+      .getElementById("marker")
+      .getBoundingClientRect();
+    const intersection = !(
+      squareRect.right < markerRect.left ||
+      squareRect.left > markerRect.right ||
+      squareRect.bottom < markerRect.top ||
+      squareRect.top > markerRect.bottom
+    );
+    return intersection;
+  }
+
+  setInterval(() => {
+    if (checkIntersection()) {
+      document.getElementById("marker").style.backgroundColor = "green";
+      if (intersectionStartTime === null) {
+        intersectionStartTime = Date.now();
+      }
+    } else {
+      document.getElementById("marker").style.backgroundColor = "red";
+      if (intersectionStartTime !== null) {
+        const intersectionTime = Date.now() - intersectionStartTime;
+        intersectionTimes.push(intersectionTime);
+        intersectionStartTime = null;
+      }
     }
-
-    function isIntersecting(obj1, line) {
-        const obj1Rect = obj1.getBoundingClientRect();
-        const lineRect = line.getBoundingClientRect();
-
-        return (
-            obj1Rect.right >= lineRect.left &&
-            obj1Rect.left <= lineRect.right
-        );
-    }
-
-    function moveSquare() {
-        document.removeEventListener("keydown", handleKeydown);
-        const direction = Math.random() < 0.5 ? -1 : 1;
-        const distance = Math.random() * 100;
-        const screenWidth = window.innerWidth;
-        const squareWidth = square.offsetWidth;
-
-        if (left + direction * distance < 0) {
-            left = 0;
-        } else if (left + direction * distance + squareWidth > screenWidth) {
-            left = screenWidth - squareWidth;
-        } else {
-            left += direction * distance;
-        }
-
-        square.style.left = `${left}px`;
-        time = new Date();
-        document.addEventListener("keydown", handleKeydown);
-        if (flashok==0){
-            setTimeout(moveSquare, Math.random() * 2000);
-        }
-        flag = 0;
-    }
-
-    function stopAll(){
-        var stats = {
-            reaction_time: averageTime/attempts
-        }
-        saveStats(stats,8);
-        document.getElementById("resultText").innerHTML = "Среднее время: " + averageTime/attempts;
-        modal.style.display = "block";
-    }
-
-    function saveStats(stats, testId) {
-        // отправка оценок на серв
-        var formData = new FormData();
-        formData.append('test_id', testId);
-        formData.append('statistics', JSON.stringify(stats));
-        // этот метод sendData есть на серваке, локально работать не будет
-        var result = sendData(formData, '../../backend/requests/send_user_results.php');
-        return result.response;
-    }
-
+  }, 100);
+  const startButton = document.getElementById("start-button");
+  startButton.addEventListener("click", startTest);
+  function saveStats(stats, testId) {
+    // отправка оценок на серв
+    var formData = new FormData();
+    formData.append("test_id", testId);
+    formData.append("statistics", JSON.stringify(stats));
+    // этот метод sendData есть на серваке, локально работать не будет
+    var result = sendData(
+      formData,
+      "../../backend/requests/send_user_results.php"
+    );
+    return result.response;
+  }
 });
