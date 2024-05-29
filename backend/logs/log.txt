@@ -73,6 +73,14 @@ authorization:
 vasyok1488 qwerty
 6 log in.
 
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
 registration:
     1 
 integerПустое имя! Пустой логин! Пустой пароль!
