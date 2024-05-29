@@ -148,6 +148,9 @@ function getTests(): array
             case 14:
                 $result['href'] = 'thinking_analisys.php';
                 break;
+            case 16:
+                $result['href'] = 'abstraction_thinking.php';
+                break;
         }
         $results[$i] = $result;
     }
