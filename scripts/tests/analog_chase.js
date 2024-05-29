@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var attempts = 0;
   var answer = parseFloat(getRandomArbitrary(50, 150).toFixed(3));
 
+
   function updateProgressBar(time) {
     var bar = document.getElementById("myBar");
     var width = 0;
@@ -127,11 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     var response = saveStats(stats, 9);
     console.log(response);
-    document.getElementById("results").innerHTML = `
-    <h2>Результаты</h2>
-    <p>Среднее время реакции: ${answer} мс</p>
-    <p>Максимальное время пересечения: ${maxIntersectionTime.toFixed(2)} мс</p>
-`;
+    alert( `
+    Результаты
+    Среднее время реакции: ${answer} мс
+    Максимальное время пересечения: ${maxIntersectionTime.toFixed(2)} мс
+`);
   }
 
   document.addEventListener("keydown", (event) => {

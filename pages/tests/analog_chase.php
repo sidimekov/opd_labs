@@ -14,8 +14,6 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
     <link rel="stylesheet" href="../../styles/general.css" />
     <!-- <link rel="stylesheet" href="../../styles/tests.css" /> -->
     <style>
-    
-
         #test-container {
             display: none;
             position: absolute;
@@ -29,6 +27,7 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
         }
 
         #chase-square {
+            left: 50%;
             position: absolute;
             bottom: 60%;
             width: 50px;
@@ -380,10 +379,10 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
             <div id="chase-square"></div>
             <div id="marker"></div>
         </div>
-        <div id="results" style="width:100%; align-content:center;bottom:50%; z-index: 100000"></div>
+        <div id="results" style="width:100%; align-content:center;bottom:50%; z-index: 100000;"></div>
         <div id="test-time-counter" style="position: absolute; top: 10px; right: 10px; font-size: 18px"></div>
         <div id="test-container">
-            <div id="chase-square" style="margin-top: 200px"></div>
+            <div id="chase-square" style="margin-top: 200px; left: 50%;"></div>
             <div id="marker" style="margin-top: 200px"></div>
         </div>
         <div id="myProgress">
@@ -391,6 +390,9 @@ require_once dirname(dirname(__DIR__)) . "/backend/config.php";
         </div>
     </div>
     <script type='module' src="../../scripts/tests/analog_chase.js"></script>
+    <script>
+        document.getElementById('chase-square').style.left = "50%";
+    </script>
 </body>
 
 </html>
