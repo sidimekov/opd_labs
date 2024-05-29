@@ -192,3 +192,18 @@ function importanceSort($x, $y)
     return $x['importance'] <=> $y['importance'];
 }
 
+// чекать если чел прошел тест
+function passed($userId, $testId) : bool
+{
+    return (!empty(getUserResults(currentUser()['id'], $test['id'])));
+}
+
+function passedAll($userId) : bool
+{
+    foreach (getTests() as $test) {
+        if (!passed($userId, $test['id'])) {
+            return false;
+        }
+    }
+    return true;
+}

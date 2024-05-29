@@ -9,10 +9,10 @@ define("ROOT", dirname(__DIR__));
 
 // данные для бд
 const DB_HOST = 'localhost';
-const DB_PORT = '5432';
-const DB_NAME = '';
-const DB_USERNAME = '';
-const DB_PASSWORD = '';
+const DB_PORT = '8005';
+const DB_NAME = 'studs';
+const DB_USERNAME = 's409553';
+const DB_PASSWORD = 'nWASInv7Uumwyf0P';
 
 //const DB_TABLE_USERS = 'users';
 //const DB_TABLE_TESTS = 'tests';
