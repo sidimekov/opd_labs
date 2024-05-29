@@ -224,10 +224,10 @@ function importanceSort($x, $y)
 }
 
 // считает общую оценку прохождения теста в виде числа
-function testingMark(int $test_id, $test_results)
-{
-    switch ($test_id) {;
-    }
+function testingMark(int $test_id, $test_results){
+//    switch($test_id){
+//        ;
+//    }
 }
 
 // возвращает процент соответствия пользователя конкретному пвк

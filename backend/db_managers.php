@@ -133,6 +133,9 @@ function getTests(): array
             case 7:
                 $result['href'] = 'reaction_move_hard.php';
                 break;
+            case 8:
+                $result['href'] = 'analog_follow.php';
+                break;
             case 10:
                 $result['href'] = 'attention_distribution.php';
                 break;
