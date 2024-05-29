@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveStats(stats,8);
         document.getElementById("resultText").innerHTML = "Среднее время: " + averageTime/attempts;
         modal.style.display = "block";
+        // alert("Среднее время: " + averageTime/attempts);
     }
 
     function saveStats(stats, testId) {
