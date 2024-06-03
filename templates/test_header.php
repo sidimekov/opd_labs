@@ -54,6 +54,9 @@ $user = currentUser();
         <a href="../admin_userlist.php" class="nav-link" id="nav_userlist">
             <h3>admin: Список пользователей</h3>
         </a>
+        <a href="../admin_weight_change.php" class="nav-link" id="nav_userlist">
+            <h3>admin: Корректировка весов</h3>
+        </a>
     <?php endif; ?>
 
     <!-- <a href="my_stats.php" class="nav-link">
