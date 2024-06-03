@@ -202,112 +202,99 @@ $PROFESSIONS_TO_PIQ = [
     3 => [249, 215, 282, 254, 260]
 ];
 
+const REQUIERED_PIQS = [253, 301, 245, 246, 282, 251, 240, 244, 241, 249, 215, 254, 260];
+
 // массив, в котором пвк ставятся в соответсвие тесты
 // пвк из бд
-$PIQ_TO_TESTS = [
-    253 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100],
-    301 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 10, 50, 0, 0, 0],
-    245 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 75, 20, 0],
-    246 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 67, 7],
-    282 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 14, 15, 14, 14],
-    251 => [0, 0, 0, 0, 0, 2, 2, 5, 5, 24, 0, 24, 28, 0, 0, 10],
-    240 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 45, 0, 0, 50],
-    244 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10, 10, 40, 35],
-    241 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 6, 20, 60],
-    249 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 75],
-    215 => [0, 0, 0, 0, 0, 15, 15, 20, 15, 0, 0, 0, 0, 30, 5, 0],
-    254 => [0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 25, 15, 25, 7, 13],
-    260 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 85, 0, 0, 5]
-    // 215 | Способность аргументировано отстаивать свое мнение
-    // 240 | Способность к пространственному воображению
-    // 241 | Способность к образному представлению предметов, процессов и явлений
-    // 244 | Способность к воссозданию образа по словесному описанию
-    // 245 | Аналитичность (способность выделять отдельные элементы действительности, способность к классификации)
-    // 246 | Синтетичность (способность к обобщениям, установлению связей, закономерностей, формирование понятий)
-    // 249 | Креативность (способность порождать необычные идеи, отклоняться от традиционных схем мышления)
-    // 251 | Предметность (объекты реального мира и их признаки)
-    // 253 | Абстрактность (абстрактные образы, понятия)
-    // 254 | Вербальность (устная и письменная речь)
-    // 260 | Зрительная долговременная память на слова и фразы
-    // 282 | Умственная работоспособность
-    // 301 | Объем внимания (количество объектов, на которые может быть направлено внимание при их одновременном восприятии)
-];
+// $PIQ_TO_TESTS = [
+//     253 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100],
+//     301 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 10, 50, 0, 0, 0],
+//     245 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 75, 20, 0],
+//     246 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 67, 7],
+//     282 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 14, 15, 14, 14],
+//     251 => [0, 0, 0, 0, 0, 2, 2, 5, 5, 24, 0, 24, 28, 0, 0, 10],
+//     240 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 45, 0, 0, 50],
+//     244 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 10, 10, 40, 35],
+//     241 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 6, 20, 60],
+//     249 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 20, 75],
+//     215 => [0, 0, 0, 0, 0, 15, 15, 20, 15, 0, 0, 0, 0, 30, 5, 0],
+//     254 => [0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 8, 25, 15, 25, 7, 13],
+//     260 => [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 85, 0, 0, 5]
+//     // 215 | Способность аргументировано отстаивать свое мнение
+//     // 240 | Способность к пространственному воображению
+//     // 241 | Способность к образному представлению предметов, процессов и явлений
+//     // 244 | Способность к воссозданию образа по словесному описанию
+//     // 245 | Аналитичность (способность выделять отдельные элементы действительности, способность к классификации)
+//     // 246 | Синтетичность (способность к обобщениям, установлению связей, закономерностей, формирование понятий)
+//     // 249 | Креативность (способность порождать необычные идеи, отклоняться от традиционных схем мышления)
+//     // 251 | Предметность (объекты реального мира и их признаки)
+//     // 253 | Абстрактность (абстрактные образы, понятия)
+//     // 254 | Вербальность (устная и письменная речь)
+//     // 260 | Зрительная долговременная память на слова и фразы
+//     // 282 | Умственная работоспособность
+//     // 301 | Объем внимания (количество объектов, на которые может быть направлено внимание при их одновременном восприятии)
+// ];
 
-$IDEAL_TESTINGS_VALUES = array();
-for ($i = 0; $i < 16; $i++) {
-    $IDEAL_TESTINGS_VALUES[$i] = 1;
-}
-
-// считает общую оценку прохождения теста в виде числа от 0 до 1
-function testingMark(int $test_id, $test_results)
+// считает оценку прохождения теста по данным результатам и названию оцениваемой характеристики
+function testingMark(int $testId, $stat_name, $test_result): float
 {
-    $result = 0;
-    switch ($test_id) {
-        case 6:
-            $a1 = max(min($test_results['reaction_time_module'], 100), 50);
-            $a2 = max(min($test_results['standard_deviation_module'], 50), 28);
-            $result = (100 - $a1) / 50 * (50 - $a2) / 22;
-            break;
-        case 7:
-            $a1 = max(min($test_results['reaction_time_module'], 250), 140);
-            $a2 = max(min($test_results['standard_deviation_module'], 300), 170);
-            $result = (250 - $a1) / 110 * (300 - $a2) / 170;
-            break;
-        case 8:
-            $result = min($test_results['reaction_time'] / 100, 1);
-            break;
-        case 9:
-            $result = min($test_results['reaction_time'] / 100, 1);
-            break;
-        case 10:
-            $result = min($test_results['accuracy'] / 20, 1);
-            break;
-        case 11:
-            $result = min($test_results['accuracy'] / 20, 1);
-            break;
-        case 12:
-            $result = min($test_results['accuracy'] / 25, 1);
-            break;
-        case 13:
-            $result = min($test_results['accuracy'] / 10, 1);
-            break;
-        case 14:
-            $result = min($test_results['accuracy'] / 20, 1);
-            break;
-        case 15:
-            $result = (20 - max(min($test_results['reaction_time'], 20), 2)) / 18;
-            break;
-        case 16:
-            $result = min($test_results['accuracy'] / 10, 1);
-            break;
-    }
+    global $DEFAULT_TESTING_RESULTS;
+    $default = $DEFAULT_TESTING_RESULTS[$testId];
 
+    // если результат лучше идеального -> 1
+    if ($test_result >= $default[$stat_name][0] and $default[$stat_name][0] > $default[$stat_name][1] or $test_result <= $default[$stat_name][0] and $default[$stat_name][0] < $default[$stat_name][1]){
+        return 1;
+    }
+    if ($test_result >= $default[$stat_name][1] and $default[$stat_name][1] > $default[$stat_name][0] or $test_result <= $default[$stat_name][1] and $default[$stat_name][1] < $default[$stat_name][0]){
+        return 0;
+    }
+    $result = 1 - abs($default[$stat_name][0] - $test_result) / abs($default[$stat_name][0] - $default[$stat_name][1]);
     return $result;
 }
 
-// возвращает процент соответствия пользователя конкретному пвк
-function getPiqLevel(int $user_id, int $piq_id)
+$DEFAULT_TESTING_RESULTS = [
+    6 => ['reaction_time' => [10, 200], 'reaction_time_module' => [30, 300], 
+        'standart_deviation' => [10, 200], 'standart_deviation_module' => [10, 300]], 
+    7 => ['reaction_time' => [20, 300], 'reaction_time_module' => [50, 500], 
+    'standart_deviation' => [10, 600], 'standart_deviation_module' => [10, 650]],
+    1 => ['accuracy' => [100, 0], 'reaction_time' => [300, 1000]],
+    2 => ['accuracy' => [100, 0], 'reaction_time' => [500, 1000]],
+    3 => ['accuracy' => [100, 0], 'reaction_time' => [550, 1000], 'mistakes' => [0, 15]],
+    4 => ['accuracy' => [100, 0], 'reaction_time' => [1000, 3000]],
+    5 => ['accuracy' => [100, 0], 'reaction_time' => [2000, 4000]],
+    8 => ['reaction_time' => [100, 500]],
+    9 => ['average_reaction_time' => [100, 500], 'max_intersection_time' => [120000, 0]],
+    10 => ['attention_time' => [1000, 10000], 'standard_deviation' => [500, 10000], 'mistakes' => [0, 9]],
+    11 => ['accuracy' => [24, 0], 'reaction_time' => [1, 10], 'standart_deviation' => [1, 10]],
+    12 => ['accuracy' => [100, 0], 'reaction_time' => [1, 10], 'standart_deviation' => [1, 10]],
+    13 => ['accuracy' => [100, 0], 'reaction_time' => [0.5, 1]],
+    14 => ['accuracy' => [100, 0], 'reaction_time' => [2, 10], 'standart_deviation' => [2, 10]],
+    15 => ['attempts' => [1, 7], 'standard_devision_attempts' => [1, 10], 'reaction_time' => [6, 20]],
+    16 => ['accuracy' => [18, 0], 'reaction_time' => [5, 10], 'standart_deviation' => [1, 10]]
+];
+
+// считает и возвращает процент соответствия пользователя конкретному пвк
+function getPiqLevel(int $userId, int $piqId): int
 {
-    global $PIQ_TO_TESTS, $IDEAL_TESTINGS_VALUES;
-    $res_sum = 0;
-    // $tests = getTests();
-    for ($i = 0; $i < 16; $i++) {
-        $res = getMidUserStats($i + 1, $user_id);
-        if ($res) {
-            // print_r($res);
-            // $res = $res[0]['statistics'];
-            $res_sum += testingMark($i + 1, $res) * $PIQ_TO_TESTS[$piq_id][$i];
+    $result = 1;
+    $userResults = [];
+    foreach(getPiqWeights($piqId) as $weight){
+        $testId = $weight['test_id'];
+        if (!array_key_exists($testId, $userResults)) {
+            $userResults[$testId] = getMidUserStats($testId, $userId);
         }
+        $res = $userResults[$testId][$weight['stat_name']];
+
+        $result = $result * testingMark($testId, $weight['stat_name'], $res);
     }
-    // var_dump(getPiqById($piq_id), $res_sum);
-    return $res_sum;
+
+    return $result * 100;
 }
 
 // обновление в базе данных информации о соответствии пользователя пвк
 function updateUserPiqs(int $userId)
 {
-    $piqs = [253, 301, 245, 246, 282, 251, 240, 244, 241, 249, 215, 254, 260];
-    foreach ($piqs as $i) {
+    foreach (REQUIERED_PIQS as $i) {
         insertUsersPiq($userId, $i, getPiqLevel($userId, $i));
     }
 }

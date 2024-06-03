@@ -32,3 +32,4 @@ const DB_TABLE_PIQS = 'opd_piqs';
 const DB_TABLE_RATINGS = 'opd_ratings';
 const DB_TABLE_PROFESSIONS = 'opd_professions';
 const DB_TABLE_PIQ_LEVEL = 'opd_piq_level';
+const DB_TABLE_WEIGHTS = 'opd_weights';

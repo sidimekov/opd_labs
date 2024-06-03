@@ -375,6 +375,17 @@ function deleteRatingBy($userId, $professionId)
     $stmt->execute(['profession_id' => $professionId, 'expert_id' => $userId]);
 }
 
+// получить веса тестов для ПВК из бд
+function getPiqWeights(int $piqId){
+    $pdo = getPDO();
+
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_WEIGHTS . " WHERE piq_id = :piqId;");
+    $stmt->bindParam(':piqId', $piqId, \PDO::PARAM_INT);
+    $stmt->execute();
+    $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $return;
+}
+
 // вставить данные о соответствии пользователя пвк
 function insertUsersPiq(int $userId, int $piqId, int $level){
     $pdo = getPDO();
@@ -386,6 +397,7 @@ function insertUsersPiq(int $userId, int $piqId, int $level){
     $stmt->execute();
 }
 
+// получить уровени соответствия всем ПВК из бд
 function getPiqsLevelFromDB(int $userId){
     $pdo = getPDO();
 
@@ -396,6 +408,7 @@ function getPiqsLevelFromDB(int $userId){
     return $return;
 }
 
+// получить уровень соответствия конкретному ПВК из бд
 function getOnePiqLevelFromDB(int $userId, int $piqId){
     $pdo = getPDO();
 
@@ -405,4 +418,22 @@ function getOnePiqLevelFromDB(int $userId, int $piqId){
     $stmt->execute();
     $return = $stmt->fetch(\PDO::FETCH_ASSOC);
     return $return;
+}
+
+// обновить значение соответствия ПВК для заданного пользвателя
+// если $userId = 0 (по умолчанию), обновляется для всех пользователей
+function updatePiqLevels(int $userId = null){
+    if ($userId == -1){
+        return;
+    }
+    if ($userId == null){
+        for($i = 0; $i < count(getUsers()); $i++){
+            updateUserPiqs($i);
+        }
+    } else {
+        foreach(REQUIERED_PIQS as $piqId){
+            $level = getPiqLevel($userId, $piqId);
+            insertUsersPiq($userId, $piqId, $level);
+        }
+    }
 }
