@@ -27,7 +27,6 @@ var_dump(passedAll($userId));
     <link rel="stylesheet" href="../styles/professions.css">
     <link rel="stylesheet" href="../styles/windows.css">
 
-<!--    --><?php //include_once ROOT . '/templates/script_reload.php'; ?>
 </head>
 
 <body>
@@ -48,7 +47,6 @@ var_dump(passedAll($userId));
                     <p>
                         <?php echo $profession['description']; ?>
                     </p>
-                    <button class="pvc-button">Показать рейтинг ПВК</button>
 
                     <br>
                     <?php if ($userId != -1 && passedAll($userId)): ?>
@@ -59,9 +57,11 @@ var_dump(passedAll($userId));
                         </div>
                         <?php echo $level . '%'; ?>
                         <br>
+                        <button class="my-piqs" profession_id="<?php echo $profession['id']; ?>">Мои ПВК</button>
                     <?php endif; ?>
+                    <button class="pvc-button">ПВК для профессии</button>
                     <dl class="pvc-list">
-                        <?php $results = getProfResultRating($profession['id'], 10);
+                        <?php $results = getProfResultRating($profession['id'], 5);
                         if (empty ($results)): ?>
                             <p>Для данной профессии ещё нет оценок</p>
                         <?php else: ?>
@@ -79,7 +79,6 @@ var_dump(passedAll($userId));
                                     <?php $piqs[$piq_id] = $importance; ?>
                                 </div>
                                 <br>
-                            <?php if ($userId != -1 && passedAll($userId)): ?>
                                 <?php $piqId = $piq['id']; ?>
                                 <?php $level =  getOnePiqLevelFromDB($userId, $piqId)['level']; ?>
                                     Уровень развития ПВК:
@@ -88,7 +87,6 @@ var_dump(passedAll($userId));
                                     </div>
                                     <?php echo $level . '%'; ?>
                                 <br>
-                            <?php endif; ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </dl>
@@ -98,10 +96,20 @@ var_dump(passedAll($userId));
         <?php endif; ?>
     </div>
 
-    <!--    <script src="../scripts/rate_piqs.js"></script>-->
 </main>
 
-<!--<script type='module' src="../scripts/professions.js"></script>-->
+<div class="window" id="my-piqs-window" style="display: none;">
+    <div class="window-content">
+        <div class="window-header">
+            <div class="window-title">Мои ПВК</div>
+            <div class="close-window" id="close_my_piqs_window">&times;</div>
+        </div>
+        <div class="window-body">
+            <div class="window-text" id="window_message">Текст</div>
+        </div>
+    </div>
+</div>
+
 <script src="../scripts/professions.js"></script>
 </body>
 

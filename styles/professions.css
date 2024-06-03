@@ -33,15 +33,16 @@
         border-radius: 5px;
         cursor: pointer;
     } */
-.view-rating-button {
-    margin: 0 5px;
+.view-rating-button,
+.my-piqs {
+    margin: 5px 5px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
     border-radius: 10px;
     padding: 15px;
     min-height: 30px;
-    min-width: 120px;
+    width: 200px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
