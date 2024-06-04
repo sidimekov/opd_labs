@@ -10,7 +10,7 @@ if (currentUser()) {
     $userId = -1;
 }
 
-$updatePiqLevels($userId);
+updatePiqLevels($userId);
 
 var_dump(passedAll($userId));
 

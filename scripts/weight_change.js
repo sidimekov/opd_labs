@@ -1,3 +1,5 @@
+import {sendData} from "./data_manager.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const pvkData = [
         { id: 253, name: 'Абстрактность' },
@@ -79,15 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const weights = [];
         document.querySelectorAll('input[type="number"]').forEach(input => {
             if (input.value) {
-                weights.push({
-                    piq_id: parseInt(input.getAttribute('data-pvk-id')),
-                    test_id: getTestIdByStat(input.getAttribute('data-stat')),
-                    stat_name: input.getAttribute('data-stat').split(' - ')[1].trim(),
-                    weight: parseFloat(input.value)
-                });
+                if (parseFloat(input.value) >= 0) {
+                    weights.push({
+                        piq_id: parseInt(input.getAttribute('data-pvk-id')),
+                        test_id: getTestIdByStat(input.getAttribute('data-stat')),
+                        stat_name: input.getAttribute('data-stat').split(' - ')[1].trim(),
+                        weight: parseFloat(input.value)
+                    });
+                } else {
+                    alert("Введите положительные веса!");
+                }
             }
         });
         console.log(weights); // Здесь можно заменить на отправку данных на сервер
+        let response = saveWeights(weights);
+        console.log(response);
     });
 
     window.addStat = function(pvkId) {
@@ -178,3 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return statToTestIdMap[stat] || 0;
     }
 });
+
+function saveWeights(weights) {
+    // отправка оценок на серв
+    var formData = new FormData();
+    formData.append('weights', weights);
+    // этот метод sendData есть на серваке, локально работать не будет
+    console.log(formData)
+    var result = sendData(formData, '../../backend/requests/set_weights.php');
+    console.log(result)
+    return result.response;
+}

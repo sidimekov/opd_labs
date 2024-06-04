@@ -288,7 +288,7 @@ function getPiqLevel(int $userId, int $piqId): int
         $result = $result * testingMark($testId, $weight['stat_name'], $res) * $weight['weight'];
     }
 
-    return $result * 100;
+    return min(1, $result) * 100;
 }
 
 // обновление в базе данных информации о соответствии пользователя пвк
@@ -329,7 +329,7 @@ function passed($userId, $testId): bool
 function passedAll($userId): bool
 {
     foreach (getTests() as $test) {
-
+        if (!passed($userId, $test['id'])) return false;
     }
     return true;
 }

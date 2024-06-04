@@ -56,7 +56,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
         </div>
         <button id="save-button">Сохранить</button>
     </div>
-    <script src="../scripts/weight_change.js"></script>
+    <script type='module' src="../scripts/weight_change.js"></script>
 </div>
 
 </body>

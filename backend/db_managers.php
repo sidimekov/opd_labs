@@ -437,3 +437,24 @@ function updatePiqLevels(int $userId = null){
         }
     }
 }
+
+function setWeights($weights) {
+    // Подготовка SQL запроса
+    $sql = "
+            INSERT INTO ". DB_TABLE_WEIGHTS ." (piq_id, test_id, stat_name, weight)
+            VALUES (:piq_id, :test_id, :stat_name, :weight);
+        ";
+
+    // Подготовка PDO запроса
+    $pdo = getPDO();
+    $stmt = $pdo->prepare($sql);
+
+    // Выполнение запроса для каждой строки
+    foreach ($weights as $weight) {
+        $stmt->bindParam(':piq_id', $weight['piq_id'], \PDO::PARAM_INT);
+        $stmt->bindParam(':test_id', $weight['test_id'], \PDO::PARAM_INT);
+        $stmt->bindParam(':stat_name', $weight['stat_name'], \PDO::PARAM_STR);
+        $stmt->bindParam(':weight', $weight['weight'], \PDO::PARAM_STR);
+        $stmt->execute();
+    }
+}

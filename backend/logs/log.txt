@@ -144,3 +144,19 @@ rosh.28@mail.ru Qfc12erty
 authorization:
 sidimekov vgmkscir
 3 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
+
+authorization:
+tima abcd
+Неверный пароль
+
+authorization:
+tim abcde
+11 log in.
+
+authorization:
+sidimekov vgmkscir
+3 log in.
