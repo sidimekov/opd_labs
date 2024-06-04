@@ -285,7 +285,7 @@ function getPiqLevel(int $userId, int $piqId): int
         }
         $res = $userResults[$testId][$weight['stat_name']];
 
-        $result = $result * testingMark($testId, $weight['stat_name'], $res);
+        $result = $result * testingMark($testId, $weight['stat_name'], $res) * $weight['weight'];
     }
 
     return $result * 100;
