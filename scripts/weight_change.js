@@ -17,52 +17,51 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 260, name: 'Зрительная долговременная память на слова и фразы' }
     ];
 
-    const stats = [
-        'Простые визуальные сигналы - Успешные попытки',
-        'Простые визуальные сигналы - Ср. время ус. Попыток',
-        'Простые звуковые сигналы - Успешные попытки',
-        'Простые звуковые сигналы - Ср. время ус. Попыток',
-        'Сложные цветные сигналы - Успешные попытки',
-        'Сложные цветные сигналы - Ошибки',
-        'Сложные цветные сигналы - Ср. время ус. Попыток',
-        'Сл. Цифровые визуальные сигналы - Успешные попытки',
-        'Сл. Цифровые визуальные сигналы - Ср. время ус. Попыток',
-        'Сл. Цифровые звуковые сигналы - Успешные попытки',
-        'Сл. Цифровые звуковые сигналы - Ср. время ус. Попыток',
-        'Простая РДО - Успешные попытки',
-        'Простая РДО - Ср. время с учетом знака',
-        'Простая РДО - Ст. отклонение с учетом знака',
-        'Простая РДО - Ср. время без учета знака',
-        'Простая РДО - Ст. отклонение без учета знака',
-        'Сложная РДО - Успешные попытки',
-        'Сложная РДО - Ср. время с учетом знака',
-        'Сложная РДО - Ст. отклонение с учетом знака',
-        'Сложная РДО - Ср. время без учета знака',
-        'Сложная РДО - Ст. отклонение без учета знака',
-        'Аналоговое слежение - Среднее время',
-        'Аналоговое преследование - Среднее время реакции',
-        'Аналоговое преследование - Макс. Время пересечения',
-        'Распределение внимания - Среднее время ус. попыток',
-        'Распределение внимания - Ст. отклонение',
-        'Устойчивость внимания - Ошибки',
-        'Устойчивость внимания - Точность',
-        'Устойчивость внимания - Ср. время реакции',
-        'Устойчивость внимания - Ст. отклонение времени реакции',
-        'Звуковая кратковременная память - Точность',
-        'Звуковая кратковременная память - Ср. время реакции',
-        'Звуковая кратковременная память - Ст. отклонение времени реакции',
-        'Мгновенная визуальная память - Точность',
-        'Мгновенная визуальная память - Время реакции',
-        'Аналитическое мышление - Точность',
-        'Аналитическое мышление - Ср. время реакции',
-        'Аналитическое мышление - Ст. отклонение времени реакции',
-        'Индуктивное мышление - Точность',
-        'Индуктивное мышление - Ср. время реакции',
-        'Индуктивное мышление - Ст. отклонение времени реакции',
-        'Абстракционное мышление - Точность',
-        'Абстракционное мышление - Ср. время реакции',
-        'Абстракционное мышление - Ст. отклонение времени реакции'
-    ];
+    const stats = {
+        'Простые визуальные сигналы - Успешные попытки': 'accuracy',
+        'Простые визуальные сигналы - Ср. время ус. Попыток': 'reaction_time',
+        'Простые звуковые сигналы - Успешные попытки': 'accuracy',
+        'Простые звуковые сигналы - Ср. время ус. Попыток': 'reaction_time',
+        'Сложные цветные сигналы - Успешные попытки': 'accuracy',
+        'Сложные цветные сигналы - Ошибки': 'mistakes',
+        'Сложные цветные сигналы - Ср. время ус. Попыток': 'reaction_time',
+        'Сл. Цифровые визуальные сигналы - Успешные попытки': 'accuracy',
+        'Сл. Цифровые визуальные сигналы - Ср. время ус. Попыток': 'reaction_time',
+        'Сл. Цифровые звуковые сигналы - Успешные попытки': 'accuracy',
+        'Сл. Цифровые звуковые сигналы - Ср. время ус. Попыток': 'reaction_time',
+        'Простая РДО - Ср. время с учетом знака': 'reaction_time',
+        'Простая РДО - Ст. отклонение с учетом знака': 'standard_deviation',
+        'Простая РДО - Ср. время без учета знака': 'reaction_time_module',
+        'Простая РДО - Ст. отклонение без учета знака': 'standard_deviation_module',
+        'Сложная РДО - Ср. время с учетом знака': 'reaction_time',
+        'Сложная РДО - Ст. отклонение с учетом знака': 'standard_deviation',
+        'Сложная РДО - Ср. время без учета знака': 'reaction_time_module',
+        'Сложная РДО - Ст. отклонение без учета знака': 'standard_deviation_module',
+        'Аналоговое слежение - Среднее время': 'reaction_time',
+        'Аналоговое преследование - Среднее время реакции': 'average_reaction_time',
+        'Аналоговое преследование - Макс. Время пересечения': 'max_intersection_time',
+        'Распределение внимания - Среднее время ус. попыток': 'attention_time',
+        'Распределение внимания - Ст. отклонение': 'standard_deviation',
+        'Распределение внимания - Ошибки': 'mistakes',
+        'Устойчивость внимания - Точность': 'accuracy',
+        'Устойчивость внимания - Ср. время реакции': 'reaction_time',
+        'Устойчивость внимания - Ст. отклонение времени реакции': 'standard_deviation',
+        'Звуковая кратковременная память - Точность': 'accuracy',
+        'Звуковая кратковременная память - Ср. время реакции': 'reaction_time',
+        'Звуковая кратковременная память - Ст. отклонение времени реакции': 'standard_deviation',
+        'Мгновенная визуальная память - Точность': 'accuracy',
+        'Мгновенная визуальная память - Время реакции': 'reaction_time',
+        'Аналитическое мышление - Точность': 'accuracy',
+        'Аналитическое мышление - Ср. время реакции': 'reaction_time',
+        'Аналитическое мышление - Ст. отклонение времени реакции': 'standard_deviation',
+        'Индуктивное мышление - Ср. количество попыток': 'attempts',
+        'Индуктивное мышление - Ср. время реакции': 'reaction_time',
+        'Индуктивное мышление - Ст. отклонение попыток': 'standard_deviation_attempts',
+        'Абстракционное мышление - Точность': 'accuracy',
+        'Абстракционное мышление - Ср. время реакции': 'reaction_time',
+        'Абстракционное мышление - Ст. отклонение времени реакции': 'standard_deviation'
+    };
+
 
     const pvkContainer = document.getElementById('pvk-container');
 
@@ -78,24 +77,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('save-button').addEventListener('click', () => {
-        const weights = [];
+        var weights = [];
+        var toAdd = true;
         document.querySelectorAll('input[type="number"]').forEach(input => {
             if (input.value) {
                 if (parseFloat(input.value) >= 0) {
                     weights.push({
                         piq_id: parseInt(input.getAttribute('data-pvk-id')),
-                        test_id: getTestIdByStat(input.getAttribute('data-stat')),
-                        stat_name: input.getAttribute('data-stat').split(' - ')[1].trim(),
+                        test_id: getTestIdByStat(input.getAttribute('data-stat-text').trim()),
+                        stat_name: input.getAttribute('data-stat').trim(),
                         weight: parseFloat(input.value)
                     });
                 } else {
                     alert("Введите положительные веса!");
+                    weights = [];
+                    toAdd = false;
                 }
             }
         });
-        console.log(weights); // Здесь можно заменить на отправку данных на сервер
-        let response = saveWeights(weights);
-        console.log(response);
+        if (toAdd) {
+            console.log(weights); // Здесь можно заменить на отправку данных на сервер
+            let response = saveWeights(weights);
+            // console.log(Object.entries(response));
+            if (response === true) {
+                alert("Успешно обновлены веса!");
+            }
+        }
     });
 
     window.addStat = function(pvkId) {
@@ -103,10 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const statContainer = document.createElement('div');
         statContainer.className = 'stat-container';
         const select = document.createElement('select');
-        stats.forEach(stat => {
+        Object.entries(stats).forEach(([key, value]) => {
             const option = document.createElement('option');
-            option.value = stat;
-            option.text = stat;
+            option.value = value;
+            option.text = key;
             select.appendChild(option);
         });
         const input = document.createElement('input');
@@ -120,12 +127,15 @@ document.addEventListener('DOMContentLoaded', () => {
         select.onchange = function() {
             const div = document.createElement('div');
             const statName = select.value;
+            const statKey = select.selectedOptions[0].value
+            const statText = select.selectedOptions[0].innerText
             const deleteButton = document.createElement('button');
             deleteButton.addEventListener('click', () => statContainer.remove());
             deleteButton.innerHTML = "Удалить вес теста";
             deleteButton.className = "delete-button";
-            input.setAttribute('data-stat', statName);
-            statContainer.innerHTML = `<span>${statName}</span>`;
+            input.setAttribute('data-stat', statKey);
+            input.setAttribute('data-stat-text', statText);
+            statContainer.innerHTML = `<span>${statText}</span>`;
             div.appendChild(deleteButton);
             div.appendChild(input);
             statContainer.appendChild(div);
@@ -149,12 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'Сл. Цифровые визуальные сигналы - Ср. время ус. Попыток': 4,
             'Сл. Цифровые звуковые сигналы - Успешные попытки': 5,
             'Сл. Цифровые звуковые сигналы - Ср. время ус. Попыток': 5,
-            'Простая РДО - Успешные попытки': 6,
             'Простая РДО - Ср. время с учетом знака': 6,
             'Простая РДО - Ст. отклонение с учетом знака': 6,
             'Простая РДО - Ср. время без учета знака': 6,
             'Простая РДО - Ст. отклонение без учета знака': 6,
-            'Сложная РДО - Успешные попытки': 7,
             'Сложная РДО - Ср. время с учетом знака': 7,
             'Сложная РДО - Ст. отклонение с учетом знака': 7,
             'Сложная РДО - Ср. время без учета знака': 7,
@@ -164,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Аналоговое преследование - Макс. Время пересечения': 9,
             'Распределение внимания - Среднее время ус. попыток': 10,
             'Распределение внимания - Ст. отклонение': 10,
-            'Устойчивость внимания - Ошибки': 11,
+            'Распределение внимания - Ошибки': 11,
             'Устойчивость внимания - Точность': 11,
             'Устойчивость внимания - Ср. время реакции': 11,
             'Устойчивость внимания - Ст. отклонение времени реакции': 11,
@@ -176,9 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'Аналитическое мышление - Точность': 14,
             'Аналитическое мышление - Ср. время реакции': 14,
             'Аналитическое мышление - Ст. отклонение времени реакции': 14,
-            'Индуктивное мышление - Точность': 15,
+            'Индуктивное мышление - Ср. количество попыток': 15,
             'Индуктивное мышление - Ср. время реакции': 15,
-            'Индуктивное мышление - Ст. отклонение времени реакции': 15,
+            'Индуктивное мышление - Ст. отклонение попыток': 15,
             'Абстракционное мышление - Точность': 16,
             'Абстракционное мышление - Ср. время реакции': 16,
             'Абстракционное мышление - Ст. отклонение времени реакции': 16
@@ -190,10 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function saveWeights(weights) {
     // отправка оценок на серв
     var formData = new FormData();
-    formData.append('weights', weights);
+    formData.append('weights', JSON.stringify(weights));
     // этот метод sendData есть на серваке, локально работать не будет
-    console.log(formData)
     var result = sendData(formData, '../../backend/requests/set_weights.php');
-    console.log(result)
+    result.then(console.log)
     return result.response;
 }

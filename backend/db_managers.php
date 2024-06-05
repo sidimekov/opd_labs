@@ -376,7 +376,8 @@ function deleteRatingBy($userId, $professionId)
 }
 
 // получить веса тестов для ПВК из бд
-function getPiqWeights(int $piqId){
+function getPiqWeights(int $piqId)
+{
     $pdo = getPDO();
 
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_WEIGHTS . " WHERE piq_id = :piqId;");
@@ -387,7 +388,8 @@ function getPiqWeights(int $piqId){
 }
 
 // вставить данные о соответствии пользователя пвк
-function insertUsersPiq(int $userId, int $piqId, int $level){
+function insertUsersPiq(int $userId, int $piqId, int $level)
+{
     $pdo = getPDO();
 
     $stmt = $pdo->prepare("INSERT INTO " . DB_TABLE_PIQ_LEVEL . " (user_id, piq_id, level) VALUES (:userId, :piqId, :level) ON CONFLICT (user_id, piq_id) DO UPDATE SET level=:level;");
@@ -398,7 +400,8 @@ function insertUsersPiq(int $userId, int $piqId, int $level){
 }
 
 // получить уровени соответствия всем ПВК из бд
-function getPiqsLevelFromDB(int $userId){
+function getPiqsLevelFromDB(int $userId)
+{
     $pdo = getPDO();
 
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . " WHERE user_id = :userId;");
@@ -409,7 +412,8 @@ function getPiqsLevelFromDB(int $userId){
 }
 
 // получить уровень соответствия конкретному ПВК из бд
-function getOnePiqLevelFromDB(int $userId, int $piqId){
+function getOnePiqLevelFromDB(int $userId, int $piqId)
+{
     $pdo = getPDO();
 
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_PIQ_LEVEL . " WHERE user_id = :userId AND piq_id = :piqId limit 1;");
@@ -422,39 +426,44 @@ function getOnePiqLevelFromDB(int $userId, int $piqId){
 
 // обновить значение соответствия ПВК для заданного пользвателя
 // если $userId = 0 (по умолчанию), обновляется для всех пользователей
-function updatePiqLevels(int $userId = null){
-    if ($userId == -1){
+function updatePiqLevels(int $userId = null)
+{
+    if ($userId == -1) {
         return;
     }
-    if ($userId == null){
-        for($i = 0; $i < count(getUsers()); $i++){
+    if ($userId == null) {
+        for ($i = 0; $i < count(getUsers()); $i++) {
             updateUserPiqs($i);
         }
     } else {
-        foreach(REQUIERED_PIQS as $piqId){
+        foreach (REQUIERED_PIQS as $piqId) {
             $level = getPiqLevel($userId, $piqId);
             insertUsersPiq($userId, $piqId, $level);
         }
     }
 }
 
-function setWeights($weights) {
+function setWeights($weights) : bool
+{
     // Подготовка SQL запроса
     $sql = "
-            INSERT INTO ". DB_TABLE_WEIGHTS ." (piq_id, test_id, stat_name, weight)
+            INSERT INTO " . DB_TABLE_WEIGHTS . " (piq_id, test_id, stat_name, weight)
             VALUES (:piq_id, :test_id, :stat_name, :weight);
         ";
 
     // Подготовка PDO запроса
     $pdo = getPDO();
-    $stmt = $pdo->prepare($sql);
+    $success = true;
 
-    // Выполнение запроса для каждой строки
     foreach ($weights as $weight) {
-        $stmt->bindParam(':piq_id', $weight['piq_id'], \PDO::PARAM_INT);
-        $stmt->bindParam(':test_id', $weight['test_id'], \PDO::PARAM_INT);
-        $stmt->bindParam(':stat_name', $weight['stat_name'], \PDO::PARAM_STR);
-        $stmt->bindParam(':weight', $weight['weight'], \PDO::PARAM_STR);
-        $stmt->execute();
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam('piq_id', $weight['piq_id'], \PDO::PARAM_INT);
+        $stmt->bindParam('test_id', $weight['test_id'], \PDO::PARAM_INT);
+        $stmt->bindParam('stat_name', $weight['stat_name']);
+        $stmt->bindParam('weight', $weight['weight']);
+        if (!$stmt->execute() && $success) {
+            $success = false;
+        };
     }
+    return $success;
 }

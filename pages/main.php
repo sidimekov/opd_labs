@@ -22,7 +22,7 @@ require_once dirname(__DIR__) . "/backend/config.php";
     <?php require_once ROOT . '/templates/header.php'; ?>
 
     <div class="main">
-        <h1 class="heading">Лабораторная работа по ОПД</h1>
+        <h1 class="heading">Лабораторные работы по ОПД</h1>
         <h3>Участники:</h3>
         Дима, Тимофей, Костя, Влад, Василий, Андрей, Лиза, Полина, Даша   
     </div>
