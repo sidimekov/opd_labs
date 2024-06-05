@@ -2,32 +2,32 @@ import {sendData, getData} from "./data_manager.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const pvkData = [
-        { id: 253, name: 'Абстрактность' },
-        { id: 301, name: 'Объем внимания' },
-        { id: 245, name: 'Аналитичность' },
-        { id: 246, name: 'Синтетичность' },
-        { id: 282, name: 'Умственная работоспособность' },
-        { id: 251, name: 'Предметность' },
-        { id: 240, name: 'Способность к пространственному воображению' },
-        { id: 241, name: 'Способность к воссозданию образа по словесному описанию' },
-        { id: 244, name: 'Способность к образному представлению предметов, процессов и явлений' },
-        { id: 249, name: 'Креативность' },
-        { id: 215, name: 'Способность аргументировано отстаивать свое мнение' },
-        { id: 254, name: 'Вербальность' },
-        { id: 260, name: 'Зрительная долговременная память на слова и фразы' }
+        {id: 253, name: 'Абстрактность'},
+        {id: 301, name: 'Объем внимания'},
+        {id: 245, name: 'Аналитичность'},
+        {id: 246, name: 'Синтетичность'},
+        {id: 282, name: 'Умственная работоспособность'},
+        {id: 251, name: 'Предметность'},
+        {id: 240, name: 'Способность к пространственному воображению'},
+        {id: 241, name: 'Способность к воссозданию образа по словесному описанию'},
+        {id: 244, name: 'Способность к образному представлению предметов, процессов и явлений'},
+        {id: 249, name: 'Креативность'},
+        {id: 215, name: 'Способность аргументировано отстаивать свое мнение'},
+        {id: 254, name: 'Вербальность'},
+        {id: 260, name: 'Зрительная долговременная память на слова и фразы'}
     ];
 
     const stats = {
-        'Простые визуальные сигналы - Успешные попытки': 'accuracy',
+        'Простые визуальные сигналы': 'accuracy',
         'Простые визуальные сигналы - Ср. время ус. Попыток': 'reaction_time',
-        'Простые звуковые сигналы - Успешные попытки': 'accuracy',
+        'Простые звуковые сигналы': 'accuracy',
         'Простые звуковые сигналы - Ср. время ус. Попыток': 'reaction_time',
-        'Сложные цветные сигналы - Успешные попытки': 'accuracy',
+        'Сложные цветные сигналы': 'accuracy',
         'Сложные цветные сигналы - Ошибки': 'mistakes',
         'Сложные цветные сигналы - Ср. время ус. Попыток': 'reaction_time',
-        'Сл. Цифровые визуальные сигналы - Успешные попытки': 'accuracy',
+        'Сл. Цифровые визуальные сигналы': 'accuracy',
         'Сл. Цифровые визуальные сигналы - Ср. время ус. Попыток': 'reaction_time',
-        'Сл. Цифровые звуковые сигналы - Успешные попытки': 'accuracy',
+        'Сл. Цифровые звуковые сигналы': 'accuracy',
         'Сл. Цифровые звуковые сигналы - Ср. время ус. Попыток': 'reaction_time',
         'Простая РДО - Ср. время с учетом знака': 'reaction_time',
         'Простая РДО - Ст. отклонение с учетом знака': 'standard_deviation',
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (parseFloat(input.value) >= 0) {
                     weights.push({
                         piq_id: parseInt(input.getAttribute('data-pvk-id')),
-                        test_id: getTestIdByStat(input.getAttribute('data-stat-text').trim()),
+                        test_id: input.getAttribute('data-test-id'),
                         stat_name: input.getAttribute('data-stat').trim(),
                         weight: parseFloat(input.value)
                     });
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    window.addStat = function(pvkId) {
+    window.addStat = function (pvkId, statName = '', weight = '') {
         const statList = document.getElementById(`stat-list-${pvkId}`);
         const statContainer = document.createElement('div');
         statContainer.className = 'stat-container';
@@ -116,6 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const option = document.createElement('option');
             option.value = value;
             option.text = key;
+            option.testId = getTestIdByStat(key.split(' - ')[0].trim())
+            if (key === statName) {
+                option.selected = true;
+            }
             select.appendChild(option);
         });
         const input = document.createElement('input');
@@ -123,20 +127,33 @@ document.addEventListener('DOMContentLoaded', () => {
         input.min = 0;
         input.max = 100;
         input.step = 0.01;
+        input.value = weight;
         input.placeholder = 'Вес';
         input.setAttribute('data-pvk-id', pvkId);
 
-        select.onchange = function() {
+        select.onchange = function (selected = null) {
             const div = document.createElement('div');
-            const statName = select.value;
-            const statKey = select.selectedOptions[0].value
-            const statText = select.selectedOptions[0].innerText
+            var statKey
+            var statText
+            var testId
+            if (selected instanceof Event) {
+                statKey = select.selectedOptions[0].value;
+                statText = select.selectedOptions[0].innerText;
+                testId = getTestIdByStat(select.selectedOptions[0].innerText.split(' - ')[0].trim());
+                console.log(getTestIdByStat(select.selectedOptions[0].innerText.split(' - ')[0].trim()))
+            } else {
+                statKey = selected.value;
+                statText = selected.text;
+                testId = selected.testId;
+            }
             const deleteButton = document.createElement('button');
             deleteButton.addEventListener('click', () => statContainer.remove());
             deleteButton.innerHTML = "Удалить вес теста";
             deleteButton.className = "delete-button";
             input.setAttribute('data-stat', statKey);
             input.setAttribute('data-stat-text', statText);
+            input.setAttribute('data-test-id', testId);
+
             statContainer.innerHTML = `<span>${statText}</span>`;
             div.appendChild(deleteButton);
             div.appendChild(input);
@@ -146,52 +163,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         statContainer.appendChild(select);
         statList.appendChild(statContainer);
+        console.log(statName)
+        if (statName) {
+            select.onchange({value: statName.split(' - ')[1], text: statName.split(' - ')[0], testId: getTestIdByStat(statName.split(' - ')[0])});
+        }
     };
 
     function getTestIdByStat(stat) {
         const statToTestIdMap = {
-            'Простые визуальные сигналы - Успешные попытки': 1,
-            'Простые визуальные сигналы - Ср. время ус. Попыток': 1,
-            'Простые звуковые сигналы - Успешные попытки': 2,
-            'Простые звуковые сигналы - Ср. время ус. Попыток': 2,
-            'Сложные цветные сигналы - Успешные попытки': 3,
-            'Сложные цветные сигналы - Ошибки': 3,
-            'Сложные цветные сигналы - Ср. время ус. Попыток': 3,
-            'Сл. Цифровые визуальные сигналы - Успешные попытки': 4,
-            'Сл. Цифровые визуальные сигналы - Ср. время ус. Попыток': 4,
-            'Сл. Цифровые звуковые сигналы - Успешные попытки': 5,
-            'Сл. Цифровые звуковые сигналы - Ср. время ус. Попыток': 5,
-            'Простая РДО - Ср. время с учетом знака': 6,
-            'Простая РДО - Ст. отклонение с учетом знака': 6,
-            'Простая РДО - Ср. время без учета знака': 6,
-            'Простая РДО - Ст. отклонение без учета знака': 6,
-            'Сложная РДО - Ср. время с учетом знака': 7,
-            'Сложная РДО - Ст. отклонение с учетом знака': 7,
-            'Сложная РДО - Ср. время без учета знака': 7,
-            'Сложная РДО - Ст. отклонение без учета знака': 7,
-            'Аналоговое слежение - Среднее время': 8,
-            'Аналоговое преследование - Среднее время реакции': 9,
-            'Аналоговое преследование - Макс. Время пересечения': 9,
-            'Распределение внимания - Среднее время ус. попыток': 10,
-            'Распределение внимания - Ст. отклонение': 10,
-            'Распределение внимания - Ошибки': 11,
-            'Устойчивость внимания - Точность': 11,
-            'Устойчивость внимания - Ср. время реакции': 11,
-            'Устойчивость внимания - Ст. отклонение времени реакции': 11,
-            'Звуковая кратковременная память - Точность': 12,
-            'Звуковая кратковременная память - Ср. время реакции': 12,
-            'Звуковая кратковременная память - Ст. отклонение времени реакции': 12,
-            'Мгновенная визуальная память - Точность': 13,
-            'Мгновенная визуальная память - Время реакции': 13,
-            'Аналитическое мышление - Точность': 14,
-            'Аналитическое мышление - Ср. время реакции': 14,
-            'Аналитическое мышление - Ст. отклонение времени реакции': 14,
-            'Индуктивное мышление - Ср. количество попыток': 15,
-            'Индуктивное мышление - Ср. время реакции': 15,
-            'Индуктивное мышление - Ст. отклонение попыток': 15,
-            'Абстракционное мышление - Точность': 16,
-            'Абстракционное мышление - Ср. время реакции': 16,
-            'Абстракционное мышление - Ст. отклонение времени реакции': 16
+            'Простые визуальные сигналы': 1,
+            'Простые звуковые сигналы': 2,
+            'Сложные цветные сигналы': 3,
+            'Сл. Цифровые визуальные сигналы': 4,
+            'Сл. Цифровые звуковые сигналы': 5,
+            'Простая РДО': 6,
+            'Сложная РДО': 7,
+            'Аналоговое слежение': 8,
+            'Аналоговое преследование': 9,
+            'Распределение внимания': 10,
+            'Устойчивость внимания': 11,
+            'Звуковая кратковременная память': 12,
+            'Мгновенная визуальная память': 13,
+            'Аналитическое мышление': 14,
+            'Индуктивное мышление': 15,
+            'Абстракционное мышление': 16,
         };
         return statToTestIdMap[stat] || 0;
     }
@@ -218,10 +213,12 @@ function getStatNameByTestIdAndStat(testId, statName) {
     };
     return `${testToStatMap[testId]} - ${statName}`;
 }
+
 function saveWeights(weights) {
     // отправка оценок на серв
     var formData = new FormData();
     formData.append('weights', JSON.stringify(weights));
+    console.log(JSON.stringify(weights))
     // этот метод sendData есть на серваке, локально работать не будет
     var result = sendData(formData, '../../backend/requests/set_weights.php');
     result.then(console.log)
@@ -232,14 +229,11 @@ function loadWeights() {
     // запрос данных с сервера
     var formData = new FormData();
     var result = getData(formData, "../../backend/requests/get_weights.php");
-    result.then((data) => {
-        if (data && Array.isArray(data)) {
-            data.forEach((item) => {
+    result.then((result) => {
+        if (result && Array.isArray(result)) {
+            result.forEach((item) => {
                 const pvkId = item.piq_id;
-                const statName = getStatNameByTestIdAndStat(
-                    item.test_id,
-                    item.stat_name
-                );
+                const statName = getStatNameByTestIdAndStat(item.test_id, item.stat_name);
                 const weight = item.weight;
                 addStat(pvkId, statName, weight);
             });

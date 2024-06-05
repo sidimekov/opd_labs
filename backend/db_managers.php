@@ -443,12 +443,13 @@ function updatePiqLevels(int $userId = null)
     }
 }
 
-function setWeights($weights) : bool
+function setWeights($weights): bool
 {
     // Подготовка SQL запроса
     $sql = "
             INSERT INTO " . DB_TABLE_WEIGHTS . " (piq_id, test_id, stat_name, weight)
-            VALUES (:piq_id, :test_id, :stat_name, :weight);
+            VALUES (:piq_id, :test_id, :stat_name, :weight) ON CONFLICT (piq_id, test_id, stat_name) DO UPDATE SET 
+            weight = EXCLUDED.weight;
         ";
 
     // Подготовка PDO запроса
@@ -468,7 +469,7 @@ function setWeights($weights) : bool
     return $success;
 }
 
-function getWeights() : array
+function getWeights(): array
 {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_WEIGHTS);
