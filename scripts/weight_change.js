@@ -1,4 +1,4 @@
-import {sendData} from "./data_manager.js";
+import {sendData, getData} from "./data_manager.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const pvkData = [
@@ -63,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    const pvkContainer = document.getElementById('pvk-container');
+    const pvkContainer = document.getElementById("pvk-container");
 
-    pvkData.forEach(pvk => {
-        const pvkItem = document.createElement('div');
-        pvkItem.className = 'pvk-item';
+    pvkData.forEach((pvk) => {
+        const pvkItem = document.createElement("div");
+        pvkItem.className = "pvk-item";
         pvkItem.innerHTML = `
             <h3>${pvk.name}</h3>
             <button onclick="addStat(${pvk.id})">Добавить Статистику</button>
@@ -75,6 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         pvkContainer.appendChild(pvkItem);
     });
+
+    loadWeights();
 
     document.getElementById('save-button').addEventListener('click', () => {
         var weights = [];
@@ -195,6 +197,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function getStatNameByTestIdAndStat(testId, statName) {
+    const testToStatMap = {
+        1: "Простые визуальные сигналы",
+        2: "Простые звуковые сигналы",
+        3: "Сложные цветные сигналы",
+        4: "Сл. Цифровые визуальные сигналы",
+        5: "Сл. Цифровые звуковые сигналы",
+        6: "Простая РДО",
+        7: "Сложная РДО",
+        8: "Аналоговое слежение",
+        9: "Аналоговое преследование",
+        10: "Распределение внимания",
+        11: "Устойчивость внимания",
+        12: "Звуковая кратковременная память",
+        13: "Мгновенная визуальная память",
+        14: "Аналитическое мышление",
+        15: "Индуктивное мышление",
+        16: "Абстракционное мышление",
+    };
+    return `${testToStatMap[testId]} - ${statName}`;
+}
 function saveWeights(weights) {
     // отправка оценок на серв
     var formData = new FormData();
@@ -203,4 +226,23 @@ function saveWeights(weights) {
     var result = sendData(formData, '../../backend/requests/set_weights.php');
     result.then(console.log)
     return result.response;
+}
+
+function loadWeights() {
+    // запрос данных с сервера
+    var formData = new FormData();
+    var result = getData(formData, "../../backend/requests/get_weights.php");
+    result.then((data) => {
+        if (data && Array.isArray(data)) {
+            data.forEach((item) => {
+                const pvkId = item.piq_id;
+                const statName = getStatNameByTestIdAndStat(
+                    item.test_id,
+                    item.stat_name
+                );
+                const weight = item.weight;
+                addStat(pvkId, statName, weight);
+            });
+        }
+    });
 }

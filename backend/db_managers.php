@@ -467,3 +467,11 @@ function setWeights($weights) : bool
     }
     return $success;
 }
+
+function getWeights() : array
+{
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM " . DB_TABLE_WEIGHTS);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
