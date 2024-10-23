@@ -12,7 +12,7 @@ const DB_HOST = 'localhost';
 const DB_PORT = '8005';
 const DB_NAME = 'studs';
 const DB_USERNAME = 's409553';
-const DB_PASSWORD = 'nWASInv7Uumwyf0P';
+const DB_PASSWORD = 'no password?';
 
 //const DB_TABLE_USERS = 'users';
 //const DB_TABLE_TESTS = 'tests';
